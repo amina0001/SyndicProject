@@ -215,9 +215,10 @@
                                             <th>date</th>
                                             <th>approuvé</th>
                                             <th>description</th>
-                                            
+                                            @if(Auth::user()->role == "Syndic")
                                             <th></th>   
-                                              <th></th>
+                                            <th></th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -234,11 +235,12 @@
                                             <td>{{ $r->date }}</td>
                                             <td>{{ $r->approved }}</td>
                                             <td>{{ $r->description }}</td>
-                                          
+                                            @if(Auth::user()->role == "Syndic")
                                            
                                             <td><button class="btn btn-primary" data-toggle="modal" data-target="#myModal_update" data-id="{{ $r->id }}" data-user_id="{{ $r->user_id }}" data-category="{{$r->category  }}"
                                                 data-role="{{$r->role}}" data-date="{{ $r->date }}" data-approved="{{  $r->approved  }}" data-description="{{ $r->description }}">mettre a jour</button></td>
                                               <td><button class="btn btn-danger">supprimer</button></td>
+                                                @endif
                                         </tr>
                                    
                                         @endforeach
@@ -344,10 +346,13 @@
 
 
 
-{{--     <script src="js/popper.min.js"></script> --}}
-    <script src="js/plugins.js"></script>
-      <script src="js/bootstrap.min.js"></script>
 
+ <script src="js/bootstrap.min.js"></script>
+
+      <script src="js/popper.min.js"></script>
+
+
+    <script src="js/plugins.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.14.30/js/bootstrap-datetimepicker.min.js"></script>

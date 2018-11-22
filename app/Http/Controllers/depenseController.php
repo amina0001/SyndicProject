@@ -7,8 +7,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use App\Depense;
+use Validator;
 use Image; 
 use View;
+use App\User;
+use App\Message;
+use DB;
 class depenseController extends Controller
 {
 
@@ -26,6 +30,10 @@ class depenseController extends Controller
         $id=auth::user()->building_id;
         $depenses = depense::where('building_id',$id)->get()->sortByDesc("id");
         $des=Null;
+        $bid = User::where('building_id',$id)->first();
+       /* dd(  Message::with(array('user' => function($query)use($bid){ $query->where('building_id', $bid->building_id)->first();}))->get()); */
+      /* dd(Message::with('user')->get());*/
+
          return view('depense_syndic',compact('depenses','des'));
         
     }
@@ -60,7 +68,13 @@ class depenseController extends Controller
      * @return void
      */
     public function create(Request $request)
-    {   
+    {   $this->validate($request, [
+        'titre' => 'required',
+        'date' => 'required',
+        'price' => 'required',
+        'description' => 'required',
+        ]);
+
       $id=Auth::user()->building_id;
        $depense = Depense::create([
             'titre' => $request->titre,
@@ -89,7 +103,19 @@ class depenseController extends Controller
      */
     public function update(Request $request)
     {
+         $validator = Validator::make($request->all(), [
+            'titre' => 'required',
+            'montant' => 'required',
+            'date'=>'date',
 
+          
+        ]);
+         
+        if ($validator->fails()) {
+           return back();
+            //return response()->json(['error'=>$validator->errors()->all()]);
+        }
+        else{
     	 $depense = Depense::findOrFail($request->id);
          $b_id=Auth::user()->building_id;
     	  
@@ -108,12 +134,15 @@ class depenseController extends Controller
           
         };
 
-      $depense->save();
+        $depense->save();
 
+        return response()->json(['success'=>'mettre à jour avec succès']);
+}
         
-
-        return back();
-
+        
+        /*
+        return response()->json(['success'=>'Record is successfully added']);
+*/
       
       
     }

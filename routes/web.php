@@ -11,9 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Auth::routes();
 
@@ -47,3 +44,14 @@ Route::post('reunionUpdate', ['as' => 'reunionUpdate', 'uses' => 'ReunionControl
 /***********************reunion routes**************************/
 Route::post('chorescreate', ['as' => 'choresCreate', 'uses' => 'HomeController@choreCreate']);
 Route::post('recette/delete', ['as' => 'choresDelete', 'uses' => 'HomeController@delete']);
+/***********************profile routes**************************/
+Route::get('profile/{id}', ['as' => 'profile', 'uses' => 'UserController@profile']);
+Route::post('profileUpdate/{id}', ['as' => 'profileUpdate', 'uses' => 'UserController@update']);
+/***********************messages routes**************************/
+
+Route::get('/chat',['as' => 'chat', 'uses' => 'ChatsController@index'] );
+Route::get('messages', 'ChatsController@fetchMessages');
+Route::post('messages', 'ChatsController@sendMessage');
+/*    Route::resource('groups', 'GroupController');
+    Route::resource('conversations', 'ConversationController');
+*/

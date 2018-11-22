@@ -202,8 +202,13 @@
                         <div class="card">
                             <div class="card-header">
                                 <strong class="card-title">Dépense</strong>
-                                   <button  class="btn btn-success" style="float: right" data-toggle="modal" data-target="#myModal_ajout" >Ajouter un achat</button>
+                                @if(Auth::user()->role == "Syndic")
+                                   <button  class="btn btn-success" style="float: right;" data-toggle="modal" data-target="#myModal_ajout" >Ajouter depense</button>
+
+                                   <button  class="btn btn-primary" style="float: right;margin-right:1%" data-toggle="modal" data-target="#myModal_fiche" >Gener fiche</button>
+                                @endif
                             </div>
+                             
                             <div class="card-body">
 
                                 <table id="bootstrap-data-table" class="table table-striped table-bordered">
@@ -214,8 +219,10 @@
                                             <th>montant</th>
                                             <th>date</th>
                                             <th>Recu</th>
+                                              @if(Auth::user()->role == "Syndic")
                                             <th></th>
                                             <th></th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -249,9 +256,10 @@
                                                 @else
                                                    <img id="myImg" src="{{ Storage::url($d->image)}}"  style="width:100%;max-width:100px" data-toggle="modal" data-target="#myModal" data-image="{{ $d->image }}">
                                                 @endif</td>
-                                             <td> 
+                              @if(Auth::user()->role == "Syndic")
+                             <td> 
                                                
-                                            
+                                    
                                     <button class="btn btn-primary" data-toggle="modal" data-target="#myModal_update" data-id="{{ $d->id }}" data-titre="{{ $d->titre }}"data-description="{{ $d->description }}" data-price="{{ $d->price }}" data-date="{{ $d->date }}" >
                                         <span class="fa fa-pencil"></span>&nbsp;Modifier</button>
                                
@@ -263,6 +271,7 @@
                                         Supprimer</button>
                                
                                 </td>
+                                @endif
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -324,13 +333,19 @@
                                 <form action="{{ route('depenseCreate') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 @csrf
                                         
-                                         <div class="row form-group">
+                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Titre</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="titre" name="titre" class="form-control" required><small class="form-text text-muted"></small></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="titre" name="titre" class="form-control" value="{{ old('titre') }}" required><small class="form-text text-muted"></small></div>
+                                         @if ($errors->has('titre'))
+                                                <small class="form-text ">{{ $errors->first('titre') }}</small>
+                                         @endif
                                     </div>
                                   <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">montant</label></div>
-                                        <div class="col-12 col-md-9"><input type="number" id="montant" name="montant"  class="form-control"></div>
+                                        <div class="col-12 col-md-9"><input type="number" id="montant" name="montant"  class="form-control" value="{{ old('montant') }}"></div>
+                                       @if ($errors->has('montant'))
+                                            <small class="form-text ">{{ $errors->first('montant') }}</small>
+                                     @endif
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Date</label></div>
@@ -347,11 +362,15 @@
 
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="file-input" class=" form-control-label">File input</label></div>
-                                        <div class="col-12 col-md-9"><input type="file" id="file" name="image" class="form-control-file"></div>
+                                        <div class="col-12 col-md-9"><input type="file" id="file" name="image" class="form-control-file" accept="image/*"></div>
+
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description</label></div>
-                                        <div class="col-12 col-md-9"><textarea name="description" id="description" rows="9" placeholder="Content..." class="form-control"></textarea></div>
+                                        <div class="col-12 col-md-9"><textarea name="description" id="description" rows="9" placeholder="Content..." class="form-control" value="{{ old('description') }}"></textarea></div>
+                                        @if ($errors->has('description'))
+                                            <small class="form-text ">{{ $errors->first('description') }}</small>
+                                     @endif
                                     </div>
                                 
                                 <button type="submit" class="btn btn-primary pull-right">
@@ -381,6 +400,9 @@
           <h4 class="modal-title">Mettre a jour</h4>
         </div>
         <div class="modal-body">
+            <div class="alert alert-danger print-error-msg" style="display:none">
+        <ul></ul>
+    </div>
                         <div class="col-lg-12">
                         <div class="card">
                             
@@ -390,13 +412,14 @@
                                     @csrf
                                     <input type="hidden" name="id" id="id" value="">
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label"   ></label></div>
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Titre</label></div>
                                         <div class="col-12 col-md-9"><input type="text" id="titre" name="titre" placeholder="Text" class="form-control" value=" "><small class="form-text text-muted"></small></div>
-                                       
+                                        
                                     </div>
                                   <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">montant</label></div>
                                         <div class="col-12 col-md-9"><input type="text" id="montant" name="montant" placeholder="Text" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
+                                         
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Date</label></div>
@@ -409,18 +432,21 @@
                                         </div>
                                    
                                     </div>
+                                   
                                     </div>
 
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="file-input" class=" form-control-label">File input</label></div>
-                                        <div class="col-12 col-md-9"><input type="file" id="image" name="image" class="form-control-file"></div>
+                                        <div class="col-12 col-md-9"><input type="file" id="image" name="image" class="form-control-file" accept="image/*"></div>
+
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description</label></div>
                                         <div class="col-12 col-md-9"><textarea name="description" id="description" rows="9" placeholder="Content..." class="form-control"></textarea></div>
+                                       
                                     </div>
                                 
-                                <button type="submit" class="btn btn-primary pull-right">
+                                <button type="submit" id="submit" class="btn btn-primary pull-right">
                                    mettre a jour
                                 </button>
                                   
@@ -467,15 +493,18 @@
 </div>
 </div>
     <!-- Right Panel -->
- <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+{{--  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+ --}}
+    <script src="js/jquery-2.1.4.min.js"></script>
+
+ <script src="js/bootstrap.min.js"></script>
+
+      <script src="js/popper.min.js"></script>
 
 
-
-{{--     <script src="js/popper.min.js"></script> --}}
     <script src="js/plugins.js"></script>
-      <script src="js/bootstrap.min.js"></script>
 
-
+     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.14.30/js/bootstrap-datetimepicker.min.js"></script>
 
@@ -546,8 +575,49 @@
 
 </script>
 
+<script type="text/javascript">
 
 
+    $(document).ready(function() {
+        $("#submit").click(function(e){
+            e.preventDefault();
+
+
+            var _token = $("input[name='_token']").val();
+            var titre = $("input[name='titre']").val();
+            var montant = $("input[name='monatnt']").val();
+            var date = $("input[name='date']").val();
+
+            $.ajax({
+                url: "{{ route('despenseUpdate') }}",
+                type:'POST',
+                data: {_token:_token, titre:titre,montant:montant,date:date},
+                success: function(data) {
+                    if($.isEmptyObject(data.error)){
+                        alert(data.success);
+                       console.log(data);
+                    }else{
+                        printErrorMsg(data.error);
+                         console.log(data);
+                    }
+                }
+            });
+
+
+        }); 
+
+
+        function printErrorMsg (msg) {
+            $(".print-error-msg").find("ul").html('');
+            $(".print-error-msg").css('display','block');
+            $.each( msg, function( key, value ) {
+                $(".print-error-msg").find("ul").append('<li>'+value+'</li>');
+            });
+        }
+    });
+
+
+</script>
 
 
 

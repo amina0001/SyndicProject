@@ -1,4 +1,4 @@
-<!doctype html>
+f<!doctype html>
 
 <head>
     <meta charset="utf-8">
@@ -197,7 +197,11 @@
                         <div class="card">
                             <div class="card-header">
                                 <strong class="card-title">Revenu</strong>
+                                @if(Auth::user()->role == "Syndic")
                                  <button  class="btn btn-success" style="float: right" data-toggle="modal" data-target="#myModal_ajout" >Ajouter un recette</button>
+                                 
+                                   <button  class="btn btn-primary" style="float: right;margin-right:1%" data-toggle="modal" data-target="#myModal_fiche" >Gener fiche</button>
+                                   @endif
                             </div>
                             <div class="card-body">
                                 <table id="bootstrap-data-table" class="table table-striped table-bordered">
@@ -210,8 +214,10 @@
                                             <th>devis</th>
                                             <th>montant</th>
                                             <th></th>
+                                            @if(Auth::user()->role == "Syndic")
                                             <th></th>
                                             <th></th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -256,10 +262,12 @@
                                       <img  src="images/success.png"> Payé
                                       @endif
                                             </td>
+                                              @if(Auth::user()->role == "Syndic")
                                             <td><button class="btn btn-primary" data-toggle="modal" data-target="#myModal_update" data-app="{{ $r->app_num }}" data-description="{{ $r->description }}" data-date="{{ $r->date }}" data-price="{{ $r->price }}" data-user_id="{{ $r->user_id }}" data-id="{{ $r->id }}" data-image="{{ $r->image }}">mettre a jour</button></td>
                                               <td>         
                                              <button class="btn btn-danger" data-toggle="modal" data-target="#myModal_delete" data-id="{{ $r->id }}">
                                         Supprimer</button></td>
+                                        @endif  
                                         </tr>
                                        
                                        @endforeach
@@ -485,10 +493,14 @@
 
 
 
-{{--     <script src="js/popper.min.js"></script> --}}
-    <script src="js/plugins.js"></script>
-      <script src="js/bootstrap.min.js"></script>
+<script src="js/jquery-2.1.4.min.js"></script>
 
+ <script src="js/bootstrap.min.js"></script>
+
+      <script src="js/popper.min.js"></script>
+
+
+    <script src="js/plugins.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.14.30/js/bootstrap-datetimepicker.min.js"></script>

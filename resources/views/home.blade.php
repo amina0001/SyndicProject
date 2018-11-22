@@ -162,7 +162,7 @@
                         </a>
 
                         <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="#"><i class="fa fa-user"></i>My Profile</a>
+                            <a class="nav-link" href="{{ route('profile', [Auth::id()]) }}"><i class="fa fa-user"></i>My Profile</a>
 
                           
 
@@ -243,7 +243,8 @@
              
 
                 <div class="col-lg-3 col-md-6">
-                    <div class="card" data-toggle="modal" data-target="#myModaloc">
+                    <a href="{{ route('chat') }}">
+                    <div class="card" >
                         <div class="card-body trans">
                             <div class="stat-widget-five">
                                 <div class="stat-icon dib flat-color-4">
@@ -258,6 +259,8 @@
                             </div>
                         </div>
                     </div>
+                    </a>
+
                 </div>
             </div> 
             <!-- Widgets End -->
@@ -388,6 +391,11 @@
 
 
  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+      <script src="js/popper.min.js"></script>
+
+
+    <script src="js/plugins.js"></script>
      <script src="js/plugins.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main_syndic.js"></script>
@@ -412,85 +420,7 @@
 </script>
 
 
-    <div class="modal fade" id="myModal" role="dialog">
-                                        <div class="modal-dialog modal-lg">
-                                          <div class="modal-content">
-                                            <div class="modal-header">
-                                              <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                              <h4 class="modal-title">envoyer un message a votre syndic</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                          
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="select" class=" form-control-label">Objet</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <select name="select" id="select" class="form-control">
-                                                <option value="0">Please select</option>
-                                                <option value="1">panne</option>
-                                                <option value="2">securite</option>
-                                                <option value="3">autre ...</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Message</label></div>
-                                        <div class="col-12 col-md-9"><textarea name="textarea-input" id="textarea-input" rows="9" placeholder="Content..." class="form-control"></textarea></div>
-                                    </div>
-                                    
-                                            </div>
-                                            <div class="modal-footer">
-                                               
-                                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                               <button type="button" class="btn btn-info" data-dismiss="modal">Envoyer</button>
-                                            </div>
-                                          </div>
-                                        </div>
-  </div>
+   
 
-<div class="modal fade" id="myModaloc" role="dialog">
-                                        <div class="modal-dialog modal-lg">
-                                          <div class="modal-content">
-                                            <div class="modal-header">
-                                              <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                              <h4 class="modal-title">envoyer un message aux occupants</h4>
-                                            </div>
-                                            <div class="modal-body">
-                                   <div class="row form-group">
-                                        <div class="col col-md-3"><label for="select" class=" form-control-label">Numero d'appartement:</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <select name="select" id="select" class="form-control">
-                                                <option value="0">Please select</option>
-                                                <option value="3">tout</option>
-                                                <option value="1">app 1</option>
-                                                <option value="2">app 2</option>
-                                                <option value="3">app 3</option>
-                                            </select>
-                                        </div>
-                                    </div>  
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="select" class=" form-control-label">Objet</label></div>
-                                        <div class="col-12 col-md-9">
-                                            <select name="select" id="select" class="form-control">
-                                                <option value="0">Please select</option>
-                                                <option value="1">panne</option>
-                                                <option value="2">securite</option>
-                                                <option value="3">autre ...</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Message</label></div>
-                                        <div class="col-12 col-md-9"><textarea name="textarea-input" id="textarea-input" rows="9" placeholder="Content..." class="form-control"></textarea></div>
-                                    </div>
-                                    
-                                            </div>
-                                            <div class="modal-footer">
-                                               
-                                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                               <button type="button" class="btn btn-info" data-dismiss="modal">Envoyer</button>
-                                            </div>
-                                          </div>
-                                        </div>
-  </div>
 </body>
 </html>
