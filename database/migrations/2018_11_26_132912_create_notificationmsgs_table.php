@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateReunionsTable extends Migration
+class CreateNotificationmsgsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateReunionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('reunions', function (Blueprint $table) {
+        Schema::create('notificationmsgs', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->date('date');
-            $table->enum('approved',['En cours','Apprové','Non apprové'])->default('En cours');;
-            $table->string('category');
-            
-            $table->string('description');
+             $table->integer('user_id');
+            $table->integer('msg_id');
+            $table->boolean('seen')->default(false);
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ class CreateReunionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reunions');
+        Schema::dropIfExists('notificationmsgs');
     }
 }

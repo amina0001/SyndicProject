@@ -1,7 +1,7 @@
 <?php
+
 namespace App\Events;
-use App\User;
-use App\Message;
+
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -10,42 +10,30 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class MessageSent implements ShouldBroadcast
+class StatusLiked
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+     public $username;
 
-    /**
-     * User that sent the message
-     *
-     * @var User
-     */
-    public $user;
-
-    /**
-     * Message details
-     *
-     * @var Message
-     */
     public $message;
-
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(User $user, Message $message)
+    public function __construct($username)
     {
-        $this->user = $user;
-        $this->message = $message;
+        $this->username = $username;
+        $this->message  = "{$username} liked your status";
     }
 
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return Channel|array
+     * @return \Illuminate\Broadcasting\Channel|array
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('chat');
+        return ['status-liked'];
     }
 }

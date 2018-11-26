@@ -23,8 +23,33 @@ class RecetteController extends Controller
          $recettes=DB::table('users')
             ->join('recettes', 'recettes.user_id', '=', 'users.id')
             ->get();
-/*            dd($recettes);
-*/         return view('recette_syndic',compact('recettes'));
+              $reunionsnotif=DB::table('users')
+            ->join('reunions', 'reunions.user_id', '=', 'users.id')
+            ->where('users.building_id','=',auth::user()->building_id)
+            ->get()->sortByDesc("id");
+
+         $notifications=DB::table('reunions')
+            ->join('notification', 'notification.reunion_id', '=', 'reunions.id')
+            ->join('users', 'users.id', '=','notification.user_id')
+            ->where('notification.user_id',auth::user()->id)
+            ->where('users.building_id','=',auth::user()->building_id)
+            ->get()->sortByDesc("id");
+   
+          
+        $i=0;
+           foreach ($notifications as $n) {
+
+             if(strtotime(date("Y-m-d")) < strtotime($n->date)){
+                 
+                if($n->seen==0){
+                    $i=$i+1;
+                   
+                }
+                
+             }
+           }
+
+       return view('recette_syndic',compact('recettes','reunionsnotif','notifications','i'));
        
     }
     

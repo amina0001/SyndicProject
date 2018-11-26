@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Demo Application</title>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-notify/0.2.0/css/bootstrap-notify.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-notifications.min.css">
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -63,16 +63,21 @@
       var notificationsCountElem = notificationsToggle.find('i[data-count]');
       var notificationsCount     = parseInt(notificationsCountElem.data('count'));
       var notifications          = notificationsWrapper.find('ul.dropdown-menu');
+
       if (notificationsCount <= 0) {
         notificationsWrapper.hide();
       }
+
       // Enable pusher logging - don't include this in production
       // Pusher.logToConsole = true;
-      var pusher = new Pusher('PUSHER_API_KEY', {
+
+      var pusher = new Pusher('API_KEY_HERE', {
         encrypted: true
       });
+
       // Subscribe to the channel we specified in our Laravel Event
       var channel = pusher.subscribe('status-liked');
+
       // Bind a function to a Event (the full Laravel class)
       channel.bind('App\\Events\\StatusLiked', function(data) {
         var existingNotifications = notifications.html();
@@ -96,6 +101,7 @@
           </li>
         `;
         notifications.html(newNotificationHtml + existingNotifications);
+
         notificationsCount += 1;
         notificationsCountElem.attr('data-count', notificationsCount);
         notificationsWrapper.find('.notif-count').text(notificationsCount);

@@ -36,11 +36,14 @@ Route::post('recettecreate', ['as' => 'recetteCreate', 'uses' => 'RecetteControl
 Route::get('recette/new', ['as' => 'recetteNew', 'uses' => 'RecetteController@new']);
 Route::post('recetteUpdate', ['as' => 'recetteUpdate', 'uses' => 'RecetteController@update']);
 Route::post('recette/delete', ['as' => 'recetteDelete', 'uses' => 'RecetteController@delete']);
+
 /***********************reunion routes**************************/
 
 Route::get('reunionSyndic', ['as' => 'reunionSyndic', 'uses' => 'ReunionController@preview']);
 Route::post('reunioncreate', ['as' => 'reunionCreate', 'uses' => 'ReunionController@create']);
 Route::post('reunionUpdate', ['as' => 'reunionUpdate', 'uses' => 'ReunionController@update']);
+Route::post('reunionSeen/{id}', ['as' => 'reunionSeen', 'uses' => 'notificationController@update']);
+
 /***********************reunion routes**************************/
 Route::post('chorescreate', ['as' => 'choresCreate', 'uses' => 'HomeController@choreCreate']);
 Route::post('recette/delete', ['as' => 'choresDelete', 'uses' => 'HomeController@delete']);
@@ -48,10 +51,17 @@ Route::post('recette/delete', ['as' => 'choresDelete', 'uses' => 'HomeController
 Route::get('profile/{id}', ['as' => 'profile', 'uses' => 'UserController@profile']);
 Route::post('profileUpdate/{id}', ['as' => 'profileUpdate', 'uses' => 'UserController@update']);
 /***********************messages routes**************************/
-
+Route::post('msgSeen/{id}', ['as' => 'msgSeen', 'uses' => 'notificationController@msgupdate']);
 Route::get('/chat',['as' => 'chat', 'uses' => 'ChatsController@index'] );
 Route::get('messages', 'ChatsController@fetchMessages');
 Route::post('messages', 'ChatsController@sendMessage');
 /*    Route::resource('groups', 'GroupController');
     Route::resource('conversations', 'ConversationController');
 */
+    Route::get('test', function () {
+    event(new App\Events\StatusLiked('Someone'));
+    return "Event has been sent!";
+});
+     Route::get('/', function () {
+   return view('welcome');
+});

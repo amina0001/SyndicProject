@@ -25,6 +25,10 @@ class Reunion extends Model
     {
         return $this->belongsTo('App\User', 'user_id', 'id');
     }
+      public function notification()
+    {
+        return $this->hasMany('App\notification', 'reunion_id', 'id');
+    }
 	
     /**
      * The attributes that should be hidden for arrays.

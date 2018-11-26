@@ -1,8 +1,10 @@
 
 <template>
-    <ul class="chat" style="max-height:400px;overflow-y: auto;"   v-chat-scroll >
-        <li class="left clearfix" v-for="message in messages" >
-            <div class="chat-body clearfix">
+    <ul  style="max-height:400px;overflow-y: auto;"   v-chat-scroll >
+        
+        <li  v-for="message in messages">
+
+            <div class="chat-body clearfix" v-if="message.user !== null">
                 <div class="msg-sent msg-container" v-if="user.id === message.user.id" style="margin-left:90%">
                    <div class="msg-box"  >
                         <div class="inner-box">

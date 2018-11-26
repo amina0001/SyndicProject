@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Reunion;
+use App\notification;
+
 use DB;
-use User;
+use App\User;
 class ReunionController extends Controller
 {
     public $table = "reunions";
@@ -20,33 +22,52 @@ class ReunionController extends Controller
        
          $reunions=DB::table('users')
             ->join('reunions', 'reunions.user_id', '=', 'users.id')
+            ->where('users.building_id','=',auth::user()->building_id)
+            ->get()->sortByDesc("id");
+
+        $notifications=DB::table('reunions')
+            ->join('notification', 'notification.reunion_id', '=', 'reunions.id')
+            ->join('users', 'users.id', '=','notification.user_id')
+            ->where('notification.user_id',auth::user()->id)
+            ->where('users.building_id','=',auth::user()->building_id)
             ->get()->sortByDesc("id");
    
-       
-     
-        return view('reunion_syndic',compact('reunions'));
-       
-    }
-    
-    /**
-     * formulaire pour ajouter une  depense
-     *
-     * @return view
-     */
-    public function new()
-    {
-       
-    }
- 		/**
-     * formulaire pour modifier un  depense
-     *
-     * @return view
-     */
-    public function edit($id)
-    {   
-    
-    }
+          
+        $i=0;
+           foreach ($notifications as $n) {
 
+             if(strtotime(date("Y-m-d")) < strtotime($n->date)){
+                 
+                if($n->seen==0){
+                    $i=$i+1;
+                   
+                }
+                
+             }
+           }
+
+       
+        return view('reunion_syndic',compact('reunions','i','notifications'));
+       
+    }
+    /**
+     * Seen
+     *
+     * @return view seen
+     */
+    public function seen($id)
+    {
+        $idd =(int)$id;
+
+        $notification = notification::findOrFail($idd);
+       dd($notification);
+   
+          $notification->seen=1;
+          $notification->save();
+         return redirect(route('reunionSyndic'));
+      
+    }
+    
     
     
     /**
@@ -58,13 +79,24 @@ class ReunionController extends Controller
     public function create(Request $request)
     { 
           
-        Reunion::create([
+        $reunion=Reunion::create([
             
             'date' => $request->date,
             'category' => $request->category,
             'user_id'=>auth::user()->id,
             'description' =>$request->description,
         ]);
+
+        $users=User::where('building_id',auth::user()->building_id)->get();
+        foreach ($users as $user) {
+          notification::create([
+            
+            'reunion_id'=>$reunion->id,
+            'user_id'=>$user->id,
+            'seen'=>0,
+            
+        ]);
+        }
     	return redirect(route('reunionSyndic'));
     }
     /**

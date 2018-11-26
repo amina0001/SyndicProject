@@ -94,65 +94,69 @@
                     <div class="header-left">
                       
 
-                        <div class="dropdown for-notification">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                       
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-bell"></i>
-                                <span class="count bg-danger">2</span>
+                                @if($i !== 0)
+                                <span class="count bg-danger">{{ $i }}</span>
+                                @endif
                             </button>
-                            <div class="dropdown-menu" aria-labelledby="notification">
-                                <p class="red">You have 2 Notification</p>
-                                <a class="dropdown-item media" href="#">
-                                    <i class="fa fa-info"></i>
-                                    <p>vous avez une réunion.</p>
-                                </a>
+                                  
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                @foreach($notifications as $r)
+
+                            @if($r->seen == 0)
+                                  @if(strtotime(date("Y-m-d")) < strtotime($r->date))
+                                <form action="{{ route('reunionSeen',$r->id ) }}" method="post">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $r->id }}">
+                                <input type="hidden" name="user_id" value="{{ $r->user_id }}">
+                                 <input type="hidden" name="reunion_id" value="{{ $r->reunion_id }}">
+                                <p>Topic: {{ $r->category }} <button type="submit" style="background: transparent;"> <i class="fa fa-eye-slash"></i></button>
+                                </p>
+                                </form>
+                             
+                            
                                 
-                                <a class="dropdown-item media" href="#">
-                                    <i class="fa fa-warning"></i>
-                                    <p>payer la dette.</p>
-                                </a>
+                                
+                            @endif
+                            @endif
+                            @endforeach
                             </div>
                         </div>
 
                         <div class="dropdown for-message">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-envelope"></i>
-                                <span class="count bg-primary">4</span>
+                                @if($msg &&  $msg->seen === 0)
+                                <span class="count bg-primary">1</span>
+                                @else
+                                  
+                                @endif
                             </button>
+                            @if($msg->seen === 0)
                             <div class="dropdown-menu" aria-labelledby="message">
-                                <p class="red">You have 4 Mails</p>
+                               
                                 <a class="dropdown-item media" href="chat.html">
-                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/1.jpg"></span>
+                                    <form action="{{ route('msgSeen',$msg->id ) }}" method="post">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $msg->id }}">
+                                <input type="hidden" name="user_id" value="{{ $msg->user_id }}">
+                                 <input type="hidden" name="reunion_id" value="{{ $msg->msg_id }}">
+                            
+                              
+                                <span class="photo media-left"><img alt="avatar" src="images/avatar/1.jpg"></span>
                                     <div class="message media-body">
                                         <span class="name float-left">Jonathan Smith</span>
-                                        <span class="time float-right">Just now</span>
-                                        <p>Hello, this is an example msg</p>
+                                        <span class="time float-right">{{ $msg->created_at }}</span>
+                                        <p>{{ $msg->message }} <button type="submit" style="background: transparent;"> <i class="fa fa-eye-slash"></i></button></p>
                                     </div>
-                                </a>
-                                <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/2.jpg"></span>
-                                    <div class="message media-body">
-                                        <span class="name float-left">Jack Sanders</span>
-                                        <span class="time float-right">5 minutes ago</span>
-                                        <p>Lorem ipsum dolor sit amet, consectetur</p>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/3.jpg"></span>
-                                    <div class="message media-body">
-                                        <span class="name float-left">Cheryl Wheeler</span>
-                                        <span class="time float-right">10 minutes ago</span>
-                                        <p>Hello, this is an example msg</p>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/4.jpg"></span>
-                                    <div class="message media-body">
-                                        <span class="name float-left">Rachel Santos</span>
-                                        <span class="time float-right">15 minutes ago</span>
-                                        <p>Lorem ipsum dolor sit amet, consectetur</p>
-                                    </div>
+                                </form>
+                                    
                                 </a>
                             </div>
+                            @endif
                         </div>
                     </div>
 
@@ -392,10 +396,8 @@
 
  <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 
-      <script src="js/popper.min.js"></script>
-
-
-    <script src="js/plugins.js"></script>
+      
+    <script src="js/popper.min.js"></script>
      <script src="js/plugins.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/main_syndic.js"></script>

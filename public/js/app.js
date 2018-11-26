@@ -57413,6 +57413,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -57431,90 +57433,93 @@ var render = function() {
     "ul",
     {
       directives: [{ name: "chat-scroll", rawName: "v-chat-scroll" }],
-      staticClass: "chat",
       staticStyle: { "max-height": "400px", "overflow-y": "auto" }
     },
     _vm._l(_vm.messages, function(message) {
-      return _c("li", { staticClass: "left clearfix" }, [
-        _c("div", { staticClass: "chat-body clearfix" }, [
-          _vm.user.id === message.user.id
-            ? _c(
-                "div",
-                {
-                  staticClass: "msg-sent msg-container",
-                  staticStyle: { "margin-left": "90%" }
-                },
-                [
-                  _c("div", { staticClass: "msg-box" }, [
-                    _c("div", { staticClass: "inner-box" }, [
-                      _c(
-                        "div",
-                        {
-                          staticClass: "name",
-                          staticStyle: { color: "#286090" }
-                        },
-                        [
-                          _vm._v(
-                            "\n                           You\n                        "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "meg" }, [
-                        _c("p", { staticStyle: { color: "#666363" } }, [
-                          _vm._v(_vm._s(message.message))
-                        ]),
-                        _vm._v(
-                          "\n                             " +
-                            _vm._s(message.created_at) +
-                            "\n                        "
-                        )
+      return _c("li", [
+        message.user !== null
+          ? _c("div", { staticClass: "chat-body clearfix" }, [
+              _vm.user.id === message.user.id
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "msg-sent msg-container",
+                      staticStyle: { "margin-left": "90%" }
+                    },
+                    [
+                      _c("div", { staticClass: "msg-box" }, [
+                        _c("div", { staticClass: "inner-box" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "name",
+                              staticStyle: { color: "#286090" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                          appartement  " +
+                                  _vm._s(message.user.app_num) +
+                                  "\n                        "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "meg" }, [
+                            _c("p", { staticStyle: { color: "#666363" } }, [
+                              _vm._v(_vm._s(message.message))
+                            ]),
+                            _vm._v(
+                              "\n                             " +
+                                _vm._s(message.created_at) +
+                                "\n                        "
+                            )
+                          ])
+                        ])
                       ])
-                    ])
-                  ])
-                ]
-              )
-            : _vm.user.id !== message.user.id
-            ? _c(
-                "div",
-                {
-                  staticClass: "msg-received msg-container ",
-                  staticStyle: { "margin-left": "0px" }
-                },
-                [
-                  _c("div", {}, [
-                    _c("div", { staticClass: "inner-box " }, [
-                      _c(
-                        "div",
-                        {
-                          staticClass: "name",
-                          staticStyle: { color: "#286090" }
-                        },
-                        [
-                          _vm._v(
-                            "\n                            appartement  " +
-                              _vm._s(message.user.app_num) +
-                              "\n                        "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "meg" }, [
-                        _c("p", { staticStyle: { color: "#666363" } }, [
-                          _vm._v(_vm._s(message.message))
-                        ]),
-                        _vm._v(
-                          "\n                             " +
-                            _vm._s(message.created_at) +
-                            "\n                        "
-                        )
+                    ]
+                  )
+                : _vm.user.id !== message.user.id
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "msg-received msg-container ",
+                      staticStyle: { "margin-left": "0px" }
+                    },
+                    [
+                      _c("div", {}, [
+                        _c("div", { staticClass: "inner-box " }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "name",
+                              staticStyle: { color: "#286090" }
+                            },
+                            [
+                              _vm._v(
+                                "\n                            appartement  " +
+                                  _vm._s(message.user.app_num) +
+                                  "\n                        "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "meg" }, [
+                            _c("p", { staticStyle: { color: "#666363" } }, [
+                              _vm._v(_vm._s(message.message))
+                            ]),
+                            _vm._v(
+                              "\n                             " +
+                                _vm._s(message.created_at) +
+                                "\n                        "
+                            )
+                          ])
+                        ])
                       ])
-                    ])
-                  ])
-                ]
-              )
-            : _vm._e()
-        ])
+                    ]
+                  )
+                : _vm._e()
+            ])
+          : _vm._e()
       ])
     })
   )

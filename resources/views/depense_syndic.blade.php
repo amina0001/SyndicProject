@@ -88,22 +88,34 @@
                       <div class="header-left">
                       
 
-                        <div class="dropdown for-notification">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-bell"></i>
-                                <span class="count bg-danger">2</span>
+                                @if($i !== 0)
+                                <span class="count bg-danger">{{ $i }}</span>
+                                @endif
                             </button>
-                            <div class="dropdown-menu" aria-labelledby="notification">
-                                <p class="red">You have 2 Notification</p>
-                                <a class="dropdown-item media" href="#">
-                                    <i class="fa fa-info"></i>
-                                    <p>vous avez une réunion.</p>
-                                </a>
+                                  
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                @foreach($notifications as $r)
+
+                            @if($r->seen == 0)
+                                  @if(strtotime(date("Y-m-d")) < strtotime($r->date))
+                                <form action="{{ route('reunionSeen',$r->id ) }}" method="post">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $r->id }}">
+                                <input type="hidden" name="user_id" value="{{ $r->user_id }}">
+                                 <input type="hidden" name="reunion_id" value="{{ $r->reunion_id }}">
+                                <p>Topic: {{ $r->category }} <button type="submit" style="background: transparent;"> <i class="fa fa-eye-slash"></i></button>
+                                </p>
+                                </form>
+                             
+                            
                                 
-                                <a class="dropdown-item media" href="#">
-                                    <i class="fa fa-warning"></i>
-                                    <p>payer la dette.</p>
-                                </a>
+                                
+                            @endif
+                            @endif
+                            @endforeach
                             </div>
                         </div>
 

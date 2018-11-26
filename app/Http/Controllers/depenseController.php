@@ -31,10 +31,34 @@ class depenseController extends Controller
         $depenses = depense::where('building_id',$id)->get()->sortByDesc("id");
         $des=Null;
         $bid = User::where('building_id',$id)->first();
-       /* dd(  Message::with(array('user' => function($query)use($bid){ $query->where('building_id', $bid->building_id)->first();}))->get()); */
-      /* dd(Message::with('user')->get());*/
+    
+          $reunionsnotif=DB::table('users')
+            ->join('reunions', 'reunions.user_id', '=', 'users.id')
+            ->where('users.building_id','=',auth::user()->building_id)
+            ->get()->sortByDesc("id");
+  $notifications=DB::table('reunions')
+            ->join('notification', 'notification.reunion_id', '=', 'reunions.id')
+            ->join('users', 'users.id', '=','notification.user_id')
+            ->where('notification.user_id',auth::user()->id)
+            ->where('users.building_id','=',auth::user()->building_id)
+            ->get()->sortByDesc("id");
+   
+          
+        $i=0;
+           foreach ($notifications as $n) {
 
-         return view('depense_syndic',compact('depenses','des'));
+             if(strtotime(date("Y-m-d")) < strtotime($n->date)){
+                 
+                if($n->seen==0){
+                    $i=$i+1;
+                   
+                }
+                
+             }
+           }
+
+
+         return view('depense_syndic',compact('depenses','des','reunionsnotif','notifications','i'));
         
     }
     /**
