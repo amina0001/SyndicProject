@@ -7,24 +7,67 @@ use App\Building;
 use App\Addres;
 use Validator;
 
+use DB;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     public function profile(int $id)
     {   $states = state::all();
-        $user=auth::user();
-        $bid=auth::user()->building_id;
+        $user=Auth::user();
+        $building=null;
+        $adress=null;
+        $st=null;
+        $cty=null;
+        $adress=null;
+        $notifications=collect();
+        $msg=null;
+        $reunionsnotif=null;
+        if( $user->role !== "admin"){
+            $bid=auth::user()->building_id;
 
-        $building = Building::where('id',$bid)->first();
-        
-        $aid= $building->adress_id;
+            $building = Building::where('id',$bid)->first();
 
-         $adress = Addres::where('id',$aid)->first();
-         $cty= City::where('id',$adress->city)->first();
-         $st= state::where('id',$adress->state)->first();
-         /*dd($st);*/
-        return view('profile', ['user'=>User::findOrFail($id),'states'=>$states,'user'=>$user,'building'=>$building,'adress'=>$adress,'cty'=>$cty,'st'=>$st]);
+            $aid= $building->adress_id;
+
+            $adress = Addres::where('id',$aid)->first();
+            $cty= City::where('id',$adress->city)->first();
+            $st= state::where('id',$adress->state)->first();
+            /*dd($st);*/
+            $reunionsnotif=DB::table('users')
+                ->join('reunions', 'reunions.user_id', '=', 'users.id')
+                ->where('users.building_id','=',auth::user()->building_id)
+                ->get()->sortByDesc("id");
+
+            $notifications=DB::table('reunions')
+                ->join('notification', 'notification.reunion_id', '=', 'reunions.id')
+                ->join('users', 'users.id', '=','notification.user_id')
+                ->where('notification.user_id',auth::user()->id)
+                ->where('users.building_id','=',auth::user()->building_id)
+                ->get()->sortByDesc("id");
+
+
+            $i=0;
+            foreach ($notifications as $n) {
+
+                if(strtotime(date("Y-m-d")) < strtotime($n->date)){
+
+                    if($n->seen==0){
+                        $i=$i+1;
+
+                    }
+
+                }
+            }
+            $msg=DB::table('messages')
+                ->join('notificationmsgs', 'notificationmsgs.msg_id', '=', 'messages.id')
+                ->where('notificationmsgs.user_id','=',auth::user()->id)
+                ->orderBy('notificationmsgs.id','dsc')
+                ->first();
+        }
+        $disabl = auth::user()->role === "Syndic" ?  "": "disabled";
+        return view('profile', ['user'=>User::findOrFail($id),'states'=>$states,'user'=>$user,'building'=>$building,'adress'=>$adress,'cty'=>$cty,'st'=>$st,'i'=>'$i','msg'=>$msg,'reunionsnotif'=>$reunionsnotif,'notifications'=>$notifications,'disabl'=>$disabl]);
     }
     public function update(Request $request)
     {        $validator = Validator::make($request->toArray(), [
@@ -43,24 +86,26 @@ class UserController extends Controller
         $user->lastname = $request->lastname;
         $user->email = $request->email;
         $user->cin = $request->cin;
-        $bid = Auth::user()->building_id;
+        if( $user->role !== "admin") {
+            $bid = Auth::user()->building_id;
 
-        $building = Building::where('id',$bid)->first();
-       
-        $building->name=$request->building_name;
+            $building = Building::where('id', $bid)->first();
 
-        $aid=$building->adress_id;
-        $adress=Addres::where('id',$aid)->first();
-        $city = City::where('id',$adress->city)->first();
-        $state = State::where('id',$adress->state)->first();
-       
-        $adress->street=$request->street;
-        $adress->state=$request->state;
-        $adress->city=$request->city;
-       
+            $building->name = $request->building_name;
+
+            $aid = $building->adress_id;
+            $adress = Addres::where('id', $aid)->first();
+            $city = City::where('id', $adress->city)->first();
+            $state = State::where('id', $adress->state)->first();
+
+            $adress->street = $request->street;
+            $adress->state = $request->state;
+            $adress->city = $request->city;
+            $building->save();
+            $adress->save();
+        }
         $user->save();
-        $building->save();
-        $adress->save();
+
       
 return back();
     }
@@ -73,5 +118,44 @@ return back();
             $user->save();
         }
         return back();
+    }
+    public function occupant()
+    {  
+        $reunionsnotif=DB::table('users')
+            ->join('reunions', 'reunions.user_id', '=', 'users.id')
+            ->where('users.building_id','=',auth::user()->building_id)
+            ->get()->sortByDesc("id");
+
+        $notifications=DB::table('reunions')
+            ->join('notification', 'notification.reunion_id', '=', 'reunions.id')
+            ->join('users', 'users.id', '=','notification.user_id')
+            ->where('notification.user_id',auth::user()->id)
+            ->where('users.building_id','=',auth::user()->building_id)
+            ->get()->sortByDesc("id");
+
+
+        $i=0;
+        foreach ($notifications as $n) {
+
+            if(strtotime(date("Y-m-d")) < strtotime($n->date)){
+
+                if($n->seen==0){
+                    $i=$i+1;
+
+                }
+
+            }
+        }
+        $msg=DB::table('messages')
+            ->join('notificationmsgs', 'notificationmsgs.msg_id', '=', 'messages.id')
+            ->where('notificationmsgs.user_id','=',auth::user()->id)
+            ->orderBy('notificationmsgs.id','dsc')
+            ->first();
+
+        $users = User::where('building_id','=',auth::user()->building_id)->get();
+        $building=Building::where('id','=',auth::user()->building_id)->first();
+           return view('users',compact('users','msg','i','notifications','reunionsnotif','building'));
+
+
     }
 }

@@ -1,0 +1,281 @@
+<?php
+
+
+namespace App\Http\Controllers;
+
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use App\Recette;
+use Image;
+use View;
+use App\User;
+use DB;
+use App\Building;
+use App\Addres;
+use App\City;
+use App\state;
+use App\RecetteMonth;
+use PDF;
+use Carbon\Carbon;
+class RecetteController extends Controller
+{ public function __construct()
+{
+    $this->middleware('auth');
+}
+    public function update(Request $request)
+        {  /* dd($request);*/
+        $recette = Recette::where('id',"=",$request->id)->first();
+
+        $recette->user_id =$request->app;
+        $recette->price =$request->price;
+        $recette->date =$request->date;
+        $recette->description =$request->description;
+
+        if($request->hasFile('image')){
+
+
+            $cover = $request->file('image');
+            $extension = $cover->getClientOriginalExtension();
+            Storage::disk('public')->put($cover->getFilename().'.'.$extension,  File::get($cover));
+            $recette->image = $cover->getFilename().'.'.$extension;
+
+        }
+
+
+        $recette->save();
+
+
+
+        return redirect(route('recetteSyndic'));
+    }
+    public function preview()
+    {    $buser= User::where('users.building_id','=',auth::user()->building_id)
+        ->get();
+
+        $unpaid=DB::table('recette_months')
+
+            ->join('users', 'recette_months.user_id', '=', 'users.id')
+            ->where('users.building_id','=',auth::user()->building_id)
+            ->select('recette_months.id as id','recette_months.months as months', 'recette_months.years as years', 'recette_months.recette_id as recette_id', 'recette_months.user_id as user_id')
+            ->get()
+            ->groupBy('months');
+
+        /*   dd($unpaid->flatten());*/
+        /* $unpaid=$unpaid->flatten();*/
+
+        $shit=collect();
+
+        $i=0;
+
+        foreach($unpaid as  $ps)
+        {
+
+            foreach($buser as $b)
+            {
+                foreach($ps as $p) {
+
+
+                    if ($p->user_id === $b->id) {
+                        $i=$i+1;
+                        break;
+                    }else {
+                        $i=0;
+                    }
+
+                }
+
+                if($i===0){
+                    /*    $shit->push($b);*/
+                    $tab =['months' => $p->months  ,'app_num'=> $b->app_num ];
+
+                    $shit->push(($tab));
+/*                    dd($shit);*/
+
+                }
+            }
+
+
+        }
+
+        $recettes=DB::table('recettes')
+            ->join('users', 'recettes.user_id', '=', 'users.id')
+            ->where('users.building_id','=',auth::user()->building_id)
+            ->select('recettes.id as id','recettes.user_id as user_id', 'users.app_num as app', 'recettes.price as price', 'recettes.date as date', 'recettes.description as description', 'recettes.image as image')
+
+            ->orderBy('date', 'desc')
+            ->paginate(5);
+
+
+        $reunionsnotif=DB::table('users')
+            ->join('reunions', 'reunions.user_id', '=', 'users.id')
+            ->where('users.building_id','=',auth::user()->building_id)
+            ->get()->sortByDesc("id");
+
+        $notifications=DB::table('reunions')
+            ->join('notification', 'notification.reunion_id', '=', 'reunions.id')
+            ->join('users', 'users.id', '=','notification.user_id')
+            ->where('notification.user_id',auth::user()->id)
+            ->where('users.building_id','=',auth::user()->building_id)
+            ->get()->sortByDesc("id");
+
+
+        $i=0;
+        foreach ($notifications as $n) {
+
+            if(strtotime(date("Y-m-d")) < strtotime($n->date)){
+
+                if($n->seen==0){
+                    $i=$i+1;
+
+                }
+
+            }
+        }
+        $now = Carbon::now();
+        $year = $now->year;
+        $dmonths=DB::table('users')
+            ->join('recettes', 'recettes.user_id', '=', 'users.id')
+            ->where('users.building_id','=',auth::user()->building_id)
+            ->select(DB::raw('MONTH(date) as month,YEAR(date) as year'))
+            ->whereYear('date', '=', $year)
+            ->groupBy('month','year')
+            ->get();
+
+
+
+        $month = $now->month;
+
+        $msg=DB::table('messages')
+            ->join('notificationmsgs', 'notificationmsgs.msg_id', '=', 'messages.id')
+            ->where('notificationmsgs.user_id','=',auth::user()->id)
+            ->orderBy('notificationmsgs.id','dsc')
+            ->first();
+        return view('recette_syndic',compact('recettes','msg','reunionsnotif','notifications','i','dmonths','month','year','shit','buser'));
+
+    }
+
+    /**
+     * formulaire pour ajouter une  depense
+     *
+     * @return view
+     */
+    public function new()
+    {
+
+    }
+    /**
+     * formulaire pour modifier un  depense
+     *
+     * @return view
+     */
+    public function edit($id)
+    {
+
+    }
+
+
+
+    /**
+     * ajouter une depense
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function create(Request $request)
+    {
+        $findRM=RecetteMonth::where('user_id',"=",$request->app)
+            ->where('years','=',date('Y', strtotime($request->date)))
+            ->where('months','=',date('m', strtotime($request->date)))
+            ->first();
+
+        if($findRM === null){
+/*            dd($findRM);*/
+
+            $app=$request->app;
+            $users = User::where('app_num',$app)->first();
+
+            $id=$users->id;
+
+            $recette = Recette::create([
+
+                'price' => $request->montant,
+                'date' => $request->date,
+                'user_id' => $request->app,
+                'description' =>$request->description,
+            ]);
+
+            if($request->hasFile('image')){
+
+                $cover = $request->file('image');
+                $extension = $cover->getClientOriginalExtension();
+                Storage::disk('public')->put($cover->getFilename().'.'.$extension,  File::get($cover));
+                $recette->image = $cover->getFilename().'.'.$extension;
+
+                $recette->save();
+            };
+            $recetteMonth = RecetteMonth::create([
+
+                'years' => date('Y', strtotime($request->date)),
+                'months' => date('m', strtotime($request->date)),
+                'user_id' => $request->app,
+                'recette_id' =>$recette->id,
+            ]);
+        }
+        return redirect(route('recetteSyndic'));
+    }
+    /**
+     * modifier une  depense
+     *
+     * @return view
+     */
+
+    /**
+     * supprimer une  depense
+     *
+     * @return view
+     */
+    public function delete(Request $request)
+    {
+        $recette =Recette::findOrFail($request->id);
+        $recette->delete();
+        return back();
+    }
+    public function generatePDF(Request $request)
+    { $now = Carbon::now();
+        $monthStart = $now->month;
+        $year=$now->year;
+        if(strlen($request->month)===2 || strlen($request->month)===1 ){
+            $recettes=DB::table('users')
+                ->join('recettes', 'recettes.user_id', '=', 'users.id')
+                ->where('users.building_id','=',auth::user()->building_id)
+                ->whereMonth('date', '=', (int)$request->month)
+                ->whereYear('date', '=', $year)
+                ->get();
+
+        }
+        elseif(strlen($request->month)===4){
+
+            $recettes=DB::table('users')
+                ->join('recettes', 'recettes.user_id', '=', 'users.id')
+                ->where('users.building_id','=',auth::user()->building_id)
+                ->whereYear('date', '=', (int)$request->month)
+                ->get();
+        }
+        $building=Building::where('id','=',auth::user()->building_id)
+            ->first();
+
+        $aid= $building->adress_id;
+
+        $adress = Addres::where('id',$aid)->first();
+        $cty= City::where('id',$adress->city)->first();
+        $st= state::where('id',$adress->state)->first();
+
+        $pdf = PDF::loadView('recettepdf', compact('recettes','building','adress','cty','st'));
+
+        return $pdf->stream('document.pdf');
+//        return $pdf->download('itsolutionstuff.pdf');
+    }
+}

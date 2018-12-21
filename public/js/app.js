@@ -25069,25 +25069,12 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 
     },
 
-    created: function created() {
-        var _this = this;
-
-        this.fetchMessages();
-        Echo.private('chat').listen('MessageSent', function (e) {
-            _this.messages.push({
-                message: e.message.message,
-                user: e.user
-            });
-        });
-    },
-
-
     methods: {
         fetchMessages: function fetchMessages() {
-            var _this2 = this;
+            var _this = this;
 
             axios.get('/messages').then(function (response) {
-                _this2.messages = response.data;
+                _this.messages = response.data;
             });
         },
         addMessage: function addMessage(message) {
@@ -25096,9 +25083,21 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             axios.post('/messages', message).then(function (response) {
                 console.log(response.data);
             });
+            this.fetchMessages();
         }
-    }
+    },
+    mounted: function mounted() {},
+    created: function created() {
+        var _this2 = this;
 
+        this.fetchMessages();
+        Echo.private('chat').listen('MessageSent', function (e) {
+            _this2.messages.push({
+                message: e.message.message,
+                user: e.user
+            });
+        });
+    }
 });
 
 /***/ }),
@@ -57486,7 +57485,7 @@ var render = function() {
                       staticStyle: { "margin-left": "0px" }
                     },
                     [
-                      _c("div", {}, [
+                      _c("div", { staticClass: "msg-box" }, [
                         _c("div", { staticClass: "inner-box " }, [
                           _c(
                             "div",

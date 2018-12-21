@@ -1,183 +1,10 @@
-f<!doctype html>
+@include('partials.header')
+@yield('content')
+    <!-- Header-->
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>SndicTN</title>
-    <meta name="description" content="Ela Admin - HTML5 Admin Template">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Header-->
 
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/themify-icons.css">
-    <link rel="stylesheet" href="/css/pe-icon-7-filled.css">
-
-    <link href="/css/fullcalendar.css" rel="stylesheet" />
-<link 
-  href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" 
-  rel="stylesheet"  type='text/css'>
-
-   
-
-<style type="text/css">
-#myImg {
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-#myImg:hover {opacity: 0.7;}
-
-
-</style>
-</head>
-<body>
-    
-   <aside id="left-panel" class="left-panel">
-        <nav class="navbar navbar-expand-sm navbar-default"> 
-            <div id="main-menu" class="main-menu collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                 <li class="active">
-                        <a href="{{ route('home') }}"><i class="menu-icon fa fa-laptop"></i>Dashboard </a>
-                    </li>
-                                     <li >
-                        <a  href="{{ route('depensesSyndic') }}"> <i class="menu-icon fa fa-table"></i>Dépense</a>
-                        
-                    </li>
-                    <li >
-                        <a  href="{{ route('recetteSyndic') }}"> <i class="menu-icon fa fa-th"></i>Recette</a>
-                        
-                    </li>
-                    
-
-                   
-                   
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </nav>
-    </aside><!-- /#left-panel -->
-
-    <!-- Left Panel -->
-
-    <!-- Right Panel -->
-
-    <div id="right-panel" class="right-panel">
-
-        <!-- Header-->
-        <header id="header" class="header">  
-             <div class="top-left">
-                <div class="navbar-header"> 
-                     <a id="menuToggle" class="menutoggle" style="margin-top: 10%;margin-left: -70%"><i class="fa fa-bars"></i></a> 
-                    <a class="navbar-brand" href="{{route('home')}}"><img src="images/fsmsyndic.png" style="margin-left: 40%;margin-top: -20%">
-                    </a>
-                    
-                   
-                </div> 
-            </div>
-            <div class="top-right"> 
-                <div class="header-menu" style="padding-top: 1%"> 
-              <div class="header-left">
-                      
-
-                         <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-bell"></i>
-                                @if($i !== 0)
-                                <span class="count bg-danger">{{ $i }}</span>
-                                @endif
-                            </button>
-                                 
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                @foreach($notifications as $r)
-
-                            @if($r->seen == 0)
-                                  @if(strtotime(date("Y-m-d")) < strtotime($r->date))
-                                <form action="{{ route('reunionSeen',$r->id ) }}" method="post">
-                                @csrf
-                                <input type="hidden" name="id" value="{{ $r->id }}">
-                                <input type="hidden" name="user_id" value="{{ $r->user_id }}">
-                                 <input type="hidden" name="reunion_id" value="{{ $r->reunion_id }}">
-                                <p>Topic: {{ $r->category }} <button type="submit" style="background: transparent;"> <i class="fa fa-eye-slash"></i></button>
-                                </p>
-                                </form>
-                             
-                            
-                                
-                                
-                            @endif
-                            @endif
-                            @endforeach
-                            </div>
-
-                        </div>
-
-                        <div class="dropdown for-message">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-envelope"></i>
-                                <span class="count bg-primary">4</span>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="message">
-                                <p class="red">You have 4 Mails</p>
-                                <a class="dropdown-item media" href="chat.html">
-                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/1.jpg"></span>
-                                    <div class="message media-body">
-                                        <span class="name float-left">Jonathan Smith</span>
-                                        <span class="time float-right">Just now</span>
-                                        <p>Hello, this is an example msg</p>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/2.jpg"></span>
-                                    <div class="message media-body">
-                                        <span class="name float-left">Jack Sanders</span>
-                                        <span class="time float-right">5 minutes ago</span>
-                                        <p>Lorem ipsum dolor sit amet, consectetur</p>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/3.jpg"></span>
-                                    <div class="message media-body">
-                                        <span class="name float-left">Cheryl Wheeler</span>
-                                        <span class="time float-right">10 minutes ago</span>
-                                        <p>Hello, this is an example msg</p>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item media" href="#">
-                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/4.jpg"></span>
-                                    <div class="message media-body">
-                                        <span class="name float-left">Rachel Santos</span>
-                                        <span class="time float-right">15 minutes ago</span>
-                                        <p>Lorem ipsum dolor sit amet, consectetur</p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="user-area dropdown float-right">
-                        <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
-                        </a>
-
-                        <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="#"><i class="fa fa-user"></i>My Profile</a>
-
-
-                            <a class="nav-link" href="#"><i class="fa fa-power-off"></i>Logout</a>
-                        </div>
-                    </div> 
-                </div>  
-            </div>
-        </header><!-- /header -->
-        <!-- Header-->
-
-        <div class="breadcrumbs">
+        <div class="breadcrumbs" >
             <div class="breadcrumbs-inner">
                 <div class="row m-0">
                     <div class="col-sm-4">
@@ -202,7 +29,7 @@ f<!doctype html>
             </div>
         </div>
 
-        <div class="content">
+        <div class="content"  >
             <div class="animated fadeIn">
                 <div class="row">
 
@@ -212,16 +39,17 @@ f<!doctype html>
                                 <strong class="card-title">Revenu</strong>
                                 @if(Auth::user()->role == "Syndic")
                                  <button  class="btn btn-success" style="float: right" data-toggle="modal" data-target="#myModal_ajout" >Ajouter un recette</button>
-                                 
+
                                    <button  class="btn btn-primary" style="float: right;margin-right:1%" data-toggle="modal" data-target="#myModal_fiche" >Gener fiche</button>
                                    @endif
                             </div>
-                            <div class="card-body">
-                                <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                            <div class="card-body  ">
+                                @if($recettes->isNotEmpty())
+                                <table id="bootstrap-data-table" class="table table-striped table-bordered col-md-9">
                                     <thead>
                                         <tr>
                                             <th>Appartement</th>
-                                            
+
                                             <th>description</th>
                                             <th>date</th>
                                             <th>devis</th>
@@ -238,12 +66,12 @@ f<!doctype html>
                                         <tr>
 
 
-                                             <td>@if( empty($r->app_num))
+                                             <td>@if( empty($r->app))
                                                     <p>--</p>
                                                 @else
-                                                    {{ $r->app_num }}
+                                                    {{ $r->app }}
                                                 @endif</td>
-                                            
+
                                             <td>@if( empty( $r->description ))
                                                     <p>--</p>
                                                 @else
@@ -268,25 +96,65 @@ f<!doctype html>
                                                    {{ $r->price }}
                                                 @endif</td>
                                     <td>
-                                         @if( empty( $r->price ))
-                                      <img  src="images/waitting.png"> Waitting
-                                     
-                                      @else
+
                                       <img  src="images/success.png"> Payé
-                                      @endif
+
                                             </td>
                                               @if(Auth::user()->role == "Syndic")
-                                            <td><button class="btn btn-primary" data-toggle="modal" data-target="#myModal_update" data-app="{{ $r->app_num }}" data-description="{{ $r->description }}" data-date="{{ $r->date }}" data-price="{{ $r->price }}" data-user_id="{{ $r->user_id }}" data-id="{{ $r->id }}" data-image="{{ $r->image }}">mettre a jour</button></td>
-                                              <td>         
-                                             <button class="btn btn-danger" data-toggle="modal" data-target="#myModal_delete" data-id="{{ $r->id }}">
+                                            <td><button class="btn btn-primary" data-toggle="modal" data-target="#myModal_update_recette" data-id="{{ $r->id }}"  data-app="{{ $r->app }}" data-description="{{ $r->description }}" data-date="{{ $r->date }}" data-price="{{ $r->price }}" data-user_id="{{ $r->user_id }}" data-image="{{ $r->image }}">mettre a jour</button></td>
+                                              <td>
+                                             <button class="btn btn-danger" data-toggle="modal" data-target="#myModal_delete_recette" data-id="{{ $r->id }}">
                                         Supprimer</button></td>
-                                        @endif  
+                                        @endif
                                         </tr>
-                                       
+
                                        @endforeach
                                     </tbody>
+                                    {{ $recettes->render()}}
                                 </table>
+                                @else
+                                    <div class="alert alert-info" role="alert">
+                                        <strong>Desolé.</strong> il y a pas de recettes.
+                                    </div>
+                                    @endif
+                                <div >
+                                    @if($shit->isNotEmpty())
+                                    <h1 class="display-4">les appartements non payé : </h1><br>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+
+                                            <th scope="col">Apprtement</th>
+                                            <th scope="col">Month</th>
+                                            <th scope="col"></th>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($shit as $s)
+                                            <tr>
+                                                {{--{{dd($shit)}}--}}
+
+                                                <td>{{$s['app_num']}}</td>
+                                                <td>{{$s['months']}}</td>
+                                                <td>
+
+                                                    <img  src="images/waitting.png"> Waitting
+                                                </td>
+
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+
+                                    @endif
+
+                                </div>
+
+
                             </div>
+
+
                         </div>
                     </div>
 
@@ -302,10 +170,10 @@ f<!doctype html>
             <div class="footer-inner bg-white">
                 <div class="row">
                     <div class="col-sm-6">
-                        Copyright &copy; 
+                        Copyright &copy;
                     </div>
                     <div class="col-sm-6 text-right">
-                        Designed by <a href="https://colorlib.com">Colorlib</a>
+                        Designed by <a href="#">SyndicTn</a>
                     </div>
                 </div>
             </div>
@@ -323,7 +191,7 @@ f<!doctype html>
           <h4 class="modal-title">Recu</h4>
         </div>
         <div class="modal-body">
-          <img id="myImg" src="images/recu.jpg"  style="width:100%;" >
+        {{--  <img id="myImg" src="images/recu.jpg"  style="width:100%;" >--}}
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -341,7 +209,7 @@ f<!doctype html>
         <div class="modal-body">
                         <div class="col-lg-12">
                         <div class="card">
-                            
+
                             <div class="card-body card-block">
                                 <form action="{{route('recetteCreate')  }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
                                 @csrf
@@ -349,8 +217,10 @@ f<!doctype html>
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Appartement:</label></div>
                                         <div class="col-12 col-md-9">
                                             <select class="form-control" id="app" name="app">
-                                                <option  value="1">app 1</option>
-                                                
+                                                @foreach($buser as $b)
+
+                                                <option  value="{{$b->id}}">appartement {{$b->app_num}} </option>
+                                                    @endforeach
                                               </select>
 
                                             <small class="form-text text-muted">This is a help text</small></div>
@@ -368,7 +238,7 @@ f<!doctype html>
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
                                         </div>
-                                   
+
                                     </div>
                                     </div>
 
@@ -380,15 +250,15 @@ f<!doctype html>
                                         <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description</label></div>
                                         <div class="col-12 col-md-9"><textarea name="description" id="description" rows="9" placeholder="Content..." class="form-control"></textarea></div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">submit</button>
-                                
-                               
-                                  
+                                    <button type="submit" class="btn btn-primary pull-right">submit</button>
+
+
+
                                 </form>
                             </div>
-                           
+
                         </div>
-                      
+
                     </div>
         </div>
         <div class="modal-footer">
@@ -399,7 +269,7 @@ f<!doctype html>
   </div>
 
 
-    <div class="modal fade" id="myModal_update" role="dialog">
+    <div class="modal fade" id="myModal_update_recette" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -409,9 +279,9 @@ f<!doctype html>
         <div class="modal-body">
                         <div class="col-lg-12">
                         <div class="card">
-                            
+
                             <div class="card-body card-block">
-                                <form action="{{ route('recetteUpdate') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                                <form action="{{ route('recettesUpdate') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
                                   @csrf
                                       <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label"></label></div>
@@ -425,10 +295,12 @@ f<!doctype html>
                                    <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Appartement:</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select class="form-control" >
-                                                <option  id="app" name="app" value="">app 1</option>
-                                                
-                                              </select>
+                                            <select class="form-control" id="app" name="app">
+                                                @foreach($buser as $b)
+
+                                                    <option  value="{{$b->id}}">appartement {{$b->app_num}} </option>
+                                                @endforeach
+                                            </select>
 
                                             <small class="form-text text-muted">This is a help text</small></div>
                                     </div>
@@ -445,7 +317,7 @@ f<!doctype html>
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
                                         </div>
-                                   
+
                                     </div>
                                     </div>
                                     <div class="row form-group">
@@ -456,15 +328,15 @@ f<!doctype html>
                                         <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description</label></div>
                                         <div class="col-12 col-md-9"><textarea name="description" id="description" rows="9" placeholder="Content..." class="form-control"></textarea></div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">submit</button>
-                                
-                               
-                                  
+                                    <button type="submit" class="btn btn-primary  pull-right">mettre a jour</button>
+
+
+
                                 </form>
                             </div>
-                           
+
                         </div>
-                      
+
                     </div>
         </div>
         <div class="modal-footer">
@@ -475,7 +347,7 @@ f<!doctype html>
   </div>
 
 
-  <div class="modal fade" id="myModal_delete" role="dialog">
+  <div class="modal fade" id="myModal_delete_recette" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -490,7 +362,7 @@ f<!doctype html>
         <p>Delete the motherfucker.</p>
              @csrf
                <input type="hidden" name="id" id="id" value="">
-        
+
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">Delete</button>
@@ -501,97 +373,40 @@ f<!doctype html>
   </div>
 </div>
 </div>
-    <!-- Right Panel -->
- <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 
 
+   <div class="modal fade" id="myModal_fiche" role="dialog">
+       <div class="modal-dialog" role="document">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title">gener fiche des depenses</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+               </div>
+                <br>
 
-<script src="js/jquery-2.1.4.min.js"></script>
+               <form action="{{ route('Rgeneratepdf') }}" method="post" class="form-horizontal" >
+                   @csrf
+                   <div class="modal-body">
+                       <select class="form-control" name="month">
+                           <option value="{{$month}}">this month</option>
+                           <option value="{{$year}}">this year</option>
+                           @foreach($dmonths->flatten() as $d)
+                               <option value="{{$d->month}}">{{$d->month}}-{{$d->year}}</option>
+                           @endforeach
 
- <script src="js/bootstrap.min.js"></script>
+                       </select>
+                   </div>
+                   <div class="modal-footer">
+                       <button type="submit" class="btn btn-primary">gener</button>
+                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
-      <script src="js/popper.min.js"></script>
-
-
-    <script src="js/plugins.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.14.30/js/bootstrap-datetimepicker.min.js"></script>
-
-  
-    <script src="js/main_syndic.js"></script>
-    
-
-
-<script type="text/javascript">
-        
-    jQuery(document).ready(function ($) {
-        console.log("hhh");
- $(function () {
-                $('#datetimepicker1').datetimepicker({
-                    defaultDate: new Date(),
-                    format: 'YYYY-MM-DD HH:mm:ss',
-
-                    sideBySide: true
-                });
-            });
-          $(function () {
-                $('#datetimepicker2').datetimepicker({
-                    defaultDate: new Date(),
-                    format: 'YYYY-MM-DD HH:mm:ss',
-
-                    sideBySide: true
-                });
-            });
-     $('#myModal_update').on('show.bs.modal', function (event) {
-          console.log("hhh");
-          var button = $(event.relatedTarget)
-           console.log( button.data('id'));
-          var app = button.data('app')
-          var description = button.data('description')
-          var price = button.data('price')
-          var image = button.data('image')
-          var date = button.data('date')
-          var user_id = button.data('user_id')
-          var id = button.data('id')
-          var modal = $(this)
-
-
-          modal.find('.modal-body #app').val(app);
-          modal.find('.modal-body #id').val(id);
-          modal.find('.modal-body #user_id').val(user_id);
-          modal.find('.modal-body #image').val(image);        
-          modal.find('.modal-body #description').val(description);
-          modal.find('.modal-body #price').val(price);
-          modal.find('.modal-body #date').val(date);
-       
-
-          });
-     $('#myModal_delete').on('show.bs.modal', function (event) {
-          
-          var button = $(event.relatedTarget)
-          
-          var id = button.data('id')
-          var modal = $(this)
-      
-        modal.find('.modal-body #id').val(id);
-
-          });
-     $('#myModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget)
-          
-          var img = button.data('image')
-          var modal = $(this)  
-     $('.modal-body').append('<img class="myImg" style="width:100%;"  src=" /storage/' + img  + '">');
-      });
-   
-      $("#myModal").on("hidden.bs.modal", function(){
-    $(".modal-body").html("");
-    });
-    });
-  
-
-</script>
-
-</body>
-</html>
+                   </div>
+               </form>
+           </div>
+       </div>
+   </div>
+   </div>
+@include('partials.footer_scripts')
+@yield('content')

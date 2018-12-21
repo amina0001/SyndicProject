@@ -30,7 +30,21 @@
 
 
 	<div class="limiter">
+
 		<div class="container-login100">
+                <nav class="collapse navbar-collapse" id="primary-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="{{ url('/') }}#home-page">Home</a></li>
+                    <li><a href="{{ url('/') }}#service-page">Service</a></li>
+              
+                    <li><a href="{{ url('/') }}#team-page">Team</a></li>
+                    <li><a href="{{ url('/') }}#faq-page">FAQ</a></li>
+                   
+                    <li><a href="{{ url('/') }}#contact-page">Contact</a></li>
+                    <li><a href="{{ route('login') }}">Se Connecter</a></li>
+                    <li><a href="{{ route('register') }}">S'inscrire</a></li>
+                </ul>
+            </nav>
 			<div class="wrap-login100">
 			
 					
@@ -39,7 +53,8 @@
                         Register to continue
                          </span>
                             <div >
-                            <i class="fa fa-long-arrow-left" style="margin-left:70%;"></i><button id="button1"  href="{{ route('login') }}" >back to login</button>
+                            <i class="fa fa-long-arrow-left" style="margin-left:70%;"></i>
+                            <a id="button1" href="{{ route('login') }}" >back to login</a>
                          </div>
                         
                         @csrf

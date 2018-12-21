@@ -8,10 +8,13 @@ use App\City;
 use App\Reunion;
 use App\Chore;
 use App\Message;
+use App\Recette;
+use App\Depense;
 use App\notification;
 use App\Notificationmsg;
 use DB;
-use User;
+use App\User;
+
 class HomeController extends Controller
 {
     /**
@@ -23,7 +26,35 @@ class HomeController extends Controller
     {
         $this->middleware('auth');
     }
+    public function adminHome()
+    {
 
+
+        $buildings=DB::table('buildings')
+            ->join('address', 'address.id', '=', 'buildings.adress_id')
+            ->join('cities', 'cities.id', '=', 'address.city')
+            ->join('states', 'states.id', '=', 'address.state')
+            ->select('buildings.id as bid','buildings.name as bname', 'address.street as street', 'states.name as sname', 'cities.name as cname')
+            ->get()->sortByDesc("id");
+       $users= User::get();
+       $i=0;
+       $buildingempty= collect();
+        foreach($buildings as $b){
+          foreach ($users as $u){
+              if($b->bid  === $u->building_id){
+                  $i=$i+1;
+              }
+          }
+
+          if($i === 0 || $i === 1){
+              $buildingempty->push(($b));
+          }
+          $i=0;
+        }
+
+
+       return view('admin.home',compact('buildings','buildingempty'));
+    }
     /**
      * Show the application dashboard.
      *
@@ -31,7 +62,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $reunions = Reunion::all()->sortByDesc("id");
+
           $reunionsnotif=DB::table('users')
             ->join('reunions', 'reunions.user_id', '=', 'users.id')
             ->where('users.building_id','=',auth::user()->building_id)
@@ -58,15 +89,46 @@ class HomeController extends Controller
              }
            }
 
-       $chores= Chore::all()->sortByDesc("id");
+    
+
+     
         $msg=DB::table('messages')
             ->join('notificationmsgs', 'notificationmsgs.msg_id', '=', 'messages.id')
             ->where('notificationmsgs.user_id','=',auth::user()->id)
             ->orderBy('notificationmsgs.id','dsc')
             ->first();
-     
-     
-        return view("home",compact('reunions','chores','reunionsnotif','notifications','i','msg'));
+        $chores=  DB::table('users')
+            ->join('chores', 'chores.user_id', '=', 'users.id')
+            ->where('users.building_id','=',auth::user()->building_id)
+            ->get()->sortByDesc("id");
+
+      $recette = Recette::select(
+            DB::raw('sum(price) as sums'), 
+            DB::raw("DATE_FORMAT(recettes.created_at,'%Y') as years")
+          )
+          ->join('users', 'users.id', '=', 'recettes.user_id')
+           ->where('users.building_id','=',auth::user()->building_id)
+          ->groupBy('years')
+          ->first();
+
+       $depense = Depense::select(
+        DB::raw('sum(price) as sums'), 
+        DB::raw("DATE_FORMAT(created_at,'%Y') as years")
+      )
+      ->where('building_id','=',auth::user()->building_id)
+      ->groupBy('years')
+      ->first();
+
+     $reunion = Reunion::select(
+        DB::raw('count(reunions.id) as sums'), 
+        DB::raw("DATE_FORMAT(reunions.created_at,'%Y') as years")
+      )
+      ->join('users', 'users.id', '=', 'reunions.user_id')
+      ->where('users.building_id','=',auth::user()->building_id)
+      ->groupBy('years')
+      ->first();
+     /*     dd($recette);*/
+        return view("home",compact('chores','reunionsnotif','notifications','i','msg','recette','reunion','depense'));
     }
      public function choreCreate(Request $request)
     {

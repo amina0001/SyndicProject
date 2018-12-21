@@ -1,158 +1,8 @@
-<!doctype html>
+@include('partials.header')
+@yield('content')
+    <!-- Header-->
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>SndicTN</title>
-    <meta name="description" content="Ela Admin - HTML5 Admin Template">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/themify-icons.css">
-    <link rel="stylesheet" href="/css/pe-icon-7-filled.css">
-
-    <link href="/css/fullcalendar.css" rel="stylesheet" />
-<link 
-  href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" 
-  rel="stylesheet"  type='text/css'>
-
-     
-   
-<style type="text/css">
-#myImg {
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-#myImg:hover {opacity: 0.7;}
-
-</style>
-</head>
-<body>
-    <!-- Left Panel -->
-
-   <aside id="left-panel" class="left-panel">
-        <nav class="navbar navbar-expand-sm navbar-default"> 
-            <div id="main-menu" class="main-menu collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                                  <li class="active">
-                        <a href="{{ route('home') }}"><i class="menu-icon fa fa-laptop"></i>Dashboard </a>
-                    </li>
-                                     <li >
-                        <a  href="{{ route('depensesSyndic') }}"> <i class="menu-icon fa fa-table"></i>Dépense</a>
-                        
-                    </li>
-                    <li >
-                        <a  href="{{ route('recetteSyndic') }}"> <i class="menu-icon fa fa-th"></i>Recette</a>
-                        
-                    </li>
-                    
-
-                   
-                   
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </nav>
-    </aside><!-- /#left-panel -->
-
-    <!-- Left Panel -->
-
-    <!-- Right Panel -->
-
-    <div id="right-panel" class="right-panel">
-
-        <!-- Header-->
-        <header id="header" class="header">  
-           <div class="top-left">
-                <div class="navbar-header"> 
-                     <a id="menuToggle" class="menutoggle" style="margin-top: 10%;margin-left: -70%"><i class="fa fa-bars"></i></a> 
-                    <a class="navbar-brand" href="{{route('home')}}"><img src="images/fsmsyndic.png" style="margin-left: 40%;margin-top: -20%">
-                    </a>
-                    
-                   
-                </div> 
-            </div>
-            <div class="top-right"> 
-                <div class="header-menu"> 
-              <div class="header-left">
-                      
-
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-bell"></i>
-                                @if($i !== 0)
-                                <span class="count bg-danger">{{ $i }}</span>
-                                @endif
-                            </button>
-                            
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                @foreach($notifications as $r)
-
-                            @if($r->seen == 0)
-                                  @if(strtotime(date("Y-m-d")) < strtotime($r->date))
-                                <form action="{{ route('reunionSeen',$r->id ) }}" method="post">
-                                @csrf
-                                <input type="hidden" name="id" value="{{ $r->id }}">
-                                <input type="hidden" name="user_id" value="{{ $r->user_id }}">
-                                 <input type="hidden" name="reunion_id" value="{{ $r->reunion_id }}">
-                                <p>Topic: {{ $r->category }} <button type="submit" style="background: transparent;"> <i class="fa fa-eye-slash"></i></button>
-                                </p>
-                                </form>
-                             
-                            
-                                
-                                
-                            @endif
-                            @endif
-                            @endforeach
-                            </div>
-
-                        </div>
-
-                        <div class="dropdown for-message">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-envelope"></i>
-                                <span class="count bg-primary">1</span>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="message">
-                             
-                               {{--  <a class="dropdown-item media" href="chat.html">
-                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/1.jpg"></span>
-                                    <div class="message media-body">
-                                        <span class="name float-left">Jonathan Smith</span>
-                                        <span class="time float-right">{{ $message->create }}</span>
-                                        <p>{{ $msg->message }}</p>
-                                    </div>
-                                </a> --}}
-                              
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="user-area dropdown float-right">
-                        <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="user-avatar rounded-circle" src="images/admin.jpg" alt="User Avatar">
-                        </a>
-
-                        <div class="user-menu dropdown-menu">
-                            <a class="nav-link" href="#"><i class="fa fa-user"></i>My Profile</a>
-
-
-                            <a class="nav-link" href="#"><i class="fa fa-power-off"></i>Logout</a>
-                        </div>
-                    </div> 
-                </div>  
-            </div>
-        </header><!-- /header -->
-        <!-- Header-->
+    <!-- Header-->
 
         <div class="breadcrumbs">
             <div class="breadcrumbs-inner">
@@ -160,7 +10,7 @@
                     <div class="col-sm-4">
                         <div class="page-header float-left">
                             <div class="page-title">
-                                <h1>Revenu</h1>
+                                <h1>Reunion</h1>
                             </div>
                         </div>
                     </div>
@@ -169,8 +19,8 @@
                             <div class="page-title">
                                 <ol class="breadcrumb text-right">
                                     <li><a href="#">Dashboard</a></li>
-                                    <li><a href="#">Revenu</a></li>
-                                    <li class="active">liste de Revenu</li>
+                                    <li><a href="#">Reunion</a></li>
+                                    <li class="active">liste de Reunion</li>
                                 </ol>
                             </div>
                         </div>
@@ -193,17 +43,21 @@
 
 
                     <div class="card-body">
-                       <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal_ajout"  style="margin-bottom: 1%;">Ajouter une reunion</button>
+                        @if(auth::user()->role == "Syndic")
+                            <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal_ajout"  style="margin-bottom: 1%;">Ajouter une reunion</button>
 
-                                                        
 
-                <table id="bootstrap-data-table" class="table table-striped table-bordered" >
+                        @endif
+
+                        @if($reunions->isNotEmpty())
+
+                           <table id="bootstrap-data-table" class="table table-striped table-bordered" >
                                     <thead>
                                         <tr>
                                             <th>category</th>
                                             <th>syndic or occupant</th>
                                             <th>date</th>
-                                            <th>approuvé</th>
+
                                             <th>description</th>
                                             @if(Auth::user()->role == "Syndic")
                                             <th></th>   
@@ -223,7 +77,7 @@
                                                 @endif
                                                 </td>
                                             <td>{{ $r->date }}</td>
-                                            <td>{{ $r->approved }}</td>
+
                                             <td>{{ $r->description }}</td>
                                             @if(Auth::user()->role == "Syndic")
                                            
@@ -237,7 +91,12 @@
                                        
                                     </tbody>
                                 </table>
-           
+                    {{$reunions->render()}}
+                            @else
+                                <div class="alert alert-info" role="alert">
+                                    <strong>Desolé.</strong> il y a pas de depenses.
+                                </div>
+                            @endif
                             </div>
                         </div>
                     </div>
@@ -257,7 +116,7 @@
                         Copyright &copy; 
                     </div>
                     <div class="col-sm-6 text-right">
-                        Designed by <a href="https://colorlib.com">Colorlib</a>
+                        Designed by <a href="#">SyndicTn</a>
                     </div>
                 </div>
             </div>
@@ -286,35 +145,37 @@
                                 @csrf
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Category:</label></div>
-                                        <div class="col-12 col-md-9">
+                                        <div class="col-md-9">
                                             <select class="form-control" id="category" name="category">
                                                 <option  value="securite">securite</option>
                                                
                                                 <option value="other">other</option>
                                               </select>
 
-                                            <small class="form-text text-muted">This is a help text</small></div>
+                                            <small class="form-text text-muted">This is a help text</small>
+                                        </div>
                                     </div>
                                  
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Date</label></div>
-                                        <div class='col-sm-6'>
-                                        <div class="form-group">
+                                        <div class='col-md-9'>
+
                                             <div class='input-group date' id='datetimepicker1'>
                                                 <input type='text' name="date" class="form-control" />
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
                                             </div>
-                                        </div>
-                                    </div> </div>
+
+                                    </div>
+                                    </div>
 
                                   
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description</label></div>
                                         <div class="col-12 col-md-9"><textarea name="description" id="description" rows="9" placeholder="Content..." class="form-control"></textarea></div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">submit</button>
+                                    <button type="submit" class="btn btn-primary pull-right">Ajouter une reunion</button>
                                 
                                
                                   
@@ -337,6 +198,13 @@
 
 
 
+<script src="js/jquery-2.1.4.min.js"></script>
+
+
+<script src="js/popper.min.js"></script>
+
+
+<script src="js/plugins.js"></script>
    
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
@@ -363,12 +231,12 @@
                                   @csrf
                                    <div class="row form-group">
                                        
-                                        <div class="col-12 col-md-9"><input type="hidden" id="id" name="id"  class="form-control"></div>
-                                        <div class="col-12 col-md-9"><input type="hidden" id="user_id" name="user_id"  class="form-control"></div>
+                                        <div class="col-md-9"><input type="hidden" id="id" name="id"  class="form-control"></div>
+                                        <div class="col-md-9"><input type="hidden" id="user_id" name="user_id"  class="form-control"></div>
                                     </div>
                                       <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Category:</label></div>
-                                        <div class="col-12 col-md-9">
+                                        <div class="col-md-9">
                                             <select class="form-control" id="category" name="category">
                                                 <option  value="securite">securite</option>
                                                
@@ -380,8 +248,8 @@
                                  
                                        <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Date</label></div>
-                                        <div class="col-12 col-md-9">
-                                        <div class='input-group date' id='datetimepicker1'>
+                                        <div class="col-md-9">
+                                        <div class='input-group date' id='datetimepicker2'>
                                             <input type='text' id="date" name="date" class="form-control" />
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
@@ -393,9 +261,9 @@
                                   
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description</label></div>
-                                        <div class="col-12 col-md-9"><textarea name="description" id="description" rows="9" placeholder="Content..." class="form-control"></textarea></div>
+                                        <div class="col-md-9"><textarea name="description" id="description" rows="9" placeholder="Content..." class="form-control"></textarea></div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">submit</button>
+                                    <button type="submit" class="btn btn-primary pull-right">Mettre a jour la reunion</button>
                                 
                                
                                   
@@ -485,5 +353,5 @@ $(function () {
 </script>
 
 
-
+</body>
 </html>

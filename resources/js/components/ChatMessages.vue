@@ -24,7 +24,7 @@
 
 
                 <div class="msg-received msg-container "  v-else-if="user.id !== message.user.id" style="margin-left: 0px" >
-                     <div class=""  >
+                     <div class="msg-box"  >
                         <div class="inner-box ">
                             <div class="name" style="color: #286090">
                                 appartement  {{ message.user.app_num }}

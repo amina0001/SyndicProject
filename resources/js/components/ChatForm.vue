@@ -20,7 +20,7 @@
             }
         },
 
-        methods: {
+      methods: {
             sendMessage() {
                 this.$emit('messagesent', {
                     user: this.user,
@@ -29,6 +29,6 @@
 
                 this.newMessage = ''
             }
-        }    
+        }       
     }
 </script>

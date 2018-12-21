@@ -13,14 +13,21 @@
 
 
 Auth::routes();
+/***************************admin************************************/
+Route::post('/admin/occupants', ['as' => 'occupants', 'uses' => 'AdminOccupantController@occupants']);
+Route::post('/admin/gener/occupants', ['as' => 'generOccupant', 'uses' => 'AdminOccupantController@generoccupants']);
 
+Route::post('/admin/occupants/create', ['as' => 'occupantCreate', 'uses' => 'AdminOccupantController@create']);
+/*Route::get('/admin/occupants', ['as' => 'occupants', 'uses' => 'AdminOccupantController@occupants']);*/
+/***************************end admin************************************/
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/admin/home', 'HomeController@adminHome');
+
 Route::get('/test', 'TestController@index')->name('test');
 Route::get('/fetch/{id}', 'TestController@fetch');
 
-Route::get('depensesSyndic', ['as' => 'depensesSyndic', 'uses' => 'depenseController@preview']);
+Route::get('depenses', ['as' => 'depensesSyndic', 'uses' => 'depenseController@preview']);
 /***********************depense routes**************************/
-Route::get('depensesSyndic', ['as' => 'depensesSyndic', 'uses' => 'depenseController@preview']);
 
 Route::post('depense/create', ['as' => 'depenseCreate', 'uses' => 'depenseController@create']);
 
@@ -30,22 +37,22 @@ Route::post('depense/delete', ['as' => 'despenseDelete', 'uses' => 'depenseContr
 /***********************recette routes**************************/
 
 /*Route::resource('recette', 'recetteController');*/
-Route::get('recetteSyndic', ['as' => 'recetteSyndic', 'uses' => 'RecetteController@preview']);
+Route::get('recettes', ['as' => 'recetteSyndic', 'uses' => 'recetteController@preview']);
 
-Route::post('recettecreate', ['as' => 'recetteCreate', 'uses' => 'RecetteController@create']);
-Route::get('recette/new', ['as' => 'recetteNew', 'uses' => 'RecetteController@new']);
-Route::post('recetteUpdate', ['as' => 'recetteUpdate', 'uses' => 'RecetteController@update']);
-Route::post('recette/delete', ['as' => 'recetteDelete', 'uses' => 'RecetteController@delete']);
-
-/***********************reunion routes**************************/
-
-Route::get('reunionSyndic', ['as' => 'reunionSyndic', 'uses' => 'ReunionController@preview']);
-Route::post('reunioncreate', ['as' => 'reunionCreate', 'uses' => 'ReunionController@create']);
-Route::post('reunionUpdate', ['as' => 'reunionUpdate', 'uses' => 'ReunionController@update']);
-Route::post('reunionSeen/{id}', ['as' => 'reunionSeen', 'uses' => 'notificationController@update']);
+Route::post('recette/create', ['as' => 'recetteCreate', 'uses' => 'recetteController@create']);
+Route::get('recette/new', ['as' => 'recetteNew', 'uses' => 'recetteController@new']);
+Route::post('recette/update', ['as' => 'recettesUpdate', 'uses' => 'RecetteController@update']);
+Route::post('recette/delete', ['as' => 'recetteDelete', 'uses' => 'recetteController@delete']);
 
 /***********************reunion routes**************************/
-Route::post('chorescreate', ['as' => 'choresCreate', 'uses' => 'HomeController@choreCreate']);
+
+Route::get('reunions', ['as' => 'reunionSyndic', 'uses' => 'ReunionController@preview']);
+Route::post('reunion/create', ['as' => 'reunionCreate', 'uses' => 'ReunionController@create']);
+Route::post('reunion/Update', ['as' => 'reunionUpdate', 'uses' => 'ReunionController@update']);
+Route::post('reunion/Seen/{id}', ['as' => 'reunionSeen', 'uses' => 'notificationController@update']);
+
+/***********************reunion routes**************************/
+Route::post('chores/create', ['as' => 'choresCreate', 'uses' => 'HomeController@choreCreate']);
 Route::post('recette/delete', ['as' => 'choresDelete', 'uses' => 'HomeController@delete']);
 /***********************profile routes**************************/
 Route::get('profile/{id}', ['as' => 'profile', 'uses' => 'UserController@profile']);
@@ -65,3 +72,9 @@ Route::post('messages', 'ChatsController@sendMessage');
      Route::get('/', function () {
    return view('welcome');
 });
+     Broadcast::routes();
+/***********************pdf**************************/
+Route::post('generate-pdf',['as' => 'generatepdf', 'uses' => 'depenseController@generatePDF']);
+Route::post('Rgenerate-pdf',['as' => 'Rgeneratepdf', 'uses' => 'recetteController@generatePDF']);
+/***********************users**************************/
+Route::get('occupant', ['as' => 'occupant', 'uses' => 'UserController@occupant']);

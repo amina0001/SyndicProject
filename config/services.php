@@ -34,5 +34,9 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
-
+    'pusher' => [
+  'public' => 'fd970cd8c7073453e9bc',
+  'secret' => 'bfb5cd483d5348742deb',
+  'app_id' => 'eu'
+]
 ];

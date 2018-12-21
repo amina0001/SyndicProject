@@ -18,9 +18,9 @@ class CreateUsersTable extends Migration
             $table->string('app_num')->unique()->nullable();
             $table->string('firstname');
             $table->string('lastname');
-            $table->string('cin')->unique();
+            $table->string('cin')->unique()->nullable();
             $table->integer('building_id')->unsigned();
-            $table->enum('role',['Occupant','Syndic']);
+            $table->enum('role',['Occupant','Syndic','admin']);
             $table->string('email',160)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

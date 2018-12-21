@@ -112,11 +112,11 @@
 
 /* Style the header */
 .header {
-  background-color: #ff;
+  background-color: #f6f6e9;
   border-top-right-radius: 15px;
 
   padding: 20px 30px;
-  color: white;
+  color: #f6f6e9;
 
 }
 .top-left{
@@ -129,7 +129,7 @@
 border-top-left-radius: 10px;
 border-bottom-left-radius: 10px;
 border:2.5px solid #F1F2F7;
-background: #f2f3f8;
+background: #fff;
 }
 .header button{
 border-top-right-radius: 10px;
@@ -732,12 +732,12 @@ canvas {
 /* Global Styles */
 /* Main Styles */
 aside.left-panel {
-  background: #2c2e3e;
+  background: #13334c;
   height: 100vh;
   padding: 0;
   padding-top: 5%;
   vertical-align: top;
-  width: 280px;
+  width: 220px;
   -webkit-box-shadow: 1px 0 20px rgba(0, 0, 0, 0.08);
           box-shadow: 1px 0 20px rgba(0, 0, 0, 0.08);
   position: fixed;
@@ -755,7 +755,7 @@ aside.left-panel {
   margin-left: 0px; }
 
 .navbar {
-  background: #2c2e3e;
+  background: #13334c;
   border-radius: 0;
   border: none;
   display: inline-block;
@@ -784,7 +784,7 @@ aside.left-panel {
       padding-left: 30px;
       padding-right: 30px; }
       .navbar .navbar-nav > li.active {
-        background: #292b3a; }
+        background: #005792bd; }
     .navbar .navbar-nav li {
       width: 100%; }
       .navbar .navbar-nav li.active .menu-icon, .navbar .navbar-nav li:hover .toggle_nav_button:before,
@@ -878,7 +878,7 @@ aside.left-panel {
 .navbar .navbar-nav > .active > a,
 .navbar .navbar-nav > .active > a:focus,
 .navbar .navbar-nav > .active > a:hover {
-  color: #03a9f3; }
+  color: #fff; }
 
 .navbar-nav li span.count {
   background: #a9d86e;
@@ -996,13 +996,13 @@ aside.left-panel {
 /* Right panel */
 .right-panel {
   background: #f2f3f8;
-  margin-left: 280px;
+  margin-left: 220px;
   margin-top: 55px; }
   .right-panel .top-left {
     margin-left: -2.3%;
     width: 280px;
     float: left;
-    background: #fff; }
+    background: #f6f6e9; }
   .right-panel .top-rigth {
     float: left; }
   .right-panel .breadcrumbs {
@@ -1034,7 +1034,7 @@ aside.left-panel {
       content: "/\00a0"; }
 
 .right-panel header.header {
-  background: #fff;
+  background: #f6f6e9;
   border-bottom: 1px solid #e8e9ed;
      box-shadow: 0px 1px 15px 1px rgba(69,65,78,0.1);
   clear: both;
@@ -1063,7 +1063,7 @@ aside.left-panel {
   .right-panel .navbar-brand img {
         width: 150px;
         height: 120px;
-        margin-top: -15%}
+        margin-top: -20%}
   .right-panel .navbar-brand.hidden {
     display: none; }
 

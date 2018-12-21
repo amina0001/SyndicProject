@@ -17,6 +17,7 @@ class CreateBuildingsTable extends Migration
             $table->increments('id');
             $table->string('hash', 6)->nullable();
             $table->integer('adress_id');
+            $table->integer('num_app');
             $table->string('name');
             $table->timestamps();
         });

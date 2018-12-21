@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Building;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -11,8 +12,13 @@ use Validator;
 use Image; 
 use View;
 use App\User;
+use App\Addres;
+use App\state;
+use App\City;
 use App\Message;
 use DB;
+use PDF;
+use Carbon\Carbon;
 class depenseController extends Controller
 {
 
@@ -25,10 +31,14 @@ class depenseController extends Controller
     {
         $this->middleware('auth');
     }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function preview()
     {
         $id=auth::user()->building_id;
-        $depenses = depense::where('building_id',$id)->get()->sortByDesc("id");
+        $depenses = depense::where('building_id',$id)->orderBy('date', 'desc')->paginate(5);
         $des=Null;
         $bid = User::where('building_id',$id)->first();
     
@@ -36,7 +46,7 @@ class depenseController extends Controller
             ->join('reunions', 'reunions.user_id', '=', 'users.id')
             ->where('users.building_id','=',auth::user()->building_id)
             ->get()->sortByDesc("id");
-  $notifications=DB::table('reunions')
+          $notifications=DB::table('reunions')
             ->join('notification', 'notification.reunion_id', '=', 'reunions.id')
             ->join('users', 'users.id', '=','notification.user_id')
             ->where('notification.user_id',auth::user()->id)
@@ -56,9 +66,21 @@ class depenseController extends Controller
                 
              }
            }
+        $now = Carbon::now();
+        $year = $now->year;
 
-
-         return view('depense_syndic',compact('depenses','des','reunionsnotif','notifications','i'));
+           $dmonths =Depense::select(DB::raw('MONTH(date) as month,YEAR(date) as year'))
+               ->where('building_id','=',auth::user()->building_id)
+               ->whereYear('date', '=', $year)
+               ->groupBy('month','year')
+               ->get();
+                $month = $now->month;
+        $msg=DB::table('messages')
+            ->join('notificationmsgs', 'notificationmsgs.msg_id', '=', 'messages.id')
+            ->where('notificationmsgs.user_id','=',auth::user()->id)
+            ->orderBy('notificationmsgs.id','dsc')
+            ->first();
+                 return view('depense_syndic',compact('depenses','msg','des','reunionsnotif','notifications','i','dmonths','month','year'));
         
     }
     /**
@@ -92,12 +114,12 @@ class depenseController extends Controller
      * @return void
      */
     public function create(Request $request)
-    {   $this->validate($request, [
+    {   /*$this->validate($request, [
         'titre' => 'required',
         'date' => 'required',
         'price' => 'required',
         'description' => 'required',
-        ]);
+        ]);*/
 
       $id=Auth::user()->building_id;
        $depense = Depense::create([
@@ -141,6 +163,7 @@ class depenseController extends Controller
         }
         else{
     	 $depense = Depense::findOrFail($request->id);
+
          $b_id=Auth::user()->building_id;
     	  
     	  $depense->titre =$request->titre;
@@ -160,9 +183,9 @@ class depenseController extends Controller
 
         $depense->save();
 
-        return response()->json(['success'=>'mettre à jour avec succès']);
-}
-        
+        return back();
+    }
+
         
         /*
         return response()->json(['success'=>'Record is successfully added']);
@@ -180,5 +203,41 @@ class depenseController extends Controller
         $depense =Depense::findOrFail($request->id);
         $depense->delete();
         return back();
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function generatePDF(Request $request)
+    { $now = Carbon::now();
+        $monthStart = $now->month;
+       $year=$now->year;
+       if(strlen($request->month)===2){
+           $depenses = Depense::where('building_id','=',auth::user()->building_id)
+               ->whereMonth('date', '=', (int)$request->month)
+               ->whereYear('date', '=', $year)
+               ->get();
+       }
+       elseif(strlen($request->month)===4){
+           $depenses = Depense::where('building_id','=',auth::user()->building_id)
+               ->whereYear('date', '=', (int)$request->month)
+
+               ->get();
+
+       }
+        $building=Building::where('id','=',auth::user()->building_id)
+            ->first();
+
+        $aid= $building->adress_id;
+
+        $adress = Addres::where('id',$aid)->first();
+        $cty= City::where('id',$adress->city)->first();
+        $st= state::where('id',$adress->state)->first();
+
+        $pdf = PDF::loadView('depensepdf', compact('depenses','building','adress','cty','st'));
+
+        return $pdf->stream('document.pdf');
+//        return $pdf->download('itsolutionstuff.pdf');
     }
 }

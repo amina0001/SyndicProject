@@ -23,7 +23,7 @@ class ReunionController extends Controller
          $reunions=DB::table('users')
             ->join('reunions', 'reunions.user_id', '=', 'users.id')
             ->where('users.building_id','=',auth::user()->building_id)
-            ->get()->sortByDesc("id");
+            ->orderBy('date', 'desc')->paginate(5);
 
         $notifications=DB::table('reunions')
             ->join('notification', 'notification.reunion_id', '=', 'reunions.id')
@@ -45,9 +45,13 @@ class ReunionController extends Controller
                 
              }
            }
-
+        $msg=DB::table('messages')
+            ->join('notificationmsgs', 'notificationmsgs.msg_id', '=', 'messages.id')
+            ->where('notificationmsgs.user_id','=',auth::user()->id)
+            ->orderBy('notificationmsgs.id','dsc')
+            ->first();
        
-        return view('reunion_syndic',compact('reunions','i','notifications'));
+        return view('reunion_syndic',compact('reunions','i','notifications','msg'));
        
     }
     /**
