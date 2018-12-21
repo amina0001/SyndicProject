@@ -195,7 +195,7 @@ height: 120px;margin-top: -60%;margin-left: 30%">
    <div class="user-menu dropdown-menu">
        <a class="nav-link" href="{{ url('/') }}"><i class="fa fa-home"></i>welcome</a>
        @if(auth::user()->role === "Syndic" || auth::user()->role === "Occupant")
-       <a class="nav-link" href="{{ route('home') }}"><i class="fa fa-columns"></i>home</a>
+       <a class="nav-link" href="{{ route('home') }}"><i class="fa fa-columns"></i>Dashboard</a>
        @elseif(auth::user()->role = "admin" )
        <a class="nav-link" href="{{ url('/admin/home') }}"><i class="fa fa-columns"></i>site admin</a>
        @endif

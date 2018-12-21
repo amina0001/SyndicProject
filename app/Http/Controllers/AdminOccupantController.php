@@ -32,9 +32,16 @@ class AdminOccupantController extends Controller
     {
         $building=Building::where('id','=',$request->bid)
             ->first();
-        $app_number=$building->num_app;
+        $buser= User::where('users.building_id','=',$request->bid)
+             ->first();
+
+        if( !empty ( $buser->app_num) )
+        $app_number=$building->num_app-1;
+        else{
+            $app_number=$building->num_app;
+        }
         while($app_number >0){
-            User::create([
+           User::create([
 
                 'app_num' =>  $app_number,
                 'firstname' => "occupant".$app_number,
@@ -46,7 +53,7 @@ class AdminOccupantController extends Controller
             ]);
             $app_number=$app_number-1;
         }
-
+        $occupants=User::where('building_id','=',$request->bid)->get();
         $aid= $building->adress_id;
 
         $adress = Addres::where('id',$aid)->first();
@@ -54,7 +61,7 @@ class AdminOccupantController extends Controller
         $st= state::where('id',$adress->state)->first();
 
 
-        return view('admin.gener_occupant',compact('occupants','building','adress','cty','st'));
+        return view('admin.occupants',compact('occupants','building','adress','cty','st'));
     }
     public function profile(int $id)
     {   $states = state::all();

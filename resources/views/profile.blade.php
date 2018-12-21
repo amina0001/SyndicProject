@@ -18,17 +18,17 @@
                              <div class="row"  style="display: flex
 ">
                   
-                            <div class="col-lg-4">
+                            <div class="col-md-3">
                                 <img src="/images/amina.jpg" style="border-radius: 50%;height: 50%;width: 70%">
                                 <input type="file" name="file" accept="images/*">
                             </div>
-                            <div class="col-lg-8 ">
+                            <div class="col-lg-9">
                                 
                                     <div class="row ">
                                     <div class="col-md-6">
                                     <div class="row form-group ">
-                                        <div class="col col-md-3"><label for="hf-email" class=" form-control-label">Nom:</label></div>
-                                        <div class="col-12 col-md-9"><input type="text"   class="form-control" name="firstname" 
+                                        <div class="col-md-3"><label for="hf-email" class=" form-control-label">Nom:</label></div>
+                                        <div class="col-md-9"><input type="text"   class="form-control" name="firstname"
                                     
                                     value="{{ $user->firstname }}">
 
@@ -41,8 +41,8 @@
                                 </div>
                                  <div class="col-md-6">
                                      <div class="row form-group">
-                                        <div class="col col-md-3"><label for="hf-email" class=" form-control-label">Prenom:</label></div>
-                                        <div class="col-12 col-md-9"><input type="text"  class="form-control" name="lastname" value="{{$user->lastname}}"></div>
+                                        <div class="col-md-3"><label for="hf-email" class=" form-control-label">Prenom:</label></div>
+                                        <div class="col-md-9"><input type="text"  class="form-control" name="lastname" value="{{$user->lastname}}"></div>
                                     </div>
 
                                 </div>
@@ -50,14 +50,14 @@
                                       <div class="row ">
                                     <div class="col-md-6">
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="hf-email" class=" form-control-label">Email</label></div>
-                                        <div class="col-12 col-md-9"><input type="email"   class="form-control" name="email" value="{{$user->email}}"></div>
+                                        <div class="col-md-3"><label for="hf-email" class=" form-control-label">Email</label></div>
+                                        <div class="col-md-9"><input type="email"   class="form-control" name="email" value="{{$user->email}}"></div>
                                     </div>
                                 </div>
                                   <div class="col-md-6">
                                      <div class="row form-group">
-                                        <div class="col col-md-3"><label for="hf-email" class=" form-control-label">Cin:</label></div>
-                                        <div class="col-12 col-md-9"><input type="number" class="form-control"  name="cin" value="{{$user->cin}}"></div>
+                                        <div class="col-md-3"><label for="hf-email" class=" form-control-label">Cin:</label></div>
+                                        <div class="col-md-9"><input type="number" class="form-control"  name="cin" value="{{$user->cin}}"></div>
                                     </div>
                                 </div></div>
                            
@@ -65,19 +65,30 @@
                                 @if( $user->role !== "admin")
 
                                 <div class="row ">
-                                    <div class="col-md-6">
+
+                                    <div class="col-lg-12">
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="hf-password" class=" form-control-label">Building name</label></div>
-                                        <div class="col-12 col-md-9"><input {{$disabl}} type="text" class="form-control" name="building_name" value="{{$building->name}}"></div>
+                                        <div class="col-md-2"><label class=" form-control-label">Building name</label></div>
+                                        <div class="col-md-9"><input {{$disabl}} type="text" class="form-control" name="building_name" value="{{$building->name}}"></div>
+                                    </div>
                                     </div>
                                 </div>
+                                <hr>
+                                    <div class="row ">
                                 <div class="col-md-6">
                                      <div class="row form-group">
-                                        <div class="col col-md-3"><label for="hf-password" class=" form-control-label">Street</label></div>
-                                        <div class="col-12 col-md-9"><input {{$disabl}} type="text"  class="form-control" name="street" value="{{$adress->street}}"></div>
+                                        <div class="col-md-2"><label for="hf-password" class=" form-control-label">Street</label></div>
+                                        <div class="col-md-9"><input {{$disabl}} type="text"  class="form-control" name="street" value="{{$adress->street}}"></div>
                                     </div>
                                 </div>
-                            </div>
+                                    <div class="col-md-6">
+                                        <div class="row form-group">
+                                            <div class="col-md-3"><label for="hf-password" class=" form-control-label">appartement</label></div>
+                                            <div class="col-md-9"><input {{$disabl}} type="text" class="form-control" name="building_name" value="{{$user->app_num}}"></div>
+                                        </div>
+                                    </div>
+                                    </div>
+
                                 @endif
 
 
@@ -86,7 +97,7 @@
                               <div class="row ">
                                     <div class="col-md-6">
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="hf-password" class=" form-control-label">state</label></div>
+                                        <div class="col col-md-2"><label for="hf-password" class=" form-control-label">state</label></div>
                                         <div class="col-12 col-md-9">
                                             <select id="state" {{$disabl}}  class="form-control {{ $errors->has('state') ? ' is-invalid' : '' }} dynamic " name="state"  value="{{ old('state') }}" required autofocus  >
                                             

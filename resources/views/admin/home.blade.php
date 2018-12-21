@@ -63,8 +63,9 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card" style=" max-height: 400px;overflow-y: scroll;">
-                        <div class="card-header">buildings with no occupant</div>
+                        <div class="card-header">Buildings with no occupant</div>
                         <div class="card-body">
+                            @if($buildingempty->isNotEmpty())
                             <table class="table table-bordered">
                                 <tr>
                                <th scope="col">Nom:</th>
@@ -83,6 +84,11 @@
                                     </tr>
                            @endforeach
                             </table>
+                                @else
+                                <div class="alert alert-info" role="alert">
+                                    <strong>info!</strong> il n' y a pas des batiment sans occupants.
+                                </div>
+                                @endif
 
                         </div> <!-- /.card-body -->
                     </div><!-- /.card -->

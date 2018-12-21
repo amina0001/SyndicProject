@@ -53,7 +53,8 @@ class RecetteController extends Controller
     }
     public function preview()
     {    $buser= User::where('users.building_id','=',auth::user()->building_id)
-        ->get();
+                ->whereNotIn('users.app_num', [''])
+                ->get();
 
         $unpaid=DB::table('recette_months')
 
