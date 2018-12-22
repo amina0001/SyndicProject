@@ -14,14 +14,18 @@
 
 Auth::routes();
 /***************************admin************************************/
-Route::post('/admin/occupants', ['as' => 'occupants', 'uses' => 'AdminOccupantController@occupants']);
-Route::post('/admin/gener/occupants', ['as' => 'generOccupant', 'uses' => 'AdminOccupantController@generoccupants']);
 
-Route::post('/admin/occupants/create', ['as' => 'occupantCreate', 'uses' => 'AdminOccupantController@create']);
+Route::group(['prefix'=>'/admin', 'middleware'=>['auth', 'admin']], function(){
+Route::post('/occupants', ['as' => 'occupants', 'uses' => 'AdminOccupantController@occupants']);
+Route::post('/gener/occupants', ['as' => 'generOccupant', 'uses' => 'AdminOccupantController@generoccupants']);
+
+Route::post('/occupants/create', ['as' => 'occupantCreate', 'uses' => 'AdminOccupantController@create']);
+Route::get('/home', 'HomeController@adminHome');
+});
+
 /*Route::get('/admin/occupants', ['as' => 'occupants', 'uses' => 'AdminOccupantController@occupants']);*/
 /***************************end admin************************************/
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/admin/home', 'HomeController@adminHome');
 
 Route::get('/test', 'TestController@index')->name('test');
 Route::get('/fetch/{id}', 'TestController@fetch');

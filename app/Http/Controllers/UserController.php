@@ -24,49 +24,53 @@ class UserController extends Controller
         $notifications=collect();
         $msg=null;
         $reunionsnotif=null;
-        if( $user->role !== "admin"){
-            $bid=auth::user()->building_id;
+        if(Auth::id() == $id) {
+            if ($user->role !== "admin") {
+                $bid = auth::user()->building_id;
 
-            $building = Building::where('id',$bid)->first();
+                $building = Building::where('id', $bid)->first();
 
-            $aid= $building->adress_id;
+                $aid = $building->adress_id;
 
-            $adress = Addres::where('id',$aid)->first();
-            $cty= City::where('id',$adress->city)->first();
-            $st= state::where('id',$adress->state)->first();
-            /*dd($st);*/
-            $reunionsnotif=DB::table('users')
-                ->join('reunions', 'reunions.user_id', '=', 'users.id')
-                ->where('users.building_id','=',auth::user()->building_id)
-                ->get()->sortByDesc("id");
+                $adress = Addres::where('id', $aid)->first();
+                $cty = City::where('id', $adress->city)->first();
+                $st = state::where('id', $adress->state)->first();
+                /*dd($st);*/
+                $reunionsnotif = DB::table('users')
+                    ->join('reunions', 'reunions.user_id', '=', 'users.id')
+                    ->where('users.building_id', '=', auth::user()->building_id)
+                    ->get()->sortByDesc("id");
 
-            $notifications=DB::table('reunions')
-                ->join('notification', 'notification.reunion_id', '=', 'reunions.id')
-                ->join('users', 'users.id', '=','notification.user_id')
-                ->where('notification.user_id',auth::user()->id)
-                ->where('users.building_id','=',auth::user()->building_id)
-                ->get()->sortByDesc("id");
+                $notifications = DB::table('reunions')
+                    ->join('notification', 'notification.reunion_id', '=', 'reunions.id')
+                    ->join('users', 'users.id', '=', 'notification.user_id')
+                    ->where('notification.user_id', auth::user()->id)
+                    ->where('users.building_id', '=', auth::user()->building_id)
+                    ->get()->sortByDesc("id");
 
 
-            $i=0;
-            foreach ($notifications as $n) {
+                $i = 0;
+                foreach ($notifications as $n) {
 
-                if(strtotime(date("Y-m-d")) < strtotime($n->date)){
+                    if (strtotime(date("Y-m-d")) < strtotime($n->date)) {
 
-                    if($n->seen==0){
-                        $i=$i+1;
+                        if ($n->seen == 0) {
+                            $i = $i + 1;
+
+                        }
 
                     }
-
                 }
+                $msg = DB::table('messages')
+                    ->join('notificationmsgs', 'notificationmsgs.msg_id', '=', 'messages.id')
+                    ->where('notificationmsgs.user_id', '=', auth::user()->id)
+                    ->orderBy('notificationmsgs.id', 'dsc')
+                    ->first();
             }
-            $msg=DB::table('messages')
-                ->join('notificationmsgs', 'notificationmsgs.msg_id', '=', 'messages.id')
-                ->where('notificationmsgs.user_id','=',auth::user()->id)
-                ->orderBy('notificationmsgs.id','dsc')
-                ->first();
+            $disabl = auth::user()->role === "Syndic" ? "" : "disabled";
+        }else{
+            return back();
         }
-        $disabl = auth::user()->role === "Syndic" ?  "": "disabled";
         return view('profile', ['user'=>User::findOrFail($id),'states'=>$states,'user'=>$user,'building'=>$building,'adress'=>$adress,'cty'=>$cty,'st'=>$st,'i'=>'$i','msg'=>$msg,'reunionsnotif'=>$reunionsnotif,'notifications'=>$notifications,'disabl'=>$disabl]);
     }
     public function update(Request $request)

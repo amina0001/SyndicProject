@@ -14,7 +14,13 @@ use DB;
 
 use Illuminate\Support\Facades\Auth;
 class AdminOccupantController extends Controller
-{    public function occupants(Request $request)
+{
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    public function occupants(Request $request)
     {
         $occupants=User::where('building_id','=',$request->bid)->get();
         $building=Building::where('id','=',$request->bid)

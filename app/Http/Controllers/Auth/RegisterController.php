@@ -54,11 +54,13 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'lastname' => 'string|max:255',     
             'building_name' => 'required|string|max:255',
-            'state' => 'required',
-            'city' => 'required',
+            'cin'=>'required|min:8|max:8',
+            'state' =>  'required|not_in:0',
+            'city' => 'required|not_in:0',
             'street' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'password-confirm' => 'required|string|min:6|confirmed',
         ]);
     }
 
@@ -82,7 +84,7 @@ class RegisterController extends Controller
             'firstname' => $data['name'],
             'lastname' => $data['lastname'],
             'cin' => $data['cin'],
-            
+            'appart_num' => $data['app_num'],
             'building_id' => $Building->id,
             'role' => "Syndic",
             'email' => $data['email'],

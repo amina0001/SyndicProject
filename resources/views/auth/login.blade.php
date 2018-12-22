@@ -52,28 +52,26 @@
                          <span class="login100-form-title p-b-43">
                         Login to continue
                          </span>
+                        @if ($errors->any())
+
+                            <div class="alert alert-warning" role="alert">
+                                <strong>Attention!</strong> email ou mot de passe est faux ou vide
+                            </div>
+                        @endif
                         @csrf
 
                         <div class="wrap-input100">
                             <input id="email" type="email" class="input100 {{ $errors->has('email') ? ' is-invalid' : '' }}   " name="email" value="{{ old('email') }}" required>
                             <span class="focus-input100"></span>
                             <span class="label-input100">email</span>
-                            @if ($errors->has('email'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('email') }}</strong>
-                                </span>
-                            @endif
+
                         </div>
                     
                      <div class="wrap-input100">
-                        <input id="password" type="password" class="input100{{ $errors->has('password') ? ' is-invalid' : '' }}   " name="password" required>
+                        <input id="password" type="password" class="input100{{ $errors->has('password') ? ' is-invalid' : '' }}   " name="password" required >
                         <span class="focus-input100"></span>
                         <span class="label-input100">password</span>
-                        @if ($errors->has('password'))
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('password') }}</strong>
-                            </span>
-                        @endif
+
                     </div>
 
                         

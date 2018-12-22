@@ -66,47 +66,63 @@
                         <input id="name" type="text" class=" input100{{ $errors->has('name') ? ' is-invalid' : '' }}   " name="name" value="{{ old('name') }}">
                         <span class="focus-input100"></span>
                         <span class="label-input100">name</span>
-                        @if ($errors->has('name'))
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('name') }}</strong>
-                            </span>
-                        @endif
+
                     </div>
-        
+                        @if ($errors->has('name'))
+
+                            <div class="alert alert-warning" role="alert">
+                                <strong>{{ $errors->first('name') }}</strong>
+                            </div>
+
+                        @endif
                 <div class="wrap-input100 " >
                     <input id="lastname" type="text" class=" input100  {{ $errors->has('lastname') ? ' is-invalid' : '' }}  " name="lastname" value="{{ old('lastname') }}">
                     <span class="focus-input100"></span>
                     <span class="label-input100">lastname</span>
-                    @if ($errors->has('lastname'))
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('lastname') }}</strong>
-                        </span>
-                    @endif
+
                 </div>
+                        @if ($errors->has('lastname'))
+
+                                <div class="alert alert-warning" role="alert">
+                                <strong>{{ $errors->first('lastname') }}</strong>
+                            </div>
+
+                        @endif
                 <div class="wrap-input100 " >
                     <input id="cin" type="text" class="input100 {{ $errors->has('cin') ? ' is-invalid' : '' }}" name="cin" value="{{ old('cin') }}">
+
                     <span class="focus-input100"></span>
                     <span class="label-input100">cin</span>
-                    @if ($errors->has('cin'))
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('cin') }}</strong>
-                        </span>
-                    @endif
+
                 </div>
+                        @if ($errors->has('cin'))
+
+                            <div class="alert alert-warning" role="alert">
+                                <strong>{{ $errors->first('cin') }}</strong>
+                            </div>
+                        @endif
+                        <div class="wrap-input100 ">
+                            <input id="app_num" type="text" class="input100 {{ $errors->has('app_num') ? ' is-invalid' : '' }}" name="cin" value="{{ old('app_num') }}">
+                            <span class="focus-input100"></span>
+                            <span class="label-input100">appartement numero</span>
+
+                        </div>
                 <div class="wrap-input100">
                     <input id="building_name" type="text" class="input100 {{ $errors->has('building_name') ? ' is-invalid' : '' }} " name="building_name" value="{{ old('building_name') }}">
                     <span class="focus-input100"></span>
                     <span class="label-input100">Building name</span>
-                    @if ($errors->has('building_name'))
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('building_name') }}</strong>
-                        </span>
-                    @endif
+
                 </div>
-         
+                        @if ($errors->has('building_name'))
+
+
+                            <div class="alert alert-warning" role="alert">
+                                <strong>{{ $errors->first('building_name') }}</strong>
+                            </div>
+                        @endif
                 <div class="wrap-input100">
                     <select id="state"  class="input100 {{ $errors->has('state') ? ' is-invalid' : '' }} dynamic " name="state"  value="{{ old('state') }}" required autofocus style="border:none">
-                        <option>--state--</option> 
+                        <option value="0">--state--</option>
                                    @foreach($states as $state)
                                    <option value="{{$state->id}}">{{ $state->name }}</option>
                                    @endforeach
@@ -114,68 +130,78 @@
                     </select>
                     <span class="focus-input100"></span>
                     <span class="label-input100">state</span>
-                    @if ($errors->has('state'))
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('state') }}</strong>
-                        </span>
-                    @endif
+
                 </div>
+                        @if ($errors->has('state'))
+
+                            <div class="alert alert-warning" role="alert">
+                                <strong>{{ $errors->first('state') }}</strong>
+                            </div>
+                        @endif
                 <div class="wrap-input100">
                     <select id="city"  class="input100 {{ $errors->has('city') ? ' is-invalid' : '' }} dynamic " name="city"  value="{{ old('cty') }}" required autofocus style="border: none">
                                  
-                    <option>--city--</option>           
+                    <option value="0">--city--</option>
                     </select>
                     <span class="focus-input100"></span>
                     <span class="label-input100">city</span>
-                    @if ($errors->has('city'))
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('city') }}</strong>
-                        </span>
-                    @endif
+
                 </div>
+                        @if ($errors->has('city'))
+
+                            <div class="alert alert-warning" role="alert">
+                                <strong>{{ $errors->first('city') }}</strong>
+                            </div>
+                        @endif
             <div class="wrap-input100">
                 <input id="street" type="text" class=" input100{{ $errors->has('street') ? ' is-invalid' : '' }}   " name="street" value="{{ old('street') }}">
                 <span class="focus-input100"></span>
                 <span class="label-input100">street</span>
-                @if ($errors->has('street'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('street') }}</strong>
-                    </span>
-                @endif
+
             </div>
+                        @if ($errors->has('street'))
+
+                            <div class="alert alert-warning" role="alert">
+                                <strong>{{ $errors->first('street') }}</strong>
+                            </div>
+                        @endif
             <div class="wrap-input100">
                 <input id="email" type="email" class="input100 {{ $errors->has('email') ? ' is-invalid' : '' }}   " name="email" value="{{ old('email') }}">
                 <span class="focus-input100"></span>
                 <span class="label-input100">email</span>
-                @if ($errors->has('email'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('email') }}</strong>
-                    </span>
-                @endif
+
             </div>
- 
+                        @if ($errors->has('email'))
+
+                            <div class="alert alert-warning" role="alert">
+                                <strong>{{ $errors->first('email') }}</strong>
+                            </div>
+                        @endif
         <div class="wrap-input100">
             <input id="password" type="password" class="input100{{ $errors->has('password') ? ' is-invalid' : '' }}   " name="password">
             <span class="focus-input100"></span>
             <span class="label-input100">password</span>
-            @if ($errors->has('password'))
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first('password') }}</strong>
-                </span>
-            @endif
-        </div>
-        <div class="wrap-input100">
-            <input id="password-confirm" type="password" class=" input100{{ $errors->has('password') ? ' is-invalid' : '' }}   " name="password_confirmation" >
-            <span class="focus-input100"></span>
-            <span class="label-input100">password confirmation</span>
-            @if ($errors->has('password'))
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first('password-confirm') }}</strong>
-                </span>
-            @endif
-        </div>
 
-                     
+        </div>
+                        @if ($errors->has('password'))
+
+                            <div class="alert alert-warning" role="alert">
+                                <strong>{{ $errors->first('password') }}</strong>
+                            </div>
+                        @endif
+                    <div class="wrap-input100">
+                        <input id="password-confirm" type="password" class=" input100{{ $errors->has('password') ? ' is-invalid' : '' }}   " name="password_confirmation" >
+                        <span class="focus-input100"></span>
+                        <span class="label-input100">password confirmation</span>
+
+                    </div>
+
+                        @if ($errors->has('password-confirm'))
+
+                            <div class="alert alert-warning" role="alert">
+                                <strong>{{ $errors->first('password-confirm') }}</strong>
+                            </div>
+                        @endif
 
           
 

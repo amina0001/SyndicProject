@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 class LoginController extends Controller
 {
     /*
@@ -21,22 +23,6 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    /*public function redirectTo(){
-
-        // User role
-        $role = Auth::user()->role;
-
-        // Check user role
-        switch ($role) {
-            case 'admin':
-                return redirect('/home');
-                break;
-
-            default:
-                return '/login';
-                break;
-        }
-    }*/
     protected $redirectTo = '/';
 
     /*
@@ -48,4 +34,21 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+    /**
+     * Get the failed login response instance.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function validateLogin(Request $request)
+    {    $validator=$this->validate($request,
+        ['password' => 'required|min:6',
+        'email' => 'required|email|unique:users',]);
+
+
+    }
+
+
 }

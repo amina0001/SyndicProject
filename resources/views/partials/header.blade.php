@@ -104,7 +104,7 @@
 <div class="top-left">
 <div class="navbar-header" style="width: 50%">
 <a id="menuToggle" class="menutoggle" style="margin-top: 10%;" ><i class="fa fa-bars"></i></a>
-<a href="{{route('home')}}" ><img src="images/fsmsyndic.png" alt="Logo" style="width: 150px;
+<a href="{{route('home')}}" ><img src="/images/fsmsyndic.png" alt="Logo" style="width: 150px;
 height: 120px;margin-top: -60%;margin-left: 30%">
 </a>
 
