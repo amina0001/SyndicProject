@@ -44,8 +44,11 @@ class LoginController extends Controller
      */
     protected function validateLogin(Request $request)
     {    $validator=$this->validate($request,
-        ['password' => 'required|min:6',
-        'email' => 'required|email|unique:users',]);
+        [
+            'password' => 'required|min:6',
+             'email' => 'required|email',
+        ]
+         );
 
 
     }

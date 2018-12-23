@@ -45,7 +45,7 @@ Route::get('recettes', ['as' => 'recetteSyndic', 'uses' => 'recetteController@pr
 
 Route::post('recette/create', ['as' => 'recetteCreate', 'uses' => 'recetteController@create']);
 Route::get('recette/new', ['as' => 'recetteNew', 'uses' => 'recetteController@new']);
-Route::post('recette/update', ['as' => 'recettesUpdate', 'uses' => 'RecetteController@update']);
+Route::post('recette/update', ['as' => 'recettesUpdate', 'uses' => 'recetteController@update']);
 Route::post('recette/delete', ['as' => 'recetteDelete', 'uses' => 'recetteController@delete']);
 
 /***********************reunion routes**************************/

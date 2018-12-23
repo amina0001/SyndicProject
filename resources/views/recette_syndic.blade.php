@@ -38,7 +38,7 @@
                             <div class="card-header">
                                 <strong class="card-title">Revenu</strong>
                                 @if(Auth::user()->role == "Syndic")
-                                 <button  class="btn btn-success" style="float: right" data-toggle="modal" data-target="#myModal_ajout" >Ajouter un recette</button>
+                                 <button  class="btn btn-success" style="float: right" data-toggle="modal" id="open" data-target="#myModal_ajout" >Ajouter un recette</button>
 
                                    <button  class="btn btn-primary" style="float: right;margin-right:1%" data-toggle="modal" data-target="#myModal_fiche" >Gener fiche</button>
                                    @endif
@@ -101,9 +101,9 @@
 
                                             </td>
                                               @if(Auth::user()->role == "Syndic")
-                                            <td><button class="btn btn-primary" data-toggle="modal" data-target="#myModal_update_recette" data-id="{{ $r->id }}"  data-app="{{ $r->app }}" data-description="{{ $r->description }}" data-date="{{ $r->date }}" data-price="{{ $r->price }}" data-user_id="{{ $r->user_id }}" data-image="{{ $r->image }}">mettre a jour</button></td>
+                                            <td><button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal_update_recette" data-id="{{ $r->id }}"  data-app="{{ $r->app }}" data-description="{{ $r->description }}" data-date="{{ $r->date }}" data-price="{{ $r->price }}" data-user_id="{{ $r->user_id }}" data-image="{{ $r->image }}">mettre a jour</button></td>
                                               <td>
-                                             <button class="btn btn-danger" data-toggle="modal" data-target="#myModal_delete_recette" data-id="{{ $r->id }}">
+                                             <button class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal_delete_recette" data-id="{{ $r->id }}">
                                         Supprimer</button></td>
                                         @endif
                                         </tr>
@@ -206,17 +206,22 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">ajouter</h4>
         </div>
+
         <div class="modal-body">
+            <div class="alert alert-danger" style="display:none"></div>
                         <div class="col-lg-12">
                         <div class="card">
 
+
                             <div class="card-body card-block">
+
                                 <form action="{{route('recetteCreate')  }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
                                 @csrf
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Appartement:</label></div>
                                         <div class="col-12 col-md-9">
                                             <select class="form-control" id="app" name="app">
+                                                <option value="0">--Choisir une appartement--</option>
                                                 @foreach($buser as $b)
 
                                                 <option  value="{{$b->id}}">appartement {{$b->app_num}} </option>
@@ -250,7 +255,7 @@
                                         <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description</label></div>
                                         <div class="col-12 col-md-9"><textarea name="description" id="description" rows="9" placeholder="Content..." class="form-control"></textarea></div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary pull-right">submit</button>
+                                    <button type="submit" id="ajaxSubmit" class="btn btn-primary pull-right">submit</button>
 
 
 
@@ -277,6 +282,7 @@
           <h4 class="modal-title">Mettre a jour</h4>
         </div>
         <div class="modal-body">
+            <div class="alert alert-danger" style="display:none"></div>
                         <div class="col-lg-12">
                         <div class="card">
 
@@ -295,7 +301,8 @@
                                    <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Appartement:</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select class="form-control" id="app" name="app">
+                                            <select class="form-control" id="appup" name="app">
+                                                <option value="0">--Choisir une appartement--</option>
                                                 @foreach($buser as $b)
 
                                                     <option  value="{{$b->id}}">appartement {{$b->app_num}} </option>
@@ -306,13 +313,13 @@
                                     </div>
                                   <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">montant</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="price" name="price" placeholder="Text" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="priceup" name="price" placeholder="Text" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
                                     </div>
                                       <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Date</label></div>
                                         <div class="col-12 col-md-9">
                                         <div class='input-group date' id='datetimepicker2'>
-                                            <input type='text' id="date" name="date" class="form-control" />
+                                            <input type='text' id="dateup" name="date" class="form-control" />
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -328,7 +335,7 @@
                                         <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description</label></div>
                                         <div class="col-12 col-md-9"><textarea name="description" id="description" rows="9" placeholder="Content..." class="form-control"></textarea></div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary  pull-right">mettre a jour</button>
+                                    <button type="submit" class="btn btn-primary  pull-right" id="ajaxSubmitupdate">mettre a jour</button>
 
 
 
@@ -351,7 +358,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
+
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -359,7 +366,7 @@
                 <form  method="post" enctype="multipart/form-data" class="form-horizontal" >
 
       <div class="modal-body">
-        <p>Delete the motherfucker.</p>
+        <p>voulez vous supprimer cette recette?</p>
              @csrf
                <input type="hidden" name="id" id="id" value="">
 
@@ -379,7 +386,7 @@
        <div class="modal-dialog" role="document">
            <div class="modal-content">
                <div class="modal-header">
-                   <h5 class="modal-title">gener fiche des depenses</h5>
+                   <h5 class="modal-title">générer une  fiche des recettes</h5>
                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                        <span aria-hidden="true">&times;</span>
                    </button>
@@ -390,10 +397,10 @@
                    @csrf
                    <div class="modal-body">
                        <select class="form-control" name="month">
-                           <option value="{{$month}}">this month</option>
-                           <option value="{{$year}}">this year</option>
+                           <option value="{{$month}}">ce mois</option>
+                           <option value="{{$year}}">cette année</option>
                            @foreach($dmonths->flatten() as $d)
-                               <option value="{{$d->month}}">{{$d->month}}-{{$d->year}}</option>
+                               <option value="{{$d->month}}">Le mois {{$d->month}} de l'année {{$d->year}}</option>
                            @endforeach
 
                        </select>

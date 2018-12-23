@@ -23,6 +23,9 @@
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/welcome.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+
     <script src="js/modernizr-2.8.3.min.js"></script>
 
     <!--[if lt IE 9]>
@@ -67,24 +70,31 @@
                     <li><a href="#contact-page">Contact</a></li>
                     @if(Auth::check() )
                     @if( Auth::user()->role == "Syndic" || Auth::user()->role == "Occupant" )
-                        <li>
-                        <div class=" dropdown " style="margin-top: 0%">
-                            <button class="dropdown-toggle " data-toggle="dropdown" style="background: transparent;border:none" >
-                                <img src="/images/amina.jpg" style="width:50px;height: 55px;border-radius: 50%;padding-top: 20% ">
-                            </button>
 
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ url('/') }}">welcome</a></li>
-                                <li><a href="{{ route('home') }}">Home</a></li>
-                                <li><a href="{{ route('profile', [Auth::id()]) }}">My Profile</a></li>
+                            <div class="user-area dropdown ">
+                                <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img class="user-avatar rounded-circle" src="/images/amina.jpg" style="width: 50px;height: 50px;">
+                                </a>
 
 
+                                <div class="user-menu dropdown-menu">
 
-                                <li class="divider"></li>
-                                <li ><a href="#">Logout</a><li/>
-                            </ul>
+                                    <a class="nav-link"  href="{{ url('/') }}"><i class="fa fa-home"></i>welcome</a>
+                                    <a class="nav-link"  href="{{ route('home') }}"><i class="fa fa-columns"></i>Home</a>
+                                    <a class="nav-link"  href="{{ route('profile', [Auth::id()]) }}"><i class="fa fa-user"></i>My Profile</a>
+
+                                    <a class="nav-link" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    <i class="fa fa-power-off"></i>  {{ __('Logout') }}
+                                     </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
                         </div>
-                        </li>
+
                     @elseif( Auth::user()->role == "admin" )
                         <li>
                             <div class=" dropdown " style="margin-top: 0%">

@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,12 +22,23 @@ use App\RecetteMonth;
 use PDF;
 use Carbon\Carbon;
 class RecetteController extends Controller
-{ public function __construct()
-{
-    $this->middleware('auth');
-}
+        { public function __construct()
+        {
+            $this->middleware('auth');
+        }
     public function update(Request $request)
-        {  /* dd($request);*/
+        {
+            $validators = Validator::make($request->all(), [
+                'app' =>  'required|not_in:0',
+                'price' => 'required',
+                'date' => 'required|Date',
+
+            ]);
+            if ($validators->fails())
+            {
+                return response()->json(['errors'=>$validators->errors()->all()]);
+            }else {
+
         $recette = Recette::where('id',"=",$request->id)->first();
 
         $recette->user_id =$request->app;
@@ -43,13 +55,19 @@ class RecetteController extends Controller
             $recette->image = $cover->getFilename().'.'.$extension;
 
         }
+            $recetteMonth = RecetteMonth::where('recette_id',"=",$request->id)->first();
+            $recetteMonth->years = date('Y', strtotime($request->date));
+            $recetteMonth->months =date('m', strtotime($request->date));
+            $recetteMonth->user_id =$request->app;
 
 
-        $recette->save();
 
 
+            $recette->save();
+            $recetteMonth->save();
 
         return redirect(route('recetteSyndic'));
+            }
     }
     public function preview()
     {    $buser= User::where('users.building_id','=',auth::user()->building_id)
@@ -158,26 +176,6 @@ class RecetteController extends Controller
 
     }
 
-    /**
-     * formulaire pour ajouter une  depense
-     *
-     * @return view
-     */
-    public function new()
-    {
-
-    }
-    /**
-     * formulaire pour modifier un  depense
-     *
-     * @return view
-     */
-    public function edit($id)
-    {
-
-    }
-
-
 
     /**
      * ajouter une depense
@@ -187,45 +185,59 @@ class RecetteController extends Controller
      */
     public function create(Request $request)
     {
-        $findRM=RecetteMonth::where('user_id',"=",$request->app)
-            ->where('years','=',date('Y', strtotime($request->date)))
-            ->where('months','=',date('m', strtotime($request->date)))
-            ->first();
+        $validator = Validator::make($request->all(), [
+            'app' =>  'required|not_in:0',
+            'price' => 'required|integer',
+            'date' => 'required|Date',
 
-        if($findRM === null){
-/*            dd($findRM);*/
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json(['errors'=>$validator->errors()->all()]);
+        }else {
+            $findRM = RecetteMonth::where('user_id', "=", $request->app)
+                ->where('years', '=', date('Y', strtotime($request->date)))
+                ->where('months', '=', date('m', strtotime($request->date)))
+                ->first();
 
-            $app=$request->app;
-            $users = User::where('app_num',$app)->first();
+            if ($findRM === null) {
+                /*            dd($findRM);*/
 
-            $id=$users->id;
+                $app = $request->app;
+                $users = User::where('app_num', $app)->first();
 
-            $recette = Recette::create([
+                $id = $users->id;
 
-                'price' => $request->montant,
-                'date' => $request->date,
-                'user_id' => $request->app,
-                'description' =>$request->description,
-            ]);
+                $recette = Recette::create([
 
-            if($request->hasFile('image')){
+                    'price' => $request->price,
+                    'date' => $request->date,
+                    'user_id' => $request->app,
+                    'description' => $request->description,
+                ]);
 
-                $cover = $request->file('image');
-                $extension = $cover->getClientOriginalExtension();
-                Storage::disk('public')->put($cover->getFilename().'.'.$extension,  File::get($cover));
-                $recette->image = $cover->getFilename().'.'.$extension;
+                if ($request->hasFile('image')) {
 
-                $recette->save();
-            };
-            $recetteMonth = RecetteMonth::create([
+                    $cover = $request->file('image');
+                    $extension = $cover->getClientOriginalExtension();
+                    Storage::disk('public')->put($cover->getFilename() . '.' . $extension, File::get($cover));
+                    $recette->image = $cover->getFilename() . '.' . $extension;
 
-                'years' => date('Y', strtotime($request->date)),
-                'months' => date('m', strtotime($request->date)),
-                'user_id' => $request->app,
-                'recette_id' =>$recette->id,
-            ]);
+                    $recette->save();
+                };
+                $recetteMonth = RecetteMonth::create([
+
+                    'years' => date('Y', strtotime($request->date)),
+                    'months' => date('m', strtotime($request->date)),
+                    'user_id' => $request->app,
+                    'recette_id' => $recette->id,
+                ]);
+            }
+
+            return redirect(route('recetteSyndic'));
         }
-        return redirect(route('recetteSyndic'));
+
+
     }
     /**
      * modifier une  depense
