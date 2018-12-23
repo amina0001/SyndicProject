@@ -10,7 +10,7 @@
                 <div class="col-sm-4">
                     <div class="page-header float-left">
                         <div class="page-title">
-                            <h1>Dashboard</h1>
+                            <h1>Dépense</h1>
                         </div>
                     </div>
                 </div>
@@ -95,14 +95,14 @@
                                             <td>
 
 
-                                                <button class="btn btn-primary" data-toggle="modal" data-target="#myModal_update_depense" data-id="{{ $d->id }}" data-titre="{{ $d->titre }}"data-description="{{ $d->description }}" data-price="{{ $d->price }}" data-date="{{ $d->date }}" >
+                                                <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal_update_depense" data-id="{{ $d->id }}" data-titre="{{ $d->titre }}"data-description="{{ $d->description }}" data-price="{{ $d->price }}" data-date="{{ $d->date }}" >
                                                     <span class="fa fa-pencil"></span>&nbsp;Modifier</button>
 
                                             </td>
                                             <td>
 
 
-                                                <button class="btn btn-danger" data-toggle="modal" data-target="#myModal_delete_depense" data-id="{{ $d->id }}">
+                                                <button class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal_delete_depense" data-id="{{ $d->id }}">
                                                     Supprimer</button>
 
                                             </td>
@@ -167,6 +167,8 @@
                 <h4 class="modal-title">ajouter</h4>
             </div>
             <div class="modal-body">
+                <div class="alert alert-danger" style="display:none"></div>
+
                 <div class="col-lg-12">
                     <div class="card">
 
@@ -180,7 +182,8 @@
                                     @if ($errors->has('titre'))
                                         <small class="form-text ">{{ $errors->first('titre') }}</small>
                                     @endif--}}
-                                        <select class="form-control" name="titre">
+                                        <select class="form-control" name="titre" id="titled">
+                                            <option disabled selected>--choisir type de depense--</option>
                                             <option disabled> depense fixes</option>
                                             <option value="STEG"> STEG</option>
                                             <option value="SONEDE"> SONEDE</option>
@@ -195,7 +198,7 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="text-input" class=" form-control-label">montant</label></div>
-                                    <div class="col-12 col-md-9"><input type="number" id="montant" name="montant"  class="form-control" value="{{ old('montant') }}"></div>
+                                    <div class="col-12 col-md-9"><input type="number" id="priced" name="price"  class="form-control" value="{{ old('montant') }}"></div>
                                     @if ($errors->has('montant'))
                                         <small class="form-text ">{{ $errors->first('montant') }}</small>
                                     @endif
@@ -204,7 +207,7 @@
                                     <div class="col col-md-3"><label for="text-input" class=" form-control-label">Date</label></div>
                                     <div class="col-12 col-md-9">
                                         <div class='input-group date' id='datetimepicker1'>
-                                            <input type='text' id="date" name="date" class="form-control" />
+                                            <input type='text' id="dated" name="date" class="form-control" />
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -226,8 +229,8 @@
                                     @endif
                                 </div>
 
-                                <button type="submit" class="btn btn-primary pull-right">
-                                    submit
+                                <button type="submit" id="submitajoutdepense" class="btn btn-primary pull-right">
+                                    ajouter
                                 </button>
 
                             </form>
@@ -253,9 +256,8 @@
                 <h4 class="modal-title">Mettre a jour</h4>
             </div>
             <div class="modal-body">
-                <div class="alert alert-danger print-error-msg" style="display:none">
-                    <ul></ul>
-                </div>
+                <div class="alert alert-danger" style="display:none"></div>
+
                 <div class="col-lg-12">
                     <div class="card">
 
@@ -263,22 +265,37 @@
 
                             <form action="{{ route('despenseUpdate') }}" method="post" enctype="multipart/form-data" class="form-horizontal" id=" edit-item">
                                 @csrf
-                                <input type="hidden" name="id" id="id" value="">
+                                <input type="hidden" name="id" id="id" >
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="text-input" class=" form-control-label">Titre</label></div>
-                                    <div class="col-12 col-md-9"><input type="text" id="titre" name="titre" placeholder="Text" class="form-control" value=" "><small class="form-text text-muted"></small></div>
-
+                                    <div class="col-12 col-md-9">{{--<input type="text" id="titre" name="titre" class="form-control" value="{{ old('titre') }}" required><small class="form-text text-muted"></small></div>
+                                    @if ($errors->has('titre'))
+                                        <small class="form-text ">{{ $errors->first('titre') }}</small>
+                                    @endif--}}
+                                        <select class="form-control" name="titre" id="titledup">
+                                            <option disabled selected>--choisir type de depense--</option>
+                                            <option disabled> depense fixes</option>
+                                            <option value="STEG"> STEG</option>
+                                            <option value="SONEDE"> SONEDE</option>
+                                            <option value="Salaire gardient"> Salaire gardient</option>
+                                            <option value="Femme des menages"> Femme des menages</option>
+                                            <option value="Contrat entretien assanceur"> Contrat entretien assanceur</option>
+                                            <option value="Jardinier"> Jardinier</option>
+                                            <option disabled> depense courants</option>
+                                            <option value="entretien assenceur">entretien assenceur</option>
+                                            <option>autre</option>
+                                        </select></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="text-input" class=" form-control-label">montant</label></div>
-                                    <div class="col-12 col-md-9"><input type="number" id="montant" name="montant" placeholder="Text" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
+                                    <div class="col-12 col-md-9"><input type="number" id="pricedup" name="price" placeholder="Text" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
 
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="text-input" class=" form-control-label">Date</label></div>
                                     <div class="col-12 col-md-9">
                                         <div class='input-group date' id='datetimepicker2'>
-                                            <input type='text' id="date" name="date" class="form-control" />
+                                            <input type='text' id="datedup" name="date" class="form-control" />
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -298,7 +315,7 @@
 
                                 </div>
 
-                                <button type="submit"  class="btn btn-primary pull-right">
+                                <button type="submit"  id="submitajoutdepenseup" class="btn btn-primary pull-right">
                                     mettre a jour
                                 </button>
 
@@ -321,7 +338,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">gener fiche des depenses</h5>
+                <h5 class="modal-title">générer fiche des depenses</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -332,16 +349,16 @@
                 @csrf
                 <div class="modal-body">
                     <select class="form-control" name="month">
-                        <option value="{{$month}}">this month</option>
-                        <option value="{{$year}}">this year</option>
+                        <option value="{{$month}}">Ce mois</option>
+                        <option value="{{$year}}">Cette année</option>
                         @foreach($dmonths->flatten() as $d)
-                            <option value="{{$d->month}}">{{$d->month}}-{{$d->year}}</option>
+                            <option value="{{$d->month}}">Le mois {{$d->month}}-{{$d->year}}</option>
                         @endforeach
 
                     </select>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">gener</button>
+                    <button type="submit" class="btn btn-primary">générer</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                 </div>

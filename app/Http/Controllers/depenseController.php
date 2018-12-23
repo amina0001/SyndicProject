@@ -112,34 +112,39 @@ class depenseController extends Controller
      *
      * @param Request $request
      * @return void
-     */
+     **/
     public function create(Request $request)
-    {   /*$this->validate($request, [
+    {    $validators = Validator::make($request->all(), [
         'titre' => 'required',
-        'date' => 'required',
+        'date' => 'required|Date',
         'price' => 'required',
-        'description' => 'required',
-        ]);*/
 
-      $id=Auth::user()->building_id;
-       $depense = Depense::create([
-            'titre' => $request->titre,
-            'price' => $request->montant,
-            'date' => $request->date,
-            'building_id' => $id,
-            'description' =>$request->description,
         ]);
-        if($request->hasFile('image')){
-         
-        $cover = $request->file('image');
-        $extension = $cover->getClientOriginalExtension();
-     Storage::disk('public')->put($cover->getFilename().'.'.$extension,  File::get($cover));
-         $depense->image = $cover->getFilename().'.'.$extension;
-    
-        $depense->save();
-        };
+        if ($validators->fails())
+        {
+            return response()->json(['errors'=>$validators->errors()->all()]);
+        }else {
 
-        return redirect(route('depensesSyndic'));
+            $id = Auth::user()->building_id;
+            $depense = Depense::create([
+                'titre' => $request->titre,
+                'price' => $request->price,
+                'date' => $request->date,
+                'building_id' => $id,
+                'description' => $request->description,
+            ]);
+            if ($request->hasFile('image')) {
+
+                $cover = $request->file('image');
+                $extension = $cover->getClientOriginalExtension();
+                Storage::disk('public')->put($cover->getFilename() . '.' . $extension, File::get($cover));
+                $depense->image = $cover->getFilename() . '.' . $extension;
+
+                $depense->save();
+            };
+
+            return redirect(route('depensesSyndic'));
+        }
 
     }
     /**
@@ -150,48 +155,44 @@ class depenseController extends Controller
     public function update(Request $request)
     {
          $validator = Validator::make($request->all(), [
-            'titre' => 'required',
-            'montant' => 'required',
-            'date'=>'date',
+             'id'=>'required',
+            'titre'=>'required',
+            'price' => 'required',
+            'date'=>'required',
 
           
         ]);
-         
-        if ($validator->fails()) {
-           return back();
-            //return response()->json(['error'=>$validator->errors()->all()]);
-        }
-        else{
-    	 $depense = Depense::findOrFail($request->id);
 
-         $b_id=Auth::user()->building_id;
-    	  
-    	  $depense->titre =$request->titre;
-    	  $depense->price =$request->montant;
-    	  $depense->date =$request->date;
-    	   $depense->description =$request->description;
+        if ($validator->fails())
+        {
+            return response()->json(['errors'=>$validator->errors()->all()]);
+        }
+            $b_id=Auth::user()->building_id;
+            $id=$request->id;
+            $depense = Depense::find($id);
+
+          $depense->description =$request->input('description');
+    	  $depense->titre =$request->input('titre');
+    	  $depense->price =$request->input('price');
+    	  $depense->date =$request->input('date');
+
     	  $depense->building_id =$b_id;
           if($request->hasFile('image')){
-         
-        
+
+
         $cover = $request->file('image');
         $extension = $cover->getClientOriginalExtension();
          Storage::disk('public')->put($cover->getFilename().'.'.$extension,  File::get($cover));
          $depense->image = $cover->getFilename().'.'.$extension;
-          
+
         };
 
         $depense->save();
 
-        return back();
-    }
+        /*    return redirect(route('depensesSyndic'));*/
+            return back();
 
-        
-        /*
-        return response()->json(['success'=>'Record is successfully added']);
-*/
-      
-      
+
     }
     /**
      * supprimer une  depense

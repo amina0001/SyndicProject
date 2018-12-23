@@ -51,11 +51,10 @@
             var date = button.data('date')
             var id = button.data('id')
             var modal = $(this)
-            modal.find('.modal-body #titre').val(titre);
-            modal.find('.modal-body #titre').val(titre);
+            modal.find('.modal-body #titledup').val(titre);
             modal.find('.modal-body #description').val(description);
-            modal.find('.modal-body #price').val(price);
-            modal.find('.modal-body #date').val(date);
+            modal.find('.modal-body #pricedup').val(price);
+            modal.find('.modal-body #datedup').val(date);
             modal.find('.modal-body #id').val(id);
         });
         $('#myModal_delete_depense').on('show.bs.modal', function (event) {
@@ -192,7 +191,7 @@
 <script>
     jQuery(document).ready(function(){
         jQuery('#ajaxSubmitupdate').click(function(e){
-            e.preventDefault();
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -200,7 +199,7 @@
             });
             console.log(jQuery('#price').val());
             jQuery.ajax({
-                url: "{{ url('/recette/create') }}",
+                url: "{{ url('/recette/update') }}",
                 method: 'post',
                 data: {
                     price: jQuery('#priceup').val(),
@@ -210,6 +209,103 @@
                     _token: '{{csrf_token()}}',
 
                 },
+                success: function(result){
+                    if(result.errors)
+                    {
+                        jQuery('.alert-danger').html('');
+
+                        jQuery.each(result.errors, function(key, value){
+                            jQuery('.alert-danger').show();
+                            jQuery('.alert-danger').append('<li>'+value+'</li>');
+                        });
+                        console.log("n1");
+
+                    }
+                    else
+                    {
+                        jQuery('.alert-danger').hide();
+
+                        location.reload();
+                        console.log("n2");
+                    }
+                }});
+        });
+    });
+</script>
+<script>
+    jQuery(document).ready(function(){
+        jQuery('#submitajoutdepense').click(function(e){
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content'),
+                    'id':$('input[name=id]').val(),
+                }
+            });
+            console.log(jQuery('#price').val());
+            jQuery.ajax({
+                url: "{{ url('/depense/create') }}",
+                method: 'post',
+                data: {
+                    titre: jQuery('#titled').val(),
+                    price: jQuery('#priced').val(),
+                    date: jQuery('#dated').val(),
+
+                    _token: '{{csrf_token()}}',
+
+                },
+                success: function(result){
+                    if(result.errors)
+                    {
+                        jQuery('.alert-danger').html('');
+
+                        jQuery.each(result.errors, function(key, value){
+                            jQuery('.alert-danger').show();
+                            jQuery('.alert-danger').append('<li>'+value+'</li>');
+                        });
+                        console.log("n1");
+
+                    }
+                    else
+                    {
+                        jQuery('.alert-danger').hide();
+
+                        location.reload();
+                        console.log("n2");
+                    }
+                }});
+        });
+    });
+
+
+
+
+</script>
+<script>
+
+    jQuery(document).ready(function(){
+        jQuery('#submitajoutdepenseup').click(function(e){
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content'),
+                    'id':$('input[name=id]').val(),
+
+        }
+            });
+            jQuery.ajax({
+                url: "{{ url('/depense/update') }}",
+                method: 'post',
+                data: {
+                    id: jQuery('#id').val(),
+                    titre: jQuery('#titledup').val(),
+                    price: jQuery('#pricedup').val(),
+                    date: jQuery('#datedup').val(),
+
+                    _token: '{{csrf_token()}}',
+
+                },
+
                 success: function(result){
                     if(result.errors)
                     {

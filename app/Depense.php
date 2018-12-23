@@ -13,7 +13,7 @@ class Depense extends Model
      * @var array
      */
     protected $fillable = [
-        'titre','description', 'price', 'date','image','building_id'
+        'titre','description', 'price', 'date','image','building_id','id'
     ];
 /**
      * obtient le technicien du commande
