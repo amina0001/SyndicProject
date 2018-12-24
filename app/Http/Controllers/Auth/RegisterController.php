@@ -54,13 +54,14 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'lastname' => 'string|max:255',     
             'building_name' => 'required|string|max:255',
+            'nb_loc' => 'required',
+            'nb_app' => 'required',
             'cin'=>'required|min:8|max:8',
             'state' =>  'required|not_in:0',
             'city' => 'required|not_in:0',
             'street' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-            'password-confirm' => 'required|string|min:6|confirmed',
         ]);
     }
 
@@ -78,13 +79,15 @@ class RegisterController extends Controller
         ]);
         $Building =  Building::create([
             'name' => $data['building_name'],
+            'num_app' => $data['nb_app'],
+            'num_locaux' => $data['nb_loc'],
             'adress_id' =>$address->id,
             ]);
         return User::create([
             'firstname' => $data['name'],
             'lastname' => $data['lastname'],
             'cin' => $data['cin'],
-            'appart_num' => $data['app_num'],
+            'app_num' => $data['app_num'],
             'building_id' => $Building->id,
             'role' => "Syndic",
             'email' => $data['email'],

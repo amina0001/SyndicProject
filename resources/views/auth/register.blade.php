@@ -101,10 +101,23 @@
                                 <strong>{{ $errors->first('cin') }}</strong>
                             </div>
                         @endif
+
                         <div class="wrap-input100 ">
-                            <input id="app_num" type="text" class="input100 {{ $errors->has('app_num') ? ' is-invalid' : '' }}" name="cin" value="{{ old('app_num') }}">
+                            <input id="nb_app" type="text" class="input100 {{ $errors->has('nb_app') ? ' is-invalid' : '' }}" name="nb_app" value="{{ old('nb_app') }}">
                             <span class="focus-input100"></span>
-                            <span class="label-input100">appartement numero</span>
+                            <span class="label-input100">Nombre des appartements</span>
+
+                        </div>
+                        <div class="wrap-input100 ">
+                            <input id="nb_loc" type="text" class="input100 {{ $errors->has('nb_loc') ? ' is-invalid' : '' }}" name="nb_loc" value="{{ old('nb_loc') }}">
+                            <span class="focus-input100"></span>
+                            <span class="label-input100">Nombre des  locaux commercials</span>
+
+                        </div>
+                        <div class="wrap-input100 ">
+                            <input id="app_num" type="text" class="input100 {{ $errors->has('app_num') ? ' is-invalid' : '' }}" name="app_num" value="{{ old('app_num') }}">
+                            <span class="focus-input100"></span>
+                            <span class="label-input100">numero de votre appartement </span>
 
                         </div>
                 <div class="wrap-input100">
@@ -190,18 +203,12 @@
                             </div>
                         @endif
                     <div class="wrap-input100">
-                        <input id="password-confirm" type="password" class=" input100{{ $errors->has('password') ? ' is-invalid' : '' }}   " name="password_confirmation" >
+                        <input id="password-confirm" type="password" class=" input100{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}   " name="password_confirmation" >
                         <span class="focus-input100"></span>
                         <span class="label-input100">password confirmation</span>
 
                     </div>
 
-                        @if ($errors->has('password-confirm'))
-
-                            <div class="alert alert-warning" role="alert">
-                                <strong>{{ $errors->first('password-confirm') }}</strong>
-                            </div>
-                        @endif
 
           
 

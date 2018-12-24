@@ -75,9 +75,24 @@
                                 </div>
                                 <hr>
                                     <div class="row ">
+                                        <div class="col-md-6">
+                                            <div class="row form-group">
+                                                <div class="col-md-3"><label class=" form-control-label">Nb app</label></div>
+                                                <div class="col-md-9"><input {{$disabl}} type="text"  class="form-control" name="nb_app" value="{{$building->num_app}}"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="row form-group">
+                                                <div class="col-md-3"><label  class=" form-control-label">nb loc</label></div>
+                                                <div class="col-md-9"><input {{$disabl}} type="text" class="form-control" name="nb_loc" value="{{$building->num_locaux}}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <hr>
+                                    <div class="row ">
                                 <div class="col-md-6">
                                      <div class="row form-group">
-                                        <div class="col-md-2"><label for="hf-password" class=" form-control-label">Street</label></div>
+                                        <div class="col-md-3"><label for="hf-password" class=" form-control-label">Street</label></div>
                                         <div class="col-md-9"><input {{$disabl}} type="text"  class="form-control" name="street" value="{{$adress->street}}"></div>
                                     </div>
                                 </div>
@@ -97,18 +112,18 @@
                               <div class="row ">
                                     <div class="col-md-6">
                                     <div class="row form-group">
-                                        <div class="col col-md-2"><label for="hf-password" class=" form-control-label">state</label></div>
+                                        <div class="col col-md-3"><label for="hf-password" class=" form-control-label">state</label></div>
                                         <div class="col-12 col-md-9">
                                             <select id="state" {{$disabl}}  class="form-control {{ $errors->has('state') ? ' is-invalid' : '' }} dynamic " name="state"  value="{{ old('state') }}" required autofocus  >
-                                            
-                                                       
+
+
                                              <option value="{{$st->id}}">{{ $st->name }}</option>
                                                        @foreach($states as $state)
                                                        <option value="{{$state->id}}">{{ $state->name }}</option>
                                                        @endforeach
-                                                       
+
                                         </select>
-                                       
+
                                         @if ($errors->has('state'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('state') }}</strong>
@@ -125,10 +140,10 @@
                                         <div class="col-12 col-md-9">
 
                                             <select id="city" {{$disabl}} class="form-control {{ $errors->has('city') ? ' is-invalid' : '' }} dynamic " name="city"  value="{{ old('cty') }}" required autofocus >
-                                                     
-                                       <option value="{{$cty->id}}">{{$cty->name}}</option>        
+
+                                       <option value="{{$cty->id}}">{{$cty->name}}</option>
                                         </select>
-                                    
+
                                         @if ($errors->has('cty'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('cty') }}</strong>

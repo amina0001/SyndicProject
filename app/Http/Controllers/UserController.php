@@ -71,6 +71,7 @@ class UserController extends Controller
         }else{
             return back();
         }
+
         return view('profile', ['user'=>User::findOrFail($id),'states'=>$states,'user'=>$user,'building'=>$building,'adress'=>$adress,'cty'=>$cty,'st'=>$st,'i'=>'$i','msg'=>$msg,'reunionsnotif'=>$reunionsnotif,'notifications'=>$notifications,'disabl'=>$disabl]);
     }
     public function update(Request $request)
@@ -96,7 +97,8 @@ class UserController extends Controller
             $building = Building::where('id', $bid)->first();
 
             $building->name = $request->building_name;
-
+            $building->num_app = $request->nb_app;
+            $building->num_locaux = $request->nb_loc;
             $aid = $building->adress_id;
             $adress = Addres::where('id', $aid)->first();
             $city = City::where('id', $adress->city)->first();

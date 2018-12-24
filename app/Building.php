@@ -14,7 +14,7 @@ class Building extends Model
      * @var array
      */
     protected $fillable = [
-    	'id','name','adress_id',
+    	'id','name','adress_id','num_app','num_locaux'
         
     ];
 /**
