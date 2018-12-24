@@ -76,13 +76,22 @@ class UserController extends Controller
     }
     public function update(Request $request)
     {        $validator = Validator::make($request->toArray(), [
-            'firstname' => 'required',
-        ]);
+                'firstname' => 'required|string|max:255',
+                'lastname' => 'required|string|max:255',
+                'building_name' => 'required|string|max:255',
+                'num_locaux' => 'required',
+                'num_app' => 'required',
+                'app_num'=>'required',
+                'cin'=>'required|min:8|max:8',
+                'state' =>  'required|not_in:0',
+                'city' => 'required|not_in:0',
+                'street' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255',
+    ]);
          
-        $errros = $validator->errors();
-        
+
         if ($validator->fails()) {
-            return back()->with(['errors'=>$errros]);
+            return back()->with(['errors'=>$validator->errors()]);
         }
 
     
@@ -97,8 +106,8 @@ class UserController extends Controller
             $building = Building::where('id', $bid)->first();
 
             $building->name = $request->building_name;
-            $building->num_app = $request->nb_app;
-            $building->num_locaux = $request->nb_loc;
+            $building->num_app = $request->num_app;
+            $building->num_locaux = $request->num_locaux;
             $aid = $building->adress_id;
             $adress = Addres::where('id', $aid)->first();
             $city = City::where('id', $adress->city)->first();

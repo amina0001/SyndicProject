@@ -54,7 +54,7 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'lastname' => 'string|max:255',     
             'building_name' => 'required|string|max:255',
-            'nb_loc' => 'required',
+            'num_locaux' => 'required',
             'nb_app' => 'required',
             'cin'=>'required|min:8|max:8',
             'state' =>  'required|not_in:0',
