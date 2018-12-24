@@ -52,7 +52,7 @@ Route::post('recette/delete', ['as' => 'recetteDelete', 'uses' => 'recetteContro
 
 Route::get('reunions', ['as' => 'reunionSyndic', 'uses' => 'ReunionController@preview']);
 Route::post('reunion/create', ['as' => 'reunionCreate', 'uses' => 'ReunionController@create']);
-Route::post('reunion/Update', ['as' => 'reunionUpdate', 'uses' => 'ReunionController@update']);
+Route::post('reunion/update', ['as' => 'reunionUpdate', 'uses' => 'ReunionController@update']);
 Route::post('reunion/Seen/{id}', ['as' => 'reunionSeen', 'uses' => 'notificationController@update']);
 
 /***********************reunion routes**************************/

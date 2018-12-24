@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 use App\Reunion;
 use App\notification;
@@ -81,27 +82,37 @@ class ReunionController extends Controller
      * @return void
      */
     public function create(Request $request)
-    { 
-          
-        $reunion=Reunion::create([
-            
-            'date' => $request->date,
-            'category' => $request->category,
-            'user_id'=>auth::user()->id,
-            'description' =>$request->description,
-        ]);
+    {
+        $validator = Validator::make($request->all(), [
+            'category' =>  'required|not_in:0',
+            'description' => 'required',
+            'date' => 'required|Date',
 
-        $users=User::where('building_id',auth::user()->building_id)->get();
-        foreach ($users as $user) {
-          notification::create([
-            
-            'reunion_id'=>$reunion->id,
-            'user_id'=>$user->id,
-            'seen'=>0,
-            
         ]);
+        if ($validator->fails())
+        {
+            return response()->json(['errors'=>$validator->errors()->all()]);
+        }else {
+            $reunion = Reunion::create([
+
+                'date' => $request->date,
+                'category' => $request->category,
+                'user_id' => auth::user()->id,
+                'description' => $request->description,
+            ]);
+
+            $users = User::where('building_id', auth::user()->building_id)->get();
+            foreach ($users as $user) {
+                notification::create([
+
+                    'reunion_id' => $reunion->id,
+                    'user_id' => $user->id,
+                    'seen' => 0,
+
+                ]);
+            }
+            return redirect(route('reunionSyndic'));
         }
-    	return redirect(route('reunionSyndic'));
     }
     /**
      * modifier une  depense
@@ -109,15 +120,27 @@ class ReunionController extends Controller
      * @return view
      */
     public function update(Request $request)
-    {	/*dd($request);*/
-        $reunion = Reunion::findOrFail($request->id);
-       
-          $reunion->user_id =$request->user_id;
-          $reunion->category =$request->category;
-          $reunion->date =$request->date;
-          $reunion->description =$request->description;
-          $reunion->save();
-          return back();
+    {
+        $validator = Validator::make($request->all(), [
+            'category' =>  'required|not_in:0',
+            'description' => 'required',
+            'date' => 'required|Date',
+
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json(['errors'=>$validator->errors()->all()]);
+        }else {
+
+            $reunion = Reunion::where('id',"=",$request->id)->first();
+
+/*            $reunion->user_id = $request->user_id;*/
+            $reunion->category = $request->category;
+            $reunion->date = $request->date;
+            $reunion->description = $request->description;
+            $reunion->save();
+            return back();
+        }
     }
     /**
      * supprimer une  depense

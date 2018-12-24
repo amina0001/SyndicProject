@@ -194,7 +194,8 @@
 
             $.ajaxSetup({
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content'),
+                    'id':$('input[name=id]').val(),
                 }
             });
             console.log(jQuery('#price').val());
@@ -239,7 +240,7 @@
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content'),
-                    'id':$('input[name=id]').val(),
+
                 }
             });
             console.log(jQuery('#price').val());
@@ -328,6 +329,148 @@
                 }});
         });
     });
+</script>
+
+
+
+
+<script type="text/javascript">
+
+    jQuery(document).ready(function ($) {
+        console.log("hhh");
+
+        $('#myModal_update_reunion').on('show.bs.modal', function (event) {
+            console.log("hhh");
+            var button = $(event.relatedTarget)
+            console.log( button.data('id'));
+
+            var description = button.data('description')
+
+            var category = button.data('category')
+            var date = button.data('date')
+            var user_id = button.data('user_id')
+            var id = button.data('id')
+            var modal = $(this)
+
+
+            modal.find('.modal-body #id').val(id);
+            modal.find('.modal-body #categoryrnup').val(category);
+
+            modal.find('.modal-body #descriptionrnup').val(description);
+
+            modal.find('.modal-body #daternup').val(date);
+
+
+        });
+        $('#myModal_delete_reunion').on('show.bs.modal', function (event) {
+
+            var button = $(event.relatedTarget)
+
+            var id = button.data('id')
+            var modal = $(this)
+
+            modal.find('.modal-body #id').val(id);
+
+        });
+
+
+    });
+
+
+</script>
+<script>
+    jQuery(document).ready(function(){
+        jQuery('#submitajoutreunion').click(function(e){
+            console.log("nn");
+
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content'),
+                }
+            });
+            jQuery.ajax({
+                url: "{{ url('/reunion/create') }}",
+                method: 'post',
+                data: {
+                    category: jQuery('#categoryr').val(),
+                    description: jQuery('#descriptionr').val(),
+                    date: jQuery('#dater').val(),
+
+                    _token: '{{csrf_token()}}',
+
+                },
+                success: function(result){
+                    if(result.errors)
+                    {
+                        jQuery('.alert-danger').html('');
+
+                        jQuery.each(result.errors, function(key, value){
+                            jQuery('.alert-danger').show();
+                            jQuery('.alert-danger').append('<li>'+value+'</li>');
+                        });
+                        console.log("n1");
+
+                    }
+                    else
+                    {
+                        jQuery('.alert-danger').hide();
+
+                        location.reload();
+                        console.log("n2");
+                    }
+                }});
+        });
+    });
+
+    jQuery(document).ready(function(){
+        jQuery('#submitupdatereunion').click(function(e){
+            console.log("nn");
+
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content'),
+                    'id':$('input[name=id]').val(),
+
+                }
+            });
+            jQuery.ajax({
+                url: "{{ url('/reunion/update') }}",
+                method: 'post',
+                data: {
+                    category: jQuery('#categoryrnup').val(),
+                    description: jQuery('#descriptionrnup').val(),
+                    date: jQuery('#daternup').val(),
+                    id: jQuery('#id').val(),
+                    _token: '{{csrf_token()}}',
+
+                },
+                success: function(result){
+                    if(result.errors)
+                    {
+                        jQuery('.alert-danger').html('');
+
+                        jQuery.each(result.errors, function(key, value){
+                            jQuery('.alert-danger').show();
+                            jQuery('.alert-danger').append('<li>'+value+'</li>');
+                        });
+                        console.log("n1");
+
+                    }
+                    else
+                    {
+                        jQuery('.alert-danger').hide();
+
+                        location.reload();
+                        console.log("n2");
+                    }
+                }});
+        });
+    });
+
+
+
 </script>
 </body>
 </html>

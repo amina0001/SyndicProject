@@ -44,7 +44,7 @@
 
                     <div class="card-body">
                         @if(auth::user()->role == "Syndic")
-                            <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal_ajout"  style="margin-bottom: 1%;">Ajouter une reunion</button>
+                            <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal_ajout_reunion"  style="margin-bottom: 1%;">Ajouter une reunion</button>
 
 
                         @endif
@@ -81,7 +81,7 @@
                                             <td>{{ $r->description }}</td>
                                             @if(Auth::user()->role == "Syndic")
                                            
-                                            <td><button class="btn btn-primary" data-toggle="modal" data-target="#myModal_update" data-id="{{ $r->id }}" data-user_id="{{ $r->user_id }}" data-category="{{$r->category  }}"
+                                            <td><button class="btn btn-primary" data-toggle="modal" data-target="#myModal_update_reunion" data-id="{{ $r->id }}" data-user_id="{{ $r->user_id }}" data-category="{{$r->category  }}"
                                                 data-role="{{$r->role}}" data-date="{{ $r->date }}" data-approved="{{  $r->approved  }}" data-description="{{ $r->description }}">mettre a jour</button></td>
                                               <td><button class="btn btn-danger">supprimer</button></td>
                                                 @endif
@@ -129,7 +129,7 @@
 
 
 
-    <div class="modal fade" id="myModal_ajout" role="dialog">
+    <div class="modal fade" id="myModal_ajout_reunion" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -137,7 +137,9 @@
           <h4 class="modal-title">ajouter</h4>
         </div>
         <div class="modal-body">
-                        <div class="col-lg-12">
+            <div class="alert alert-danger" style="display:none"></div>
+
+            <div class="col-lg-12">
                         <div class="card">
                             
                             <div class="card-body card-block">
@@ -146,10 +148,16 @@
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Category:</label></div>
                                         <div class="col-md-9">
-                                            <select class="form-control" id="category" name="category">
+                                            <select class="form-control" id="categoryr" name="category">
+                                                <option disabled selected>--choisir category de reunion--</option>
                                                 <option  value="securite">securite</option>
-                                               
-                                                <option value="other">other</option>
+                                                <option  value="Securite">Securite</option>
+                                                <option  value="Dépenses ou recettes">Dépenses ou recettes</option>
+                                                <option value="Réclamation">Réclamation</option>
+                                                <option value="Événement">Événement</option>
+                                                <option value="Prise de conscience">Prise de conscience</option>
+                                                <option value="Autre">Autre</option>
+
                                               </select>
 
                                             <small class="form-text text-muted">This is a help text</small>
@@ -161,7 +169,7 @@
                                         <div class='col-md-9'>
 
                                             <div class='input-group date' id='datetimepicker1'>
-                                                <input type='text' name="date" class="form-control" />
+                                                <input type='text' name="date" id="dater" class="form-control" />
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
@@ -173,9 +181,9 @@
                                   
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description</label></div>
-                                        <div class="col-12 col-md-9"><textarea name="description" id="description" rows="9" placeholder="Content..." class="form-control"></textarea></div>
+                                        <div class="col-12 col-md-9"><textarea name="description" id="descriptionr" rows="9" placeholder="Content..." class="form-control"></textarea></div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary pull-right">Ajouter une reunion</button>
+                                    <button type="submit" id="submitajoutreunion" class="btn btn-primary pull-right">Ajouter une reunion</button>
                                 
                                
                                   
@@ -194,28 +202,7 @@
   </div>
 
 
-
-
-
-
-<script src="js/jquery-2.1.4.min.js"></script>
-
-
-<script src="js/popper.min.js"></script>
-
-
-<script src="js/plugins.js"></script>
-   
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.14.30/js/bootstrap-datetimepicker.min.js"></script>
-
-  
-    <script src="js/main_syndic.js"></script>
-    
-
-     {{--  <script src="js/plugins.js"></script> --}}
-    <div class="modal fade" id="myModal_update" role="dialog">
+    <div class="modal fade" id="myModal_update_reunion" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -223,24 +210,27 @@
           <h4 class="modal-title">Mettre a jour</h4>
         </div>
         <div class="modal-body">
-                        <div class="col-lg-12">
+            <div class="alert alert-danger" style="display:none"></div>
+
+            <div class="col-lg-12">
                         <div class="card">
                             
                             <div class="card-body card-block">
                                 <form action="{{ route('reunionUpdate') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
                                   @csrf
-                                   <div class="row form-group">
-                                       
-                                        <div class="col-md-9"><input type="hidden" id="id" name="id"  class="form-control"></div>
-                                        <div class="col-md-9"><input type="hidden" id="user_id" name="user_id"  class="form-control"></div>
-                                    </div>
-                                      <div class="row form-group">
+                                    <input type="hidden" id="id" name="id"  class="form-control">
+
+                                    <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Category:</label></div>
                                         <div class="col-md-9">
-                                            <select class="form-control" id="category" name="category">
+                                            <select class="form-control" id="categoryrnup" name="category">
+                                                <option disabled selected>--choisir category de reunion--</option>
                                                 <option  value="securite">securite</option>
-                                               
-                                                <option value="other">other</option>
+                                                <option  value="Dépenses ou recettes">Dépenses ou recettes</option>
+                                                <option value="Réclamation">Réclamation</option>
+                                                <option value="Événement">Événement</option>
+                                                <option value="Prise de conscience">Prise de conscience</option>
+                                                <option value="Autre">Autre</option>
                                               </select>
 
                                             <small class="form-text text-muted">This is a help text</small></div>
@@ -250,7 +240,7 @@
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Date</label></div>
                                         <div class="col-md-9">
                                         <div class='input-group date' id='datetimepicker2'>
-                                            <input type='text' id="date" name="date" class="form-control" />
+                                            <input type='text' id="daternup" name="date" class="form-control" />
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -261,9 +251,9 @@
                                   
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description</label></div>
-                                        <div class="col-md-9"><textarea name="description" id="description" rows="9" placeholder="Content..." class="form-control"></textarea></div>
+                                        <div class="col-md-9"><textarea name="description" id="descriptionrnup" rows="9" placeholder="Content..." class="form-control"></textarea></div>
                                     </div>
-                                    <button type="submit" class="btn btn-primary pull-right">Mettre a jour la reunion</button>
+                                    <button type="submit" id="submitupdatereunion" class="btn btn-primary pull-right">Mettre a jour la reunion</button>
                                 
                                
                                   
@@ -281,77 +271,6 @@
       </div>
     </div>
   </div>
-
-<script type="text/javascript">
-        
-    jQuery(document).ready(function ($) {
-        console.log("hhh");
-$(function () {
-                $('#datetimepicker1').datetimepicker({
-                    defaultDate: new Date(),
-                    format: 'YYYY-MM-DD HH:mm:ss',
-
-                    sideBySide: true
-                });
-            });
-          $(function () {
-                $('#datetimepicker2').datetimepicker({
-                    defaultDate: new Date(),
-                    format: 'YYYY-MM-DD HH:mm:ss',
-
-                    sideBySide: true
-                });
-            });
-     $('#myModal_update').on('show.bs.modal', function (event) {
-          console.log("hhh");
-          var button = $(event.relatedTarget)
-           console.log( button.data('id'));
-        
-          var description = button.data('description')
-          
-          var category = button.data('category')
-          var date = button.data('date')
-          var user_id = button.data('user_id')
-          var id = button.data('id')
-          var modal = $(this)
-
-
-          modal.find('.modal-body #id').val(id);
-          modal.find('.modal-body #user_id').val(user_id);
-          modal.find('.modal-body #category').val(category);
-             
-          modal.find('.modal-body #description').val(description);
-       
-          modal.find('.modal-body #date').val(date);
-       
-
-          });
-     $('#myModal_delete').on('show.bs.modal', function (event) {
-          
-          var button = $(event.relatedTarget)
-          
-          var id = button.data('id')
-          var modal = $(this)
-      
-        modal.find('.modal-body #id').val(id);
-
-          });
-     $('#myModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget)
-          
-          var img = button.data('image')
-          var modal = $(this)  
-     $('.modal-body').append('<img class="myImg" style="width:100%;"  src=" /storage/' + img  + '">');
-      });
-   
-      $("#myModal").on("hidden.bs.modal", function(){
-    $(".modal-body").html("");
-    });
-    });
-  
-
-</script>
-
-
-</body>
-</html>
+<!-- Right Panel -->
+@include('partials.footer_scripts')
+@yield('content')
