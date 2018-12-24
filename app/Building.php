@@ -26,7 +26,10 @@ class Building extends Model
     {
         return $this->hasMany('App\Depense', 'Building_id', 'id');
     }
-
+    public function recetteloc()
+    {
+        return $this->hasMany('App\Recetteloc', 'Building_id', 'id');
+    }
     public function user()
     {
         return $this->hasMany('App\User', 'appart_num', 'id');

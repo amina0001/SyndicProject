@@ -19,6 +19,7 @@ use App\Addres;
 use App\City;
 use App\state;
 use App\RecetteMonth;
+use App\Recetteloc;
 use PDF;
 use Carbon\Carbon;
 class RecetteController extends Controller
@@ -69,6 +70,49 @@ class RecetteController extends Controller
         return redirect(route('recetteSyndic'));
             }
     }
+
+
+
+
+    public function updateloc(Request $request)
+    {   /*dd($request);*/
+        $validators = Validator::make($request->all(), [
+            'category' =>  'required|not_in:0',
+            'nom' => 'required|max:50',
+            'price' => 'required',
+
+
+        ]);
+        if ($validators->fails())
+        {
+            return response()->json(['errors'=>$validators->errors()->all()]);
+        }else {
+
+            $recette = Recetteloc::find($request->id);
+
+            $recette->category =$request->category;
+            $recette->nom =$request->nom;
+
+            $recette->price =$request->price;
+            $recette->date =$request->date;
+            $recette->description =$request->description;
+
+            if($request->hasFile('image')){
+
+
+                $cover = $request->file('image');
+                $extension = $cover->getClientOriginalExtension();
+                Storage::disk('public')->put($cover->getFilename().'.'.$extension,  File::get($cover));
+                $recette->image = $cover->getFilename().'.'.$extension;
+
+            }
+
+            $recette->save();
+
+
+            return redirect(route('recetteSyndic'));
+        }
+    }
     public function preview()
     {    $buser= User::where('users.building_id','=',auth::user()->building_id)
                 ->whereNotIn('users.app_num', [''])
@@ -111,6 +155,7 @@ class RecetteController extends Controller
                     $tab =['months' => $p->months  ,'app_num'=> $b->app_num ];
 
                     $shit->push(($tab));
+
 /*                    dd($shit);*/
 
                 }
@@ -118,7 +163,6 @@ class RecetteController extends Controller
 
 
         }
-
         $recettes=DB::table('recettes')
             ->join('users', 'recettes.user_id', '=', 'users.id')
             ->where('users.building_id','=',auth::user()->building_id)
@@ -172,7 +216,10 @@ class RecetteController extends Controller
             ->where('notificationmsgs.user_id','=',auth::user()->id)
             ->orderBy('notificationmsgs.id','dsc')
             ->first();
-        return view('recette_syndic',compact('recettes','msg','reunionsnotif','notifications','i','dmonths','month','year','shit','buser'));
+        $recettesloc=Recetteloc::where('building_id','=',auth::user()->building_id)
+
+            ->paginate(5);
+        return view('recette_syndic',compact('recettes','recettesloc','msg','reunionsnotif','notifications','i','dmonths','month','year','shit','buser'));
 
     }
 
@@ -225,7 +272,7 @@ class RecetteController extends Controller
 
                     $recette->save();
                 };
-                $recetteMonth = RecetteMonth::create([
+                $recetteMonth = Recetteloc::create([
 
                     'years' => date('Y', strtotime($request->date)),
                     'months' => date('m', strtotime($request->date)),
@@ -240,11 +287,43 @@ class RecetteController extends Controller
 
     }
     /**
-     * modifier une  depense
+     * ajouter une  recette exterieur
      *
      * @return view
      */
+    public function createloc(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'category' =>  'required|not_in:0',
+            'nom' =>  'required|string|max:50',
+            'price' => 'required|integer',
+            'date' => 'required|Date',
 
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json(['errors'=>$validator->errors()->all()]);
+        }else {
+
+
+
+                $recetteloc = Recetteloc::create([
+                    'category' => $request->category,
+                    'nom' => $request->nom,
+                    'price' => $request->price,
+                    'date' => $request->date,
+                    'building_id' => auth::user()->building_id,
+                    'description' => $request->description,
+                ]);
+
+
+
+
+            return redirect(route('recetteSyndic'));
+        }
+
+
+    }
     /**
      * supprimer une  depense
      *

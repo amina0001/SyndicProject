@@ -42,6 +42,20 @@
                 sideBySide: true
             });
         });
+        $(function () {
+            $('#datetimepicker3').datetimepicker({
+                defaultDate: new Date(),
+                format: 'YYYY-MM-DD HH:mm:ss',
+                sideBySide: true
+            });
+        });
+        $(function () {
+            $('#datetimepicker4').datetimepicker({
+                defaultDate: new Date(),
+                format: 'YYYY-MM-DD HH:mm:ss',
+                sideBySide: true
+            });
+        });
         $('#myModal_update_depense').on('show.bs.modal', function (event) {
             console.log("update depense");
             var button = $(event.relatedTarget)
@@ -380,6 +394,58 @@
 </script>
 <script>
     jQuery(document).ready(function(){
+        jQuery('#ajoutloc').click(function(e){
+            console.log("nn");
+
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content'),
+                }
+            });
+            jQuery.ajax({
+                url: "{{ url('/recette/loc/create') }}",
+                method: 'post',
+                data: {
+                    category: jQuery('#categoryloc').val(),
+                    nom: jQuery('#nomloc').val(),
+                    price: jQuery('#priceloc').val(),
+                    date: jQuery('#dateloc').val(),
+
+                    _token: '{{csrf_token()}}',
+
+                },
+                success: function(result){
+                    if(result.errors)
+                    {
+                        jQuery('.alert-danger').html('');
+
+                        jQuery.each(result.errors, function(key, value){
+                            jQuery('.alert-danger').show();
+                            jQuery('.alert-danger').append('<li>'+value+'</li>');
+                        });
+                        console.log("n1");
+
+                    }
+                    else
+                    {
+                        jQuery('.alert-danger').hide();
+
+                        location.reload();
+                        console.log("n2");
+                    }
+                }});
+        });
+    });
+
+
+
+
+
+
+
+
+    jQuery(document).ready(function(){
         jQuery('#submitajoutreunion').click(function(e){
             console.log("nn");
 
@@ -470,6 +536,75 @@
     });
 
 
+
+</script>
+
+
+<script>
+
+
+    $('#myModal_update_recette_loc').on('show.bs.modal', function (event) {
+        console.log("update recette loc");
+        var button = $(event.relatedTarget)
+        var nom = button.data('nom')
+        var category = button.data('category')
+        var description = button.data('description')
+        var price = button.data('price')
+        var date = button.data('date')
+        var id = button.data('id')
+        var modal = $(this)
+        modal.find('.modal-body #nomlocup').val(nom);
+        modal.find('.modal-body #categorylocup').val(category);
+        modal.find('.modal-body #descriptionlocup').val(description);
+        modal.find('.modal-body #pricelocup').val(price);
+        modal.find('.modal-body #datelocup').val(date);
+        modal.find('.modal-body #id').val(id);
+    });
+    jQuery(document).ready(function(){
+        jQuery('#updateloc').click(function(event){
+            console.log("nn");
+
+            event.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content'),
+                    'id':$('input[name=id]').val(),
+
+                }
+            });
+
+            jQuery.ajax({
+                url: "{{ url('recette/loc/update') }}",
+                method: 'post',
+                data: {
+                    category: jQuery('#categorylocup').val(),
+                    nom: jQuery('#nomlocup').val(),
+                    price: jQuery('#pricelocup').val(),
+                    _token: '{{csrf_token()}}',
+
+                },
+                success: function(result){
+                    if(result.errors)
+                    {
+                        jQuery('.alert-danger').html('');
+
+                        jQuery.each(result.errors, function(key, value){
+                            jQuery('.alert-danger').show();
+                            jQuery('.alert-danger').append('<li>'+value+'</li>');
+                        });
+                        console.log("n1");
+
+                    }
+                    else
+                    {
+                        jQuery('.alert-danger').hide();
+
+                        location.reload();
+                        console.log("n2");
+                    }
+                }});
+        });
+    });
 
 </script>
 </body>

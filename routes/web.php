@@ -44,6 +44,9 @@ Route::post('depense/delete', ['as' => 'despenseDelete', 'uses' => 'depenseContr
 Route::get('recettes', ['as' => 'recetteSyndic', 'uses' => 'recetteController@preview']);
 
 Route::post('recette/create', ['as' => 'recetteCreate', 'uses' => 'recetteController@create']);
+Route::post('recette/loc/create', ['as' => 'recettelocCreate', 'uses' => 'recetteController@createloc']);
+Route::post('recette/loc/update', ['as' => 'recetteslocUpdate', 'uses' => 'recetteController@updateloc']);
+
 Route::get('recette/new', ['as' => 'recetteNew', 'uses' => 'recetteController@new']);
 Route::post('recette/update', ['as' => 'recettesUpdate', 'uses' => 'recetteController@update']);
 Route::post('recette/delete', ['as' => 'recetteDelete', 'uses' => 'recetteController@delete']);
