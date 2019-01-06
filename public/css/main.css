@@ -370,12 +370,12 @@ input.input100 {
 }
 
 .input100:focus {
-  height: 48px;
+  height: 48px!important;
 }
 
 .input100:focus + .focus-input100 + .label-input100 {
-  top: 14px;
-  font-size: 13px;
+  top: 14px!important;
+  font-size: 13px!important;
 }
 
 .has-val {
@@ -383,9 +383,10 @@ input.input100 {
 }
 
 .has-val + .focus-input100 + .label-input100 {
-  top: 14px;
-  font-size: 13px;
+  top: 14px!important;
+  font-size: 13px!important;
 }
+
 
 /*==================================================================
 [ Restyle Checkbox ]*/

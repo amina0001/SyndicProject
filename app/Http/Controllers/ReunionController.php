@@ -11,6 +11,7 @@ use App\notification;
 
 use DB;
 use App\User;
+use Mail;
 class ReunionController extends Controller
 {
     public $table = "reunions";
@@ -24,7 +25,7 @@ class ReunionController extends Controller
          $reunions=DB::table('users')
             ->join('reunions', 'reunions.user_id', '=', 'users.id')
             ->where('users.building_id','=',auth::user()->building_id)
-            ->orderBy('date', 'desc')->paginate(5);
+            ->orderBy('date', 'desc')->get();
 
         $notifications=DB::table('reunions')
             ->join('notification', 'notification.reunion_id', '=', 'reunions.id')
@@ -147,8 +148,29 @@ class ReunionController extends Controller
      *
      * @return view
      */
-    public function delete(Request $request)
+    public function mail($id)
     {
-        
+        $reunion=Reunion::findOrfail($id);
+        $users=User::where('building_id','=',auth::user()->building_id)->get();
+        $data=array(
+
+
+            'subject'=>$reunion->category,
+            'date'=>$reunion->date,
+            'description'=>$reunion->description,
+        );
+
+        foreach($users as $u){
+          $email=$u->email;
+
+            Mail::send('reunion_email',$data,function ($message) use($email)
+            {
+                $message->from(env('MAIL_USERNAME', 'syndictn@gmail.com'));
+                $message->to($email)->subject('réunion');
+            }
+            );
+
+        }
+        return back()->with('success','sucesss');
     }
 }

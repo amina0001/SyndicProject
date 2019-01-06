@@ -7,14 +7,14 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'SyndicTN') }}</title>
 
     <!-- Scripts -->
  
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
-      <link rel="stylesheet" href="css/syn/bootstrap.min.css">
+      <link rel="stylesheet" href="/css/syn/bootstrap.min.css">
 <!--===============================================================================================-->
 
 
@@ -35,13 +35,15 @@
 <!--===============================================================================================-->    
     <link rel="stylesheet" href="/css/chat.css">
 
-	<link rel="stylesheet" type="text/css" href="css/util.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="/css/util.css">
+	<link rel="stylesheet" type="text/css" href="/css/main.css">
 <!--===============================================================================================-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- Styles -->
+{{--
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    
+--}}
+
     <script>
         window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
@@ -158,16 +160,16 @@
     animation-name: zoom;
     animation-duration: 0.6s;
 }
-
+/*
 @-webkit-keyframes zoom {
-    from {-webkit-transform:scale(0)} 
+    from {-webkit-transform:scale(0)}
     to {-webkit-transform:scale(1)}
 }
 
 @keyframes zoom {
-    from {transform:scale(0)} 
+    from {transform:scale(0)}
     to {transform:scale(1)}
-}
+}*/
 
 /* The Close Button */
 .close {
@@ -194,7 +196,7 @@
 }
 </style>
 </head>
-<body>
+<body style=" background-color: #f8fafc;">
 
     <div id="app">
        
@@ -212,7 +214,7 @@
                         Copyright &copy;
                     </div>
                     <div class="col-sm-6 text-right">
-                        Designed by <a href="https://colorlib.com">Colorlib</a>
+                        Designed by <a href="https://colorlib.com">SyndicTn</a>
                     </div>
                 </div>
             </div>
@@ -220,13 +222,13 @@
 
     </div>
     <!--===============================================================================================-->
-        <script src="js/jquery-2.1.4.min.js"></script>
+        <script src="/js/jquery-2.1.4.min.js"></script>
 
 
-     <script src="js/bootstrap.min.js"></script>
+     <script src="/js/bootstrap.min.js"></script>
 
-    <script src="js/popper.min.js"></script>
-    <script src="js/plugins.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/plugins.js"></script>
        
 
 	
@@ -237,8 +239,9 @@
 <!--===============================================================================================-->
 
     
-    <script src="js/main_syndic.js"></script>
-	<script src="js/main.js"></script>
+    <script src="/js/main_syndic.js"></script>
+	<script src="/js/main.js"></script>
+
 
      
 

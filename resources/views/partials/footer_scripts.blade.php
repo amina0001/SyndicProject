@@ -71,6 +71,12 @@
             modal.find('.modal-body #datedup').val(date);
             modal.find('.modal-body #id').val(id);
         });
+        $("#myModal_update_depense").on("hidden.bs.modal", function(){
+
+            jQuery('.alert-danger').hide();
+
+
+        });
         $('#myModal_delete_depense').on('show.bs.modal', function (event) {
 
             var button = $(event.relatedTarget)
@@ -89,13 +95,18 @@
         });
 
         $("#myModal").on("hidden.bs.modal", function(){
-            $(".modal-body").html("");
+            jQuery('.alert-danger').hide();
+
+
         });
+
     });
 
 </script>
 {{--
 /******************************************depense js**********************************************************/--}}
+
+
 
 {{--
 /******************************************recette js**********************************************************/--}}
@@ -141,6 +152,13 @@
             modal.find('.modal-body #priceup').val(price);
             modal.find('.modal-body #dateup').val(date);
 
+
+        });
+        $("#myModal_ajout").on("hidden.bs.modal", function(){
+            jQuery('.alert-danger').hide();
+        });
+        $("#myModal_update_recette").on("hidden.bs.modal", function(){
+            jQuery('.alert-danger').hide();
 
         });
         $('#myModal_delete_recette').on('show.bs.modal', function (event) {
@@ -244,6 +262,20 @@
                         console.log("n2");
                     }
                 }});
+        });
+
+
+
+
+        $("#myModal_update_reunion").on("hidden.bs.modal", function(){
+            jQuery('.alert-danger').hide();
+
+
+        });
+        $("#myModal_ajout_reunion").on("hidden.bs.modal", function(){
+            jQuery('.alert-danger').hide();
+
+
         });
     });
 </script>
@@ -558,7 +590,7 @@
         modal.find('.modal-body #descriptionlocup').val(description);
         modal.find('.modal-body #pricelocup').val(price);
         modal.find('.modal-body #datelocup').val(date);
-        modal.find('.modal-body #id').val(id);
+        modal.find('.modal-body #idlocup').val(id);
     });
     jQuery(document).ready(function(){
         jQuery('#updateloc').click(function(event){
@@ -580,6 +612,8 @@
                     category: jQuery('#categorylocup').val(),
                     nom: jQuery('#nomlocup').val(),
                     price: jQuery('#pricelocup').val(),
+                    date:jQuery('#datelocup').val(),
+                    id: jQuery('#idlocup').val(),
                     _token: '{{csrf_token()}}',
 
                 },
@@ -606,6 +640,16 @@
         });
     });
 
+    $(document).ready(function () {
+        $('#dtBasicExample').DataTable();
+        $('#dtBasicExample1').DataTable();
+        $('#dtBasicExample2').DataTable();
+
+
+    });
+    $(document).ready(function(){
+        $('[data-tooltip="tooltip"]').tooltip();
+    });
 </script>
 </body>
 </html>

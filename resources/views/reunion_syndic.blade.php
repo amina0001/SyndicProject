@@ -38,20 +38,19 @@
                         <div class="card">
                             <div class="card-header">
                                 <strong class="card-title">Reunion</strong>
-                                
+                                @if(auth::user()->role == "Syndic")
+                                    <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal_ajout_reunion"  style="margin-bottom: 1%;"><i class="fa fa-plus-square"></i> Ajouter une reunion</button>
+
+
+                                @endif
                             </div>
 
-
                     <div class="card-body">
-                        @if(auth::user()->role == "Syndic")
-                            <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal_ajout_reunion"  style="margin-bottom: 1%;">Ajouter une reunion</button>
 
-
-                        @endif
 
                         @if($reunions->isNotEmpty())
 
-                           <table id="bootstrap-data-table" class="table table-striped table-bordered" >
+                           <table id="dtBasicExample"  class="table table-striped table-bordered" style="width:100%" >
                                     <thead>
                                         <tr>
                                             <th>category</th>
@@ -62,6 +61,7 @@
                                             @if(Auth::user()->role == "Syndic")
                                             <th></th>   
                                             <th></th>
+                                                <th></th>
                                             @endif
                                         </tr>
                                     </thead>
@@ -82,8 +82,9 @@
                                             @if(Auth::user()->role == "Syndic")
                                            
                                             <td><button class="btn btn-primary" data-toggle="modal" data-target="#myModal_update_reunion" data-id="{{ $r->id }}" data-user_id="{{ $r->user_id }}" data-category="{{$r->category  }}"
-                                                data-role="{{$r->role}}" data-date="{{ $r->date }}" data-approved="{{  $r->approved  }}" data-description="{{ $r->description }}">mettre a jour</button></td>
-                                              <td><button class="btn btn-danger">supprimer</button></td>
+                                                data-role="{{$r->role}}" data-date="{{ $r->date }}" data-approved="{{  $r->approved  }}" data-description="{{ $r->description }}" data-tooltip="tooltip" title="modifier!"><i class="fa fa-edit"></i></button></td>
+                                              <td><button class="btn btn-danger" data-tooltip="tooltip" title="supprimer!"><i class="fa fa-trash"></i></button></td>
+                                                <td><button type="submit" class="btn btn-success" onclick="window.location='{{ route("reunionMail", $r->id) }}'" data-tooltip="tooltip" title="envoyer email"><i class="fa fa-envelope"></i></button></td>
                                                 @endif
                                         </tr>
                                    
@@ -91,10 +92,9 @@
                                        
                                     </tbody>
                                 </table>
-                    {{$reunions->render()}}
                             @else
                                 <div class="alert alert-info" role="alert">
-                                    <strong>Desolé.</strong> il y a pas de depenses.
+                                    <strong>Desolé.</strong> il y a pas de réunion.
                                 </div>
                             @endif
                             </div>

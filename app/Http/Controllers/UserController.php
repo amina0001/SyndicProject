@@ -68,11 +68,18 @@ class UserController extends Controller
                     ->first();
             }
             $disabl = auth::user()->role === "Syndic" ? "" : "disabled";
+            $readonly="";
+            if($disabl === "disabled"){
+                $readonly="readonly";
+            }
+           else{
+               $readonly="";
+                }
         }else{
             return back();
         }
 
-        return view('profile', ['user'=>User::findOrFail($id),'states'=>$states,'user'=>$user,'building'=>$building,'adress'=>$adress,'cty'=>$cty,'st'=>$st,'i'=>'$i','msg'=>$msg,'reunionsnotif'=>$reunionsnotif,'notifications'=>$notifications,'disabl'=>$disabl]);
+        return view('profile', ['user'=>User::findOrFail($id),'readonly'=>$readonly,'states'=>$states,'user'=>$user,'building'=>$building,'adress'=>$adress,'cty'=>$cty,'st'=>$st,'i'=>'$i','msg'=>$msg,'reunionsnotif'=>$reunionsnotif,'notifications'=>$notifications,'disabl'=>$disabl]);
     }
     public function update(Request $request)
     {        $validator = Validator::make($request->toArray(), [

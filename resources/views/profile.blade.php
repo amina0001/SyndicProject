@@ -83,7 +83,7 @@
                                     <div class="col-lg-12">
                                     <div class="row form-group">
                                         <div class="col-md-2"><label class=" form-control-label">Building name</label></div>
-                                        <div class="col-md-9"><input {{$disabl}} type="text" class="form-control" name="building_name" value="{{$building->name}}">
+                                        <div class="col-md-9"><input  {{$readonly}} type="text" class="form-control" name="building_name" value="{{$building->name}}">
                                             @if ($errors->has('building_name'))
                                                 <small class="form-text" style="color:red">{{ $errors->first('building_name') }}</small>
                                             @endif
@@ -96,7 +96,7 @@
                                         <div class="col-md-6">
                                             <div class="row form-group">
                                                 <div class="col-md-3"><label class=" form-control-label">Nb app</label></div>
-                                                <div class="col-md-9"><input {{$disabl}} type="text"  class="form-control" name="num_app" value="{{$building->num_app}}">
+                                                <div class="col-md-9"><input {{$readonly}} type="text"  class="form-control" name="num_app" value="{{$building->num_app}}">
                                                     @if ($errors->has('num_app'))
 
                                                         <small class="form-text" style="color:red">{{ $errors->first('num_app') }}</small>
@@ -109,7 +109,7 @@
                                         <div class="col-md-6">
                                             <div class="row form-group">
                                                 <div class="col-md-3"><label  class=" form-control-label">nb loc</label></div>
-                                                <div class="col-md-9"><input {{$disabl}} type="text" class="form-control" name="num_locaux" value="{{$building->num_locaux}}">
+                                                <div class="col-md-9"><input {{$readonly}} type="text" class="form-control" name="num_locaux" value="{{$building->num_locaux}}">
                                                     @if ($errors->has('num_locaux'))
                                                         <small class="form-text" style="color:red">{{ $errors->first('num_locaux') }}</small>
 
@@ -125,7 +125,7 @@
                                 <div class="col-md-6">
                                      <div class="row form-group">
                                         <div class="col-md-3"><label  class=" form-control-label">Street</label></div>
-                                        <div class="col-md-9"><input {{$disabl}} type="text"  class="form-control" name="street" value="{{$adress->street}}">
+                                        <div class="col-md-9"><input {{$readonly}} type="text"  class="form-control" name="street" value="{{$adress->street}}">
 
                                             @if ($errors->has('street'))
                                                 <small class="form-text" style="color:red">{{ $errors->first('street') }}</small>
@@ -138,7 +138,7 @@
                                     <div class="col-md-6">
                                         <div class="row form-group">
                                             <div class="col-md-3"><label  class=" form-control-label">appartement</label></div>
-                                            <div class="col-md-9"><input {{$disabl}} type="text" class="form-control" name="app_num" value="{{$user->app_num}}">
+                                            <div class="col-md-9"><input  type="text" class="form-control" name="app_num" value="{{$user->app_num}}">
                                                 @if ($errors->has('app_num'))
                                                     <small class="form-text" style="color:red">{{ $errors->first('app_num') }}</small>
 
@@ -159,7 +159,7 @@
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="hf-password" class=" form-control-label">state</label></div>
                                         <div class="col-12 col-md-9">
-                                            <select id="state" {{$disabl}}  class="form-control {{ $errors->has('state') ? ' is-invalid' : '' }} dynamic " name="state"  value="{{ old('state') }}" required autofocus  >
+                                            <select id="state" {{$readonly}}  class="form-control {{ $errors->has('state') ? ' is-invalid' : '' }} dynamic " name="state"  value="{{ old('state') }}" required autofocus  >
 
 
                                              <option value="{{$st->id}}">{{ $st->name }}</option>
@@ -184,7 +184,7 @@
                                         </div>
                                         <div class="col-12 col-md-9">
 
-                                            <select id="city" {{$disabl}} class="form-control {{ $errors->has('city') ? ' is-invalid' : '' }} dynamic " name="city"  value="{{ old('cty') }}" required autofocus >
+                                            <select id="city" {{$readonly}} class="form-control {{ $errors->has('city') ? ' is-invalid' : '' }} dynamic " name="city"  value="{{ old('cty') }}" required autofocus >
 
                                        <option value="{{$cty->id}}">{{$cty->name}}</option>
                                         </select>

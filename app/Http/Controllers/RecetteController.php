@@ -22,6 +22,7 @@ use App\RecetteMonth;
 use App\Recetteloc;
 use PDF;
 use Carbon\Carbon;
+use Mail;
 class RecetteController extends Controller
         { public function __construct()
         {
@@ -80,13 +81,14 @@ class RecetteController extends Controller
             'category' =>  'required|not_in:0',
             'nom' => 'required|max:50',
             'price' => 'required',
-
+            'date' => 'required|Date',
 
         ]);
         if ($validators->fails())
         {
             return response()->json(['errors'=>$validators->errors()->all()]);
         }else {
+/*            dd($request);*/
 
             $recette = Recetteloc::find($request->id);
 
@@ -152,7 +154,7 @@ class RecetteController extends Controller
 
                 if($i===0){
                     /*    $shit->push($b);*/
-                    $tab =['months' => $p->months  ,'app_num'=> $b->app_num ];
+                    $tab =['months' => $p->months  ,'app_num'=> $b->app_num,'email'=>$b->email ];
 
                     $shit->push(($tab));
 
@@ -163,13 +165,14 @@ class RecetteController extends Controller
 
 
         }
+
         $recettes=DB::table('recettes')
             ->join('users', 'recettes.user_id', '=', 'users.id')
             ->where('users.building_id','=',auth::user()->building_id)
             ->select('recettes.id as id','recettes.user_id as user_id', 'users.app_num as app', 'recettes.price as price', 'recettes.date as date', 'recettes.description as description', 'recettes.image as image')
 
             ->orderBy('date', 'desc')
-            ->paginate(5);
+            ->get();
 
 
         $reunionsnotif=DB::table('users')
@@ -218,7 +221,7 @@ class RecetteController extends Controller
             ->first();
         $recettesloc=Recetteloc::where('building_id','=',auth::user()->building_id)
 
-            ->paginate(5);
+            ->get();
         return view('recette_syndic',compact('recettes','recettesloc','msg','reunionsnotif','notifications','i','dmonths','month','year','shit','buser'));
 
     }
@@ -369,5 +372,23 @@ class RecetteController extends Controller
 
         return $pdf->stream('document.pdf');
 //        return $pdf->download('itsolutionstuff.pdf');
+    }
+
+
+
+    public function mail($email)
+    {
+
+
+
+            Mail::send('recette_email',[],function ($message) use($email)
+            {
+                $message->from(env('MAIL_USERNAME', 'syndictn@gmail.com'));
+                $message->to($email)->subject('alert');
+            }
+            );
+
+
+        return back()->with('success','sucesss');
     }
 }

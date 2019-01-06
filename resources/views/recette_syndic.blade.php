@@ -10,7 +10,7 @@
                     <div class="col-sm-4">
                         <div class="page-header float-left">
                             <div class="page-title">
-                                <h1>Revenu</h1>
+                                <h1>Recette</h1>
                             </div>
                         </div>
                     </div>
@@ -19,8 +19,8 @@
                             <div class="page-title">
                                 <ol class="breadcrumb text-right">
                                     <li><a href="#">Dashboard</a></li>
-                                    <li><a href="#">Revenu</a></li>
-                                    <li class="active">liste de Revenu</li>
+                                    <li><a href="#">Recette</a></li>
+                                    <li class="active">liste des Recettes</li>
                                 </ol>
                             </div>
                         </div>
@@ -36,17 +36,21 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
+
                                 <strong class="card-title">Revenu</strong>
                                 @if(Auth::user()->role == "Syndic")
-                                 <button  class="btn btn-success" style="float: right" data-toggle="modal" id="open" data-target="#myModal_ajout" >Ajouter un recette d'une appartement </button>
-                                    <button  class="btn btn-primary" style="float: right" data-toggle="modal" id="open" data-target="#myModal_ajout_plus" >Ajouter un recette plus </button>
+                                 <button  class="btn btn-success" style="float: right" data-toggle="modal" id="open" data-target="#myModal_ajout" ><i class="fa fa-plus-square"></i> Ajouter un recette d'une appartement </button>
+                                    <button  class="btn btn-primary" style="float: right;margin-right:1%" data-toggle="modal" id="open" data-target="#myModal_ajout_plus" ><i class="fa fa-plus-square"></i> Ajouter un recette plus </button>
 
-                                    <button  class="btn btn-primary" style="float: right;margin-right:1%" data-toggle="modal" data-target="#myModal_fiche" >Gener fiche</button>
+                                    <button  class="btn btn-primary" style="float: right;margin-right:1%" data-toggle="modal" data-target="#myModal_fiche" ><i class="fa fa-print"></i> Gener fiche</button>
                                    @endif
                             </div>
                             <div class="card-body  ">
                                 @if($recettes->isNotEmpty())
-                                <table id="bootstrap-data-table" class="table table-striped table-bordered col-md-9">
+                                    <h3 >les recettes des apparetement payé : </h3>
+                                <br>
+
+                                    <table id="dtBasicExample"  class="table table-striped table-bordered" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>Appartement</th>
@@ -59,6 +63,7 @@
                                             @if(Auth::user()->role == "Syndic")
                                             <th></th>
                                             <th></th>
+
                                             @endif
                                         </tr>
                                     </thead>
@@ -102,29 +107,70 @@
 
                                             </td>
                                               @if(Auth::user()->role == "Syndic")
-                                            <td><button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal_update_recette" data-id="{{ $r->id }}"  data-app="{{ $r->app }}" data-description="{{ $r->description }}" data-date="{{ $r->date }}" data-price="{{ $r->price }}" data-user_id="{{ $r->user_id }}" data-image="{{ $r->image }}">mettre a jour</button></td>
+                                            <td><button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal_update_recette" data-id="{{ $r->id }}"  data-app="{{ $r->app }}" data-description="{{ $r->description }}" data-date="{{ $r->date }}" data-price="{{ $r->price }}" data-user_id="{{ $r->user_id }}" data-image="{{ $r->image }}" data-tooltip="tooltip" title="modifier!"><i class="fa fa-edit"></i></button></td>
                                               <td>
-                                             <button class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal_delete_recette" data-id="{{ $r->id }}">
-                                        Supprimer</button></td>
-                                        @endif
+                                             <button class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal_delete_recette" data-id="{{ $r->id }}" data-tooltip="tooltip" title="supprimer!">
+                                                 <i class="fa fa-trash"></i></button></td>
+
+                                            @endif
                                         </tr>
 
                                        @endforeach
                                     </tbody>
 
                                 </table>
-                                    {{ $recettes->render()}}
-                                @else
-                                    <div class="alert alert-info" role="alert">
-                                        <strong>Desolé.</strong> il y a pas de recettes.
-                                    </div>
+
+
                                     @endif
 
-                                    <hr>
-                                    @if($recettes->isNotEmpty())
-                                        <h1 class="display-4">les recettes des locaux commercial ou sponsore non payé : </h1><br>
 
-                                        <table id="bootstrap-data-table" class="table table-striped table-bordered col-md-9">
+                                    <div >
+
+                                        @if($shit->isNotEmpty())
+                                            <hr class="style-seven">
+                                            <h3>les appartements non payé :</h3>
+                                            <br>
+
+                                            <table id="dtBasicExample2"  class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                                                <thead>
+                                                <tr>
+
+                                                    <th  class="th-sm">Apprtement</th>
+                                                    <th  class="th-sm">Month</th>
+                                                    <th  ></th>
+                                                    <th></th>
+
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @foreach($shit as $s)
+                                                    <tr>
+                                                        {{--{{dd($shit)}}--}}
+
+                                                        <td>{{$s['app_num']}}</td>
+                                                        <td>{{$s['months']}}</td>
+                                                        <td>
+
+                                                            <img  src="images/waitting.png"> Waitting
+                                                        </td>
+                                                        <td>
+
+                                                            <button type="submit" class="btn btn-success pull-right" onclick="window.location='{{ route("recetteMail", $s['email']) }}'" data-tooltip="tooltip" title="Alerter les appartements non payé" ><i class="fa fa-envelope"></i></button></td>
+
+                                                    </tr>
+                                                @endforeach
+                                                </tbody>
+                                            </table>
+
+
+                                        @endif
+
+                                    </div>
+                                    @if($recettes->isNotEmpty())
+                                        <hr class="style-seven">
+                                        <h3 >les recettes des locaux commercial ou sponsore non payé : </h3>
+                                    <br>
+                                        <table id="dtBasicExample1"  class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                                             <thead>
                                             <tr>
                                                 <th>category</th>
@@ -190,10 +236,10 @@
 
                                                     </td>
                                                     @if(Auth::user()->role == "Syndic")
-                                                        <td><button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal_update_recette_loc" data-id="{{ $r->id }}"  data-category="{{ $r->category }}" data-description="{{ $r->description }}" data-date="{{ $r->date }}" data-price="{{ $r->price }}" data-building_id="{{ $r->building_id }}" data-nom="{{ $r->nom}}" data-image="{{ $r->image }}">mettre a jour</button></td>
+                                                        <td><button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal_update_recette_loc" data-id="{{ $r->id }}"  data-category="{{ $r->category }}" data-description="{{ $r->description }}" data-date="{{ $r->date }}" data-price="{{ $r->price }}" data-building_id="{{ $r->building_id }}" data-nom="{{ $r->nom}}" data-image="{{ $r->image }}" data-tooltip="tooltip" title="modifier!"><i class="fa fa-edit"></i></button></td>
                                                         <td>
-                                                            <button class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal_delete_recette_loc" data-id="{{ $r->id }}">
-                                                                Supprimer</button></td>
+                                                            <button class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal_delete_recette_loc" data-id="{{ $r->id }}" data-tooltip="tooltip" title="supprimer!">
+                                                                <i class="fa fa-trash"></i></button></td>
                                                     @endif
                                                 </tr>
 
@@ -202,52 +248,16 @@
 
                                         </table>
 
-                                        {{ $recettesloc->render()}}
+
                                     @else
                                         <div class="alert alert-info" role="alert">
                                             <strong>Desolé.</strong> il y a pas de recettes.
                                         </div>
                                     @endif
 
-                            </div>
-                            <hr>
-
-                            <div >
-
-                                @if($shit->isNotEmpty())
-
-                                    <h1 class="display-4">les appartements non payé : </h1><br>
-                                    <table class="table table-bordered">
-                                        <thead>
-                                        <tr>
-
-                                            <th scope="col">Apprtement</th>
-                                            <th scope="col">Month</th>
-                                            <th scope="col"></th>
-
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($shit as $s)
-                                            <tr>
-                                                {{--{{dd($shit)}}--}}
-
-                                                <td>{{$s['app_num']}}</td>
-                                                <td>{{$s['months']}}</td>
-                                                <td>
-
-                                                    <img  src="images/waitting.png"> Waitting
-                                                </td>
-
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-
-
-                                @endif
 
                             </div>
+
 
                         </div>
                     </div>
@@ -302,7 +312,7 @@
         </div>
 
         <div class="modal-body">
-            <div class="alert alert-danger" style="display:none"></div>
+            <div class="alert alert-danger" id="alertas" style="display:none"></div>
                         <div class="col-lg-12">
                         <div class="card">
 
@@ -614,7 +624,7 @@
                         <div class="card-body card-block">
                             <form action="{{ route('recetteslocUpdate') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
                                 @csrf
-                                <input type="hidden" name="id" id="id">
+                                <input type="hidden" name="id" id="idlocup">
 
 
                                 <div class="row form-group">
@@ -643,7 +653,7 @@
                                     <div class="col col-md-3"><label for="text-input" class=" form-control-label">Date</label></div>
                                     <div class="col-12 col-md-9">
                                         <div class='input-group date' id='datetimepicker4'>
-                                            <input type='text' id="datelocnup" name="date" class="form-control" />
+                                            <input type='text' id="datelocup" name="date" class="form-control" />
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -659,7 +669,7 @@
                                     <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description</label></div>
                                     <div class="col-12 col-md-9"><textarea name="description" id="descriptionlocup" rows="9" placeholder="Content..." class="form-control"></textarea></div>
                                 </div>
-                                <button type="submit" id="updateloc" class="btn btn-primary  pull-right" id="ajaxSubmitupdate">mettre a jour</button>
+                                <button type="submit" id="updateloc" class="btn btn-primary  pull-right" >mettre a jour</button>
 
 
 

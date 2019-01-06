@@ -32,19 +32,7 @@
     <div class="limiter">
 
         <div class="container-login100">
-                <nav class="collapse navbar-collapse" id="primary-menu">
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="{{ url('/') }}#home-page">Home</a></li>
-                    <li><a href="{{ url('/') }}#service-page">Service</a></li>
-              
-                    <li><a href="{{ url('/') }}#team-page">Team</a></li>
-                    <li><a href="{{ url('/') }}#faq-page">FAQ</a></li>
-                   
-                    <li><a href="{{ url('/') }}#contact-page">Contact</a></li>
-                    <li><a href="{{ route('login') }}">Se Connecter</a></li>
-                    <li><a href="{{ route('register') }}">S'inscrire</a></li>
-                </ul>
-            </nav>
+
             <div class="wrap-login100">
 
                     <form method="POST" action="{{ route('login') }}" class="login100-form validate-form" id="login-form">
@@ -52,6 +40,12 @@
                          <span class="login100-form-title p-b-43">
                         Login to continue
                          </span>
+                        <div >
+                            <i class="fa fa-long-arrow-left" style="margin-left:70%;"></i>
+
+                            <a  id="button1" href="{{ url('/') }}#home-page" class="pull-right" style="color: #0b0b0b">Acceuil</a>
+
+                        </div>
                         @if ($errors->any())
 
                             <div class="alert alert-warning" role="alert">
@@ -110,7 +104,6 @@
                     <div class="login100-more" id="bg1" style="background-image: url('images/bg-01.jpg');">
                     <div style="background:#E5B096;opacity:0.9;margin-left:30%;margin-top: 10%">
                     <h2 style="color:white;margin-left: 15%;padding:7%">Une solution innovante sélectionnée pour vous par votre syndic .
-                        <br>    Pour plus d'informations lire <u id="under"> <a href="about.html" style="text-decoration:none"> propos de nous </a></u>
                     </h2>
                     </div>
                 </div>
@@ -121,6 +114,79 @@
         <script src="js/jquery-3.2.1.min.js"></script>     
         <script src="js/bootstrap.min.js"></script>
         <script src="js/main.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            "use strict";
+
+
+            /*==================================================================
+            [ Focus Contact2 ]*/
+            $('.input100').each(function(){
+                $(this).on('blur', function(){
+                    if($(this).val().trim() != "") {
+                        $(this).addClass('has-val');
+                    }
+                    else {
+                        $(this).removeClass('has-val');
+                    }
+                })
+            })
+
+
+            /*==================================================================
+            [ Validate ]*/
+            var input = $('.validate-input .input100');
+
+            $('.validate-form').on('submit',function(){
+                var check = true;
+
+                for(var i=0; i<input.length; i++) {
+                    if(validate(input[i]) == false){
+                        showValidate(input[i]);
+                        check=false;
+                    }
+                }
+
+                return check;
+            });
+
+
+            $('.validate-form .input100').each(function(){
+                $(this).focus(function(){
+                    hideValidate(this);
+                });
+            });
+
+
+            function validate (input) {
+                if($(input).attr('type') == 'email' || $(input).attr('name') == 'email') {
+                    if($(input).val().trim().match(/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/) == null) {
+                        return false;
+                    }
+                }
+                else {
+                    if($(input).val().trim() == ''){
+                        return false;
+                    }
+                }
+            }
+
+            function showValidate(input) {
+                var thisAlert = $(input).parent();
+
+                $(thisAlert).addClass('alert-validate');
+            }
+
+            function hideValidate(input) {
+                var thisAlert = $(input).parent();
+
+                $(thisAlert).removeClass('alert-validate');
+            }
+
+
+        });
+    </script>
     </body>
     </html>
     

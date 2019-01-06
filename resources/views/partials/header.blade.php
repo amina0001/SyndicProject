@@ -15,7 +15,8 @@
 
     <script src="/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css
+">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="/css/style.css">
@@ -25,8 +26,9 @@
 
     <link href="/css/fullcalendar.css" rel="stylesheet" />
     <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet"  type='text/css'>
-
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css">
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
 
     <!-- Styles -->
     <style type="text/css">
@@ -38,6 +40,53 @@
 
         #myImg:hover {opacity: 0.7;}
 
+        .subtitle {
+            margin: 0 0 2em 0;
+        }
+        .fancy {
+            line-height: 0.5;
+            text-align: center;
+        }
+        .fancy span {
+            display: inline-block;
+            position: relative;
+        }
+        .fancy span:before,
+        .fancy span:after {
+            content: "";
+            position: absolute;
+            height: 8px;
+            border-bottom: 2px solid grey;
+            border-top: 2px solid grey;
+            top: 0;
+            width: 70%;
+        }
+        .fancy span:before {
+            right: 100%;
+            margin-right: 15px;
+        }
+        .fancy span:after {
+            left: 100%;
+            margin-left: 15px;
+        }
+        hr.style-seven {
+            overflow: visible; /* For IE */
+            height: 30px;
+            border-style: solid;
+            border-color: black;
+            border-width: 1px 0 0 0;
+            border-radius: 20px;
+        }
+        hr.style-seven:before { /* Not really supposed to work, but does */
+            display: block;
+            content: "";
+            height: 30px;
+            margin-top: -31px;
+            border-style: solid;
+            border-color: black;
+            border-width: 0 0 1px 0;
+            border-radius: 20px;
+        }
 
     </style>
 </head>
@@ -125,9 +174,9 @@ height: 120px;margin-top: -60%;margin-left: 30%">
                 <span class="count bg-danger">{{ $i }}</span>
             @endif
        </button>
-
+       @if($notifications->isNotEmpty())
        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                @if($notifications->isNotEmpty())
+        <h4> Réunion :</h4>
                     @foreach($notifications as $r)
 
                         @if($r->seen == 0)
@@ -137,7 +186,7 @@ height: 120px;margin-top: -60%;margin-left: 30%">
                                     <input type="hidden" name="id" value="{{ $r->id }}">
                                     <input type="hidden" name="user_id" value="{{ $r->user_id }}">
                                     <input type="hidden" name="reunion_id" value="{{ $r->reunion_id }}">
-                                    <p>Topic: {{ $r->category }} <button type="submit" style="background: transparent;"> <i class="fa fa-eye-slash"></i></button>
+                                    <p>Sujet: {{ $r->category }} <button type="submit" style="background: transparent;"> <i class="fa fa-eye-slash"></i></button>
                                     </p>
                                 </form>
 
@@ -147,46 +196,53 @@ height: 120px;margin-top: -60%;margin-left: 30%">
                             @endif
                         @endif
                     @endforeach
-                @endif
+
        </div>
+       @endif
    </div>
 
-   <div class="dropdown for-message">
-       <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-           <i class="fa fa-envelope"></i>
-             @if($msg !== null && $msg->seen === 0)
-                 <span class="count bg-primary">1</span>
-             @else
-
-             @endif
-       </button>
-           @if($msg !== null )
-               @if($msg->seen === 0)
-                   <div class="dropdown-menu" aria-labelledby="message">
-
-                       <a class="dropdown-item media" href="chat.html">
-                           <form action="{{ route('msgSeen',$msg->id ) }}" method="post">
-                               @csrf
-                               <input type="hidden" name="id" value="{{ $msg->id }}">
-                               <input type="hidden" name="user_id" value="{{ $msg->user_id }}">
-                               <input type="hidden" name="reunion_id" value="{{ $msg->msg_id }}">
 
 
-                               <span class="photo media-left"><img alt="avatar" src="/images/avatar/1.jpg"></span>
-                               <div class="message media-body">
-                                   <span class="name float-left">Jonathan Smith</span>
-                                   <span class="time float-right">{{ $msg->created_at }}</span>
-                                   <p>{{ $msg->message }} <button type="submit" style="background: transparent;"> <i class="fa fa-eye-slash"></i></button></p>
-                               </div>
-                           </form>
 
-                       </a>
-                   </div>
-               @endif  @endif
-
-   </div>
 </div>
 @endif
+    @if(auth::user()->role !== "admin" )
+
+    <div class="header-left" style="margin-left: 1%">
+    <div class="dropdown for-message">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-envelope"></i>
+            @if($msg !== null && $msg->seen === 0)
+                <span class="count bg-primary">1</span>
+            @else
+
+            @endif
+        </button>
+        @if($msg !== null )
+            @if($msg->seen === 0)
+                <div class="dropdown-menu" aria-labelledby="message">
+
+                    <a class="dropdown-item media" href="{{url("/chat")}}">
+                        <form action="{{ route('msgSeen',$msg->id ) }}" method="post">
+                            @csrf
+                            <input type="hidden" name="id" value="{{ $msg->id }}">
+                            <input type="hidden" name="user_id" value="{{ $msg->user_id }}">
+                            <input type="hidden" name="reunion_id" value="{{ $msg->msg_id }}">
+                            <div class="message media-body">
+                                <span class="name float-left">message non lue:</span>
+                                <span class="time float-left">{{ $msg->created_at }}</span>
+                                <p>{{ $msg->message }} <button type="submit" style="background: transparent;"> <i class="fa fa-eye-slash"></i></button></p>
+                            </div>
+                        </form>
+
+                    </a>
+                </div>
+            @endif
+        @endif
+
+    </div>
+    </div>
+    @endif
 <div class="user-area dropdown float-right">
    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
        <img class="user-avatar rounded-circle" src="/images/amina.jpg" style="width: 50px;height: 50px;">

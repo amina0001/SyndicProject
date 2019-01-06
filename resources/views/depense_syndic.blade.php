@@ -38,15 +38,15 @@
                         <div class="card-header">
                             <strong class="card-title">Dépense</strong>
                             @if(Auth::user()->role == "Syndic")
-                                <button  class="btn btn-success" style="float: right;" data-toggle="modal" data-target="#myModal_ajout_depense" >Ajouter depense</button>
+                                <button  class="btn btn-success" style="float: right;" data-toggle="modal" data-target="#myModal_ajout_depense" ><i class="fa fa-plus-square"></i> Ajouter depense</button>
 
-                                <button  class="btn btn-primary" style="float: right;margin-right:1%" data-toggle="modal" data-target="#myModal_fiche_depense" >Gener fiche</button>
+                                <button  class="btn btn-primary" style="float: right;margin-right:1%" data-toggle="modal" data-target="#myModal_fiche_depense" ><i class="fa fa-print"></i> Gener fiche</button>
                             @endif
                         </div>
 
                         <div class="card-body">
                             @if($depenses->isNotEmpty())
-                            <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                            <table id="dtBasicExample"  class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                 <tr>
                                     <th>Titre</th>
@@ -95,15 +95,15 @@
                                             <td>
 
 
-                                                <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal_update_depense" data-id="{{ $d->id }}" data-titre="{{ $d->titre }}"data-description="{{ $d->description }}" data-price="{{ $d->price }}" data-date="{{ $d->date }}" >
-                                                    <span class="fa fa-pencil"></span>&nbsp;Modifier</button>
+                                                <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal_update_depense" data-id="{{ $d->id }}" data-titre="{{ $d->titre }}"data-description="{{ $d->description }}" data-price="{{ $d->price }}" data-date="{{ $d->date }}" data-tooltip="tooltip" title="modifier!">
+                                                    <i class="fa fa-edit"></i></button>
 
                                             </td>
                                             <td>
 
 
-                                                <button class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal_delete_depense" data-id="{{ $d->id }}">
-                                                    Supprimer</button>
+                                                <button class="btn btn-danger pull-right" data-toggle="modal" data-target="#myModal_delete_depense" data-id="{{ $d->id }}" data-tooltip="tooltip" title="supprimer!">
+                                                    <i class="fa fa-trash"></i></button>
 
                                             </td>
                                         @endif

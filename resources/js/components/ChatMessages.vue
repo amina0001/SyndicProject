@@ -1,10 +1,10 @@
 
 <template>
     <ul  style="max-height:400px;overflow-y: auto;"   v-chat-scroll >
-        
-        <li  v-for="message in messages">
 
-            <div class="chat-body clearfix" v-if="message.user !== null">
+        <li  v-for="message in messages" v-if="message.user !== null">
+
+            <div class="chat-body clearfix" >
                 <div class="msg-sent msg-container" v-if="user.id === message.user.id" style="margin-left:90%">
                    <div class="msg-box"  >
                         <div class="inner-box">
@@ -37,8 +37,11 @@
                     </div>
                   
             </div>
-            </div>
 
+            </div>
+            <div class="chat-body clearfix" v-if="message.user === null">
+                ----------------------------
+            </div>
 
         </li>
     </ul>

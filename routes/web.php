@@ -14,6 +14,7 @@
 
 Auth::routes();
 /***************************admin************************************/
+Route::post('/contact', ['as' => 'contactus', 'uses' => 'ContactusController@sendMessage']);
 
 Route::group(['prefix'=>'/admin', 'middleware'=>['auth', 'admin']], function(){
 Route::post('/occupants', ['as' => 'occupants', 'uses' => 'AdminOccupantController@occupants']);
@@ -50,6 +51,7 @@ Route::post('recette/loc/update', ['as' => 'recetteslocUpdate', 'uses' => 'recet
 Route::get('recette/new', ['as' => 'recetteNew', 'uses' => 'recetteController@new']);
 Route::post('recette/update', ['as' => 'recettesUpdate', 'uses' => 'recetteController@update']);
 Route::post('recette/delete', ['as' => 'recetteDelete', 'uses' => 'recetteController@delete']);
+Route::get('recette/mail/{email}', ['as' => 'recetteMail', 'uses' => 'recetteController@mail']);
 
 /***********************reunion routes**************************/
 
@@ -57,7 +59,7 @@ Route::get('reunions', ['as' => 'reunionSyndic', 'uses' => 'ReunionController@pr
 Route::post('reunion/create', ['as' => 'reunionCreate', 'uses' => 'ReunionController@create']);
 Route::post('reunion/update', ['as' => 'reunionUpdate', 'uses' => 'ReunionController@update']);
 Route::post('reunion/Seen/{id}', ['as' => 'reunionSeen', 'uses' => 'notificationController@update']);
-
+Route::get('reunion/mail/{id}', ['as' => 'reunionMail', 'uses' => 'ReunionController@mail']);
 /***********************reunion routes**************************/
 Route::post('chores/create', ['as' => 'choresCreate', 'uses' => 'HomeController@choreCreate']);
 Route::post('recette/delete', ['as' => 'choresDelete', 'uses' => 'HomeController@delete']);
@@ -79,6 +81,9 @@ Route::post('messages', 'ChatsController@sendMessage');
      Route::get('/', function () {
    return view('welcome');
 });
+/*Route::get('/email', function () {
+    return view('email');
+});*/
      Broadcast::routes();
 /***********************pdf**************************/
 Route::post('generate-pdf',['as' => 'generatepdf', 'uses' => 'depenseController@generatePDF']);

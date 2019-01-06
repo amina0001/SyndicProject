@@ -9,21 +9,23 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Title -->
-    <title>Home</title>
+    <title>SyndicTn</title>
     <!-- Place favicon.ico in the root directory -->
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-    <link rel="shortcut icon" type="image/ico" href="images/favicon.ico" />
+    <link rel="shortcut icon" href="images/icon.png">
+    {{--<link rel="shortcut icon" type="image/ico" href="images/favicon.ico" />--}}
     <!-- Plugin-CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/owl.carousel.min.css">
     <link rel="stylesheet" href="css/themify-icons.css">
     <link rel="stylesheet" href="css/magnific-popup.css">
     <link rel="stylesheet" href="css/animate.css">
     <!-- Main-Stylesheets -->
-    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="/css/normalize.css">
     <link rel="stylesheet" href="css/welcome.css">
     <link rel="stylesheet" href="css/responsive.css">
+{{--
     <link rel="stylesheet" href="css/style.css">
+--}}
     <link rel="stylesheet" href="/css/font-awesome.min.css">
 
     <script src="js/modernizr-2.8.3.min.js"></script>
@@ -32,6 +34,11 @@
         <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
         <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style>
+        .drop  li a:hover {
+             border-top: none!important;
+        }
+    </style>
 </head>
 
 <body data-spy="scroll" data-target="#primary-menu">
@@ -70,31 +77,33 @@
                     <li><a href="#contact-page">Contact</a></li>
                     @if(Auth::check() )
                     @if( Auth::user()->role == "Syndic" || Auth::user()->role == "Occupant" )
+                    <li>
+                            <div class="dropdown  ">
 
-                            <div class="user-area dropdown ">
-                                <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img class="user-avatar rounded-circle" src="/images/amina.jpg" style="width: 50px;height: 50px;">
-                                </a>
+                                <button class="dropdown-toggle " data-toggle="dropdown" style="background: transparent;border:none" >
+                                    <img src="/images/amina.jpg" style="width:50px;height: 55px;border-radius: 50%;padding-top: 20% ">
+                                </button>
 
 
-                                <div class="user-menu dropdown-menu">
 
-                                    <a class="nav-link"  href="{{ url('/') }}"><i class="fa fa-home"></i>welcome</a>
-                                    <a class="nav-link"  href="{{ route('home') }}"><i class="fa fa-columns"></i>Home</a>
-                                    <a class="nav-link"  href="{{ route('profile', [Auth::id()]) }}"><i class="fa fa-user"></i>My Profile</a>
+                                <ul class="dropdown-menu drop">
 
-                                    <a class="nav-link" href="{{ route('logout') }}"
+                                    <li><a class="nav-link"  href="{{ url('/') }}"><i class="fa fa-home"></i>  welcome</a></li>
+                                   <li> <a class="nav-link"  href="{{ route('home') }}"><i class="fa fa-columns"></i>  Home</a></li>
+                                   <li> <a class="nav-link"  href="{{ route('profile', [Auth::id()]) }}"><i class="fa fa-user"></i>  My Profile</a></li>
+
+                                  <li> <a class="nav-link" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     <i class="fa fa-power-off"></i>  {{ __('Logout') }}
-                                     </a>
+                                     </a></li>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
-                            </div>
+                            </ul>
                         </div>
-
+                    </li>
                     @elseif( Auth::user()->role == "admin" )
                         <li>
                             <div class=" dropdown " style="margin-top: 0%">
@@ -102,10 +111,10 @@
                                     <img src="/images/amina.jpg" style="width:50px;height: 55px;border-radius: 50%;padding-top: 20% ">
                                 </button>
 
-                                <ul class="dropdown-menu">
-                                    <li><a href="{{ url('/') }}">welcome</a></li>
-                                    <li><a href="{{ url('/admin/home') }}">site admin</a></li>
-                                    <li><a href="{{ route('profile', [Auth::id()]) }}">My Profile</a></li>
+                                <ul class="dropdown-menu drop">
+                                    <li><a href="{{ url('/') }}">Acceuil</a></li>
+                                    <li><a href="{{ url('/admin/home') }}"><i class="fa fa-columns"></i>  site admin</a></li>
+                                    <li><a href="{{ route('profile', [Auth::id()]) }}"><i class="fa fa-user"></i>  Mon Profile</a></li>
 
 
 
@@ -141,8 +150,11 @@
         <div class="container">
             <div class="row v-center">
                 <div class="col-xs-12 col-md-7 header-text">
-                    <h2>we provide the best services.</h2>
-                    <p>Manage property and asset maintenance, reduce costs and improve operational efficiency with this fully integrated system of record for real estate and facilities.</p>
+                    <h2>Nous fournissons les meilleurs services.</h2>
+                    <p>Gérez la maintenance des biens ,
+                        réduisez les coûts et améliorez l'efficacité opérationnelle
+                        avec ce système d'enregistrement entièrement intégré pour les
+                        biens immobiliers .</p>
 
                 </div>
                 <div class="hidden-xs hidden-sm col-md-5 text-right">
@@ -175,8 +187,8 @@
                         <div class="box-icon">
                             <img src="images/service-icon-1.png" alt="">
                         </div>
-                        <h4>EASY TO USE</h4>
-                        <p>Real-Time Reporting: Identify and sort issues by type, region, or responsibility and take corrective action.</p>
+                        <h4>FACILE À UTILISER</h4>
+                        <p>avec tous les services que nous vous fournissons, vous pouvez gérer votre bien immobilier très facilement</p>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-4">
@@ -184,8 +196,8 @@
                         <div class="box-icon">
                             <img src="images/service-icon-2.png" alt="">
                         </div>
-                        <h4>Assess Facility Conditions</h4>
-                        <p>Manage and prioritize all aspects of future repairs.</p>
+                        <h4>suivre l'état .</h4>
+                        <p>vous pouvez maintenant consulter et gerer la recette , les depenses et les reunions de votre bien immobilier</p>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-4">
@@ -193,8 +205,8 @@
                         <div class="box-icon">
                             <img src="images/service-icon-3.png" alt="">
                         </div>
-                        <h4>EASY TO CUSTOMAIZE</h4>
-                        <p>Lorem ipsum dolor sit amt, consectet adop adipisicing elit, sed do eiusmod tepo raraincididunt ugt labore.</p>
+                        <h4>Messagerie</h4>
+                        <p>Tous les habitants peuvent discuter en utilisant notre système de chat</p>
                     </div>
                 </div>
             </div>
@@ -212,10 +224,10 @@
                                 <div class="v-center">
                                     <div class="col-xs-12 col-md-6">
                                         <div class="caption-title" data-animation="animated fadeInUp">
-                                            <h2>Easy to use</h2>
+                                            <h2>Tableau de bord</h2>
                                         </div>
                                         <div class="caption-desc" data-animation="animated fadeInUp">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute</p>
+                                            <p>Tableau de bord vous donne un accès interactif à tout le service.</p>
                                         </div>
 
                                     </div>
@@ -231,10 +243,11 @@
                                 <div class="v-center">
                                     <div class="col-xs-12 col-md-6">
                                         <div class="caption-title" data-animation="animated fadeInUp">
-                                            <h2>Easy to use</h2>
+                                            <h2>Page des depenses
+                                            </h2>
                                         </div>
                                         <div class="caption-desc" data-animation="animated fadeInUp">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute</p>
+                                            <p>Dans cette page, nous avons donné au syndic l’accès pour gérer toute les depenses et pour que les occupants les consultent.</p>
                                         </div>
 
                                     </div>
@@ -250,10 +263,10 @@
                                 <div class="v-center">
                                     <div class="col-xs-12 col-md-6">
                                         <div class="caption-title" data-animation="animated fadeInUp">
-                                            <h2>Easy to use</h2>
+                                            <h2>Pages de recettes.</h2>
                                         </div>
                                         <div class="caption-desc" data-animation="animated fadeInUp">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute</p>
+                                            <p>Dans cette page, nous avons donné au syndic l’accès pour gérer toute les recettes , et pour que les occupants les consultent</p>
                                         </div>
 
                                     </div>
@@ -268,10 +281,10 @@
                                 <div class="v-center">
                                     <div class="col-xs-12 col-md-6">
                                         <div class="caption-title" data-animation="animated fadeInUp">
-                                            <h2>Awesome design</h2>
+                                            <h2>Reunion et messagerie</h2>
                                         </div>
                                         <div class="caption-desc" data-animation="animated fadeInUp">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute</p>
+                                            <p>Maintenant vous pouvez organiser des réunions , notifiez les habitants et même vous pouvez discuter sur une seule plateforme</p>
                                         </div>
 
                                     </div>
@@ -286,16 +299,16 @@
                         <!-- Indicators -->
                         <ol class="carousel-indicators caption-indector">
                             <li data-target="#caption_slide" data-slide-to="0" class="active">
-                                <strong>Dashboard</strong>consectetur adipisicing elit.
+                                <strong>Tableau de bord</strong>
                             </li>
                             <li data-target="#caption_slide" data-slide-to="1">
-                                <strong>page de depense </strong>consectetur adipisicing elit.
+                                <strong>page des depenses </strong>
                             </li>
                             <li data-target="#caption_slide" data-slide-to="2">
-                                <strong>page de recette </strong>consectetur adipisicing elit.
+                                <strong>page des recettes </strong>
                             </li>
                             <li data-target="#caption_slide" data-slide-to="3">
-                                <strong>reunion et messagerie </strong>consectetur adipisicing elit.
+                                <strong>reunion et messagerie </strong>
                             </li>
                         </ol>
                     </div>
@@ -316,8 +329,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-center">
                     <div class="page-title">
-                        <h2>Special team</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit voluptates, temporibus at, facere harum fugiat!</p>
+                        <h2>ÉQUIPE SPÉCIALE</h2>
                     </div>
                 </div>
             </div>
@@ -365,8 +377,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-center">
                     <div class="page-title">
-                        <h2>Client says</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit voluptates, temporibus at, facere harum fugiat!</p>
+                        <h2>LE CLIENT DIT</h2>
                     </div>
                 </div>
             </div>
@@ -377,44 +388,18 @@
                             <div class="testimonial-photo">
                                 <img src="images/avatar-small-1.png" alt="">
                             </div>
-                            <h3>AR Rahman</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel vero dolore officiis, velit id libero illum harum hic magni, quae repellendus adipisci possimus saepe nostrum doloribus repudiandae asperiores commodi voluptate.</p>
+                            <h3>Mohamed</h3>
+                            <p>Je trouve qu'il contient tous les services dont nous avons réellement besoin de manière dynamique..</p>
                         </div>
                         <div class="testimonial">
                             <div class="testimonial-photo">
                                 <img src="images/avatar-small-2.png" alt="">
                             </div>
                             <h3>AR Rahman</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel vero dolore officiis, velit id libero illum harum hic magni, quae repellendus adipisci possimus saepe nostrum doloribus repudiandae asperiores commodi voluptate.</p>
+                            <p>Real good platform it's help organise and facilitate the management of real estates.</p>
                         </div>
-                        <div class="testimonial">
-                            <div class="testimonial-photo">
-                                <img src="images/avatar-small-3.png" alt="">
-                            </div>
-                            <h3>AR Rahman</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel vero dolore officiis, velit id libero illum harum hic magni, quae repellendus adipisci possimus saepe nostrum doloribus repudiandae asperiores commodi voluptate.</p>
-                        </div>
-                        <div class="testimonial">
-                            <div class="testimonial-photo">
-                                <img src="images/avatar-small-4.png" alt="">
-                            </div>
-                            <h3>AR Rahman</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel vero dolore officiis, velit id libero illum harum hic magni, quae repellendus adipisci possimus saepe nostrum doloribus repudiandae asperiores commodi voluptate.</p>
-                        </div>
-                        <div class="testimonial">
-                            <div class="testimonial-photo">
-                                <img src="images/avatar-small-5.png" alt="">
-                            </div>
-                            <h3>AR Rahman</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel vero dolore officiis, velit id libero illum harum hic magni, quae repellendus adipisci possimus saepe nostrum doloribus repudiandae asperiores commodi voluptate.</p>
-                        </div>
-                        <div class="testimonial">
-                            <div class="testimonial-photo">
-                                <img src="images/avatar-small-6.png" alt="">
-                            </div>
-                            <h3>AR Rahman</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel vero dolore officiis, velit id libero illum harum hic magni, quae repellendus adipisci possimus saepe nostrum doloribus repudiandae asperiores commodi voluptate.</p>
-                        </div>
+
+
                     </div>
                 </div>
             </div>
@@ -431,8 +416,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-center">
                     <div class="page-title">
-                        <h2>Frequently Asked Questions</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit voluptates, temporibus at, facere harum fugiat!</p>
+                        <h2>QUESTIONS FRÉQUEMMENT POSÉES</h2>
                     </div>
                 </div>
             </div>
@@ -441,36 +425,29 @@
                     <div class="panel-group" id="accordion">
                         <div class="panel">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="true">Sedeiusmod tempor inccsetetur aliquatraiy?</a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="true">Comment l'utiliser?</a>
                             </h4>
                             <div id="collapse1" class="panel-collapse collapse in">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodas temporo incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrd exercitation ullamco laboris nisi ut aliquip ex comodo consequat. Duis aute dolor in reprehenderit.</p>
+                                <p>Le syndic doit d'abord s'inscrire, puis l'administrateur crée les comptes habitants et l'envoie au syndic.</p>
                             </div>
                         </div>
                         <div class="panel">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Tempor inccsetetur aliquatraiy?</a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Quels sont les bénéfices?</a>
                             </h4>
                             <div id="collapse2" class="panel-collapse collapse">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodas temporo incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrd exercitation ullamco laboris nisi ut aliquip ex comodo consequat. Duis aute dolor in reprehenderit.</p>
+                                <p>Plus de transparence, chaque utilisateur  peut à tout moment consulter tous les depenses , suggère des achats à faire, consulter quel appartement ont payé ou non.</p>
                             </div>
                         </div>
                         <div class="panel">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Lorem ipsum dolor amet, consectetur adipisicing ?</a>
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Dois-je payer pour avoir ces services ?</a>
                             </h4>
                             <div id="collapse3" class="panel-collapse collapse">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodas temporo incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrd exercitation ullamco laboris nisi ut aliquip ex comodo consequat. Duis aute dolor in reprehenderit.</p>
+                                <p>Nos services sont gratuits..</p>
                             </div>
                         </div>
-                        <div class="panel">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">Lorem ipsum dolor amet, consectetur adipisicing ?</a>
-                            </h4>
-                            <div id="collapse4" class="panel-collapse collapse">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmodas temporo incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrd exercitation ullamco laboris nisi ut aliquip ex comodo consequat. Duis aute dolor in reprehenderit.</p>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -494,76 +471,46 @@
                     <div class="col-xs-12 col-sm-6 col-sm-offset-3 text-center">
                         <div class="page-title">
                             <h2>Contact with us</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit voluptates, temporibus at, facere harum fugiat!</p>
+                            <p></p>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-md-4">
                         <address class="side-icon-boxes">
-                            <div class="side-icon-box">
-                                <div class="side-icon">
-                                    <img src="images/location-arrow.png" alt="">
-                                </div>
-                                <p><strong>Address: </strong> Box 564, Disneyland <br />USA</p>
-                            </div>
-                            <div class="side-icon-box">
-                                <div class="side-icon">
-                                    <img src="images/phone-arrow.png" alt="">
-                                </div>
-                                <p><strong>Telephone: </strong>
-                                    <a href="callto:8801812726495">+8801812726495</a> <br />
-                                    <a href="callto:8801687420471">+8801687420471</a>
-                                </p>
-                            </div>
+
                             <div class="side-icon-box">
                                 <div class="side-icon">
                                     <img src="images/mail-arrow.png" alt="">
                                 </div>
                                 <p><strong>E-mail: </strong>
-                                    <a href="mailto:youremail@example.com">youremail@example.com</a> <br />
-                                    <a href="mailto:youremail@example.com">example@mail.com</a>
+                                    <a href="mailto:syndicTn@gmail.com">syndicTn@gmail.com</a> <br />
+
                                 </p>
                             </div>
                         </address>
                     </div>
                     <div class="col-xs-12 col-md-8">
-                        <form action="process.php" id="contact-form" method="post" class="contact-form">
+                        <form action="{{route('contactus')}}"  method="post" >
+                            @csrf
                             <div class="form-double">
-                                <input type="text" id="form-name" name="form-name" placeholder="Your name" class="form-control" required="required">
-                                <input type="email" id="form-email" name="form-email" class="form-control" placeholder="E-mail address" required="required">
+                                <input type="text" id="form-name" name="name" placeholder="Your name" class="form-control" required="required">
+                                <input type="email" id="form-email" name="email" class="form-control" placeholder="E-mail address" required="required">
                             </div>
-                            <input type="text" id="form-subject" name="form-subject" class="form-control" placeholder="Message topic">
-                            <textarea name="message" id="form-message" name="form-message" rows="5" class="form-control" placeholder="Your message" required="required"></textarea>
-                            <button type="sibmit" class="button">Submit</button>
+                            <input type="text" id="form-subject" name="form_subject" class="form-control" placeholder="Message topic" required="required">
+                            <textarea  id="form-message" name="user_message" rows="5" class="form-control" placeholder="Your message" required="required"></textarea>
+                            <button type="submit" class="btn btn-primary">Envoyer</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="footer-middle">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-6 pull-right">
-                        <ul class="social-menu text-right x-left">
-                            <li><a href="#"><i class="ti-facebook"></i></a></li>
-                            <li><a href="#"><i class="ti-twitter"></i></a></li>
-                            <li><a href="#"><i class="ti-google"></i></a></li>
-                            <li><a href="#"><i class="ti-linkedin"></i></a></li>
-                            <li><a href="#"><i class="ti-github"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="col-xs-12 col-sm-6">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id corrupti architecto consequuntur, laborum quaerat sed nemo temporibus unde, beatae vel.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <div class="footer-bottom">
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12 text-center">
-                        <p>&copy;Copyright 2018 All right resurved.  This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com">Colorlib</a></p>
+                        <p>&copy;Copyright 2018 All right resurved.  This template is made with  by SyndicTN</p>
                     </div>
                 </div>
             </div>

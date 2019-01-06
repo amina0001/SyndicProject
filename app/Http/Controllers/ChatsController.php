@@ -133,7 +133,7 @@ public function sendMessage(Request $request)
     }
 
 
-  broadcast(new MessageSent($user, $message))->toOthers();
+  broadcast(new MessageSent($user, $messages))->toOthers();
 
   return ['status' => 'Message Sent!'];
 }

@@ -57414,6 +57414,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -57435,9 +57438,9 @@ var render = function() {
       staticStyle: { "max-height": "400px", "overflow-y": "auto" }
     },
     _vm._l(_vm.messages, function(message) {
-      return _c("li", [
-        message.user !== null
-          ? _c("div", { staticClass: "chat-body clearfix" }, [
+      return message.user !== null
+        ? _c("li", [
+            _c("div", { staticClass: "chat-body clearfix" }, [
               _vm.user.id === message.user.id
                 ? _c(
                     "div",
@@ -57517,9 +57520,15 @@ var render = function() {
                     ]
                   )
                 : _vm._e()
-            ])
-          : _vm._e()
-      ])
+            ]),
+            _vm._v(" "),
+            message.user === null
+              ? _c("div", { staticClass: "chat-body clearfix" }, [
+                  _vm._v("\n            ----------------------------\n        ")
+                ])
+              : _vm._e()
+          ])
+        : _vm._e()
     })
   )
 }
