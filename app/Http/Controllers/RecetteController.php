@@ -51,10 +51,13 @@ class RecetteController extends Controller
         if($request->hasFile('image')){
 
 
-            $cover = $request->file('image');
+           /* $cover = $request->file('image');
             $extension = $cover->getClientOriginalExtension();
             Storage::disk('public')->put($cover->getFilename().'.'.$extension,  File::get($cover));
-            $recette->image = $cover->getFilename().'.'.$extension;
+            $recette->image = $cover->getFilename().'.'.$extension;*/
+            $building=Building::where('id','=',auth::user()->building_id)->first();
+
+            $recette->image =  $recette->uploadImage($request->file('image'), '/storage/building'.$building->name.'/recette/',$recette->id);
 
         }
             $recetteMonth = RecetteMonth::where('recette_id',"=",$request->id)->first();
@@ -98,14 +101,16 @@ class RecetteController extends Controller
             $recette->price =$request->price;
             $recette->date =$request->date;
             $recette->description =$request->description;
-
+            $building=Building::where('id','=',auth::user()->building_id)->first();
             if($request->hasFile('image')){
 
 
-                $cover = $request->file('image');
+ /*               $cover = $request->file('image');
                 $extension = $cover->getClientOriginalExtension();
                 Storage::disk('public')->put($cover->getFilename().'.'.$extension,  File::get($cover));
-                $recette->image = $cover->getFilename().'.'.$extension;
+                $recette->image = $cover->getFilename().'.'.$extension;*/
+                $recette->image =  $recette->uploadImage($request->file('image'), '/storage/building'.$building->name.'/recette/',$recette->id);
+
 
             }
 
@@ -126,9 +131,9 @@ class RecetteController extends Controller
             ->where('users.building_id','=',auth::user()->building_id)
             ->select('recette_months.id as id','recette_months.months as months', 'recette_months.years as years', 'recette_months.recette_id as recette_id', 'recette_months.user_id as user_id')
             ->get()
-            ->groupBy('months');
+            ->groupBy(['months','years']);
 
-        /*   dd($unpaid->flatten());*/
+/*           dd($unpaid->flatten());*/
         /* $unpaid=$unpaid->flatten();*/
 
         $shit=collect();
@@ -140,21 +145,23 @@ class RecetteController extends Controller
 
             foreach($buser as $b)
             {
-                foreach($ps as $p) {
+                foreach($ps as $key=>$p) {
+                    foreach ($p as $item){
 
-
-                    if ($p->user_id === $b->id) {
-                        $i=$i+1;
-                        break;
-                    }else {
-                        $i=0;
+                        if ($item->user_id === $b->id) {
+                            $i=$i+1;
+                            break;
+                        }else {
+                            $i=0;
+                        }
                     }
+
 
                 }
 
                 if($i===0){
                     /*    $shit->push($b);*/
-                    $tab =['months' => $p->months  ,'app_num'=> $b->app_num,'email'=>$b->email ];
+                    $tab =['months' => $item->months ,'years'=>$item->years ,'app_num'=> $b->app_num,'email'=>$b->email ];
 
                     $shit->push(($tab));
 
@@ -221,14 +228,15 @@ class RecetteController extends Controller
             ->first();
         $recettesloc=Recetteloc::where('building_id','=',auth::user()->building_id)
 
-            ->get();
+            ->get()->sortByDesc("id");
+
         return view('recette_syndic',compact('recettes','recettesloc','msg','reunionsnotif','notifications','i','dmonths','month','year','shit','buser'));
 
     }
 
 
     /**
-     * ajouter une depense
+     * ajouter une recette
      *
      * @param Request $request
      * @return void
@@ -245,6 +253,7 @@ class RecetteController extends Controller
         {
             return response()->json(['errors'=>$validator->errors()->all()]);
         }else {
+
             $findRM = RecetteMonth::where('user_id', "=", $request->app)
                 ->where('years', '=', date('Y', strtotime($request->date)))
                 ->where('months', '=', date('m', strtotime($request->date)))
@@ -265,17 +274,20 @@ class RecetteController extends Controller
                     'user_id' => $request->app,
                     'description' => $request->description,
                 ]);
+                $building=Building::where('id','=',auth::user()->building_id)->first();
 
-                if ($request->hasFile('image')) {
+                if ($request->file('image')) {
 
-                    $cover = $request->file('image');
+                   /* $cover = $request->file('image');
                     $extension = $cover->getClientOriginalExtension();
                     Storage::disk('public')->put($cover->getFilename() . '.' . $extension, File::get($cover));
-                    $recette->image = $cover->getFilename() . '.' . $extension;
+                    $recette->image = $cover->getFilename() . '.' . $extension;*/
+
+                    $recette->image =  $recette->uploadImage($request->file('image'), '/storage/building'.$building->name.'/recette/',$recette->id);
 
                     $recette->save();
                 };
-                $recetteMonth = Recetteloc::create([
+                $recetteMonth = RecetteMonth::create([
 
                     'years' => date('Y', strtotime($request->date)),
                     'months' => date('m', strtotime($request->date)),
@@ -318,6 +330,18 @@ class RecetteController extends Controller
                     'building_id' => auth::user()->building_id,
                     'description' => $request->description,
                 ]);
+            if ($request->file('image')) {
+                $building=Building::where('id','=',auth::user()->building_id)->first();
+
+                /* $cover = $request->file('image');
+                 $extension = $cover->getClientOriginalExtension();
+                 Storage::disk('public')->put($cover->getFilename() . '.' . $extension, File::get($cover));
+                 $recette->image = $cover->getFilename() . '.' . $extension;*/
+
+                $recetteloc->image =  $recetteloc->uploadImage($request->file('image'), '/storage/building'.$building->name.'/recette/',$recetteloc->id);
+
+                $recetteloc->save();
+            };
 
 
 
@@ -349,12 +373,23 @@ class RecetteController extends Controller
                 ->whereMonth('date', '=', (int)$request->month)
                 ->whereYear('date', '=', $year)
                 ->get();
+            $recettesloc=DB::table('users')
+                ->join('recette_locaux', 'recette_locaux.building_id', '=', 'users.building_id')
+                ->where('users.building_id','=',auth::user()->building_id)
+                ->whereMonth('date', '=', (int)$request->month)
+                ->whereYear('date', '=', $year)
+                ->get();
 
         }
         elseif(strlen($request->month)===4){
 
             $recettes=DB::table('users')
                 ->join('recettes', 'recettes.user_id', '=', 'users.id')
+                ->where('users.building_id','=',auth::user()->building_id)
+                ->whereYear('date', '=', (int)$request->month)
+                ->get();
+            $recettesloc=DB::table('users')
+                ->join('recette_locaux', 'recette_locaux.building_id', '=', 'users.building_id')
                 ->where('users.building_id','=',auth::user()->building_id)
                 ->whereYear('date', '=', (int)$request->month)
                 ->get();
@@ -368,7 +403,7 @@ class RecetteController extends Controller
         $cty= City::where('id',$adress->city)->first();
         $st= state::where('id',$adress->state)->first();
 
-        $pdf = PDF::loadView('recettepdf', compact('recettes','building','adress','cty','st'));
+        $pdf = PDF::loadView('recettepdf', compact('recettes','recettesloc','building','adress','cty','st'));
 
         return $pdf->stream('document.pdf');
 //        return $pdf->download('itsolutionstuff.pdf');

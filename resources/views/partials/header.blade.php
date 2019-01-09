@@ -3,8 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>SndicTN</title>
-    <meta name="description" content="Ela Admin - HTML5 Admin Template">
+    <title>SyndicTN</title>
+    <meta name="description" content="SyndicTN">
+    <link rel="shortcut icon" href="images/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="/css/normalize.css">
@@ -245,7 +246,7 @@ height: 120px;margin-top: -60%;margin-left: 30%">
     @endif
 <div class="user-area dropdown float-right">
    <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-       <img class="user-avatar rounded-circle" src="/images/amina.jpg" style="width: 50px;height: 50px;">
+       <img class="user-avatar rounded-circle" src="{{ Auth::user()->photo }}" style="width: 50px;height: 50px;">
    </a>
 
    <div class="user-menu dropdown-menu">

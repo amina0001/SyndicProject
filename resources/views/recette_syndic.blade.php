@@ -93,7 +93,7 @@
                                                 @if($r->image == null)
                                                 <p>pas de recu</p>
                                                 @else
-                                                <img id="myImg" src="{{ Storage::url($r->image)}}"  style="width:100%;max-width:100px" data-toggle="modal" data-target="#myModal" data-image="{{ $r->image }}">
+                                                <img id="myImg" src="{{ $r->image}}"  style="width:100%;max-width:100px" data-toggle="modal" data-image="{{$r->image}}" data-target="#myModal" data-image="{{ $r->image }}">
                                                 @endif
                                             </td>
                                             <td>@if( empty( $r->price ))
@@ -136,7 +136,7 @@
                                                 <tr>
 
                                                     <th  class="th-sm">Apprtement</th>
-                                                    <th  class="th-sm">Month</th>
+                                                    <th  class="th-sm">Month/year</th>
                                                     <th  ></th>
                                                     <th></th>
 
@@ -148,7 +148,7 @@
                                                         {{--{{dd($shit)}}--}}
 
                                                         <td>{{$s['app_num']}}</td>
-                                                        <td>{{$s['months']}}</td>
+                                                        <td>{{$s['months']}}-{{$s['years']}}</td>
                                                         <td>
 
                                                             <img  src="images/waitting.png"> Waitting
@@ -220,7 +220,7 @@
                                                         @if($r->image == null)
                                                             <p>pas de recu</p>
                                                         @else
-                                                            <img id="myImg" src="{{ Storage::url($r->image)}}"  style="width:100%;max-width:100px" data-toggle="modal" data-target="#myModal" data-image="{{ $r->image }}">
+                                                            <img id="myImg" src="{{ $r->image}}"  style="width:100%;max-width:100px" data-toggle="modal" data-target="#myModal" data-image="{{ $r->image }}">
                                                         @endif
                                                     </td>
 
@@ -319,7 +319,7 @@
 
                             <div class="card-body card-block">
 
-                                <form action="{{route('recetteCreate')  }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                                <form action="{{route('recetteCreate')  }}" id="ajoutrecette" method="POST" enctype="multipart/form-data" class="form-horizontal">
                                 @csrf
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Appartement:</label></div>
@@ -353,12 +353,13 @@
 
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="file-input" class=" form-control-label">image </label></div>
-                                        <div class="col-12 col-md-9"><input type="file" id="image" name="image" class="form-control-file"></div>
+                                        <div class="col-12 col-md-9"><input type="file" id="image" name="image"  accept="image/*"></div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description</label></div>
                                         <div class="col-12 col-md-9"><textarea name="description" id="description" rows="9" placeholder="Content..." class="form-control"></textarea></div>
                                     </div>
+
                                     <button type="submit" id="ajaxSubmit" class="btn btn-primary pull-right">submit</button>
 
 
@@ -393,7 +394,7 @@
 
                         <div class="card-body card-block">
 
-                            <form action="{{route('recettelocCreate')  }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                            <form action="{{route('recettelocCreate')  }}" method="POST" id="myModal_ajout_plus_form" enctype="multipart/form-data" class="form-horizontal">
                                 @csrf
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="text-input" class=" form-control-label">Category:</label></div>
@@ -467,15 +468,15 @@
                         <div class="card">
 
                             <div class="card-body card-block">
-                                <form action="{{ route('recettesUpdate') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                                <form action="{{ route('recettesUpdate') }}"  id="myModal_update_recette_form" method="POST" enctype="multipart/form-data" class="form-horizontal">
                                   @csrf
                                       <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label"></label></div>
                                         <div class="col-12 col-md-9">
-                                           <input type="hidden" name="id" id="id">
+                                           <input type="hidden" name="id" id="idup">
                                         </div>
                                           <div class="col-12 col-md-9">
-                                           <input type="hidden" name="user_id" id="user_id">
+                                           <input type="hidden" name="user_id" id="user_idup">
                                         </div>
                                     </div>
                                    <div class="row form-group">
@@ -509,11 +510,11 @@
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="file-input" class=" form-control-label">image </label></div>
-                                        <div class="col-12 col-md-9"><input type="file" id="image" name="image" class="form-control-file"></div>
+                                        <div class="col-12 col-md-9"><input type="file" id="imageup" name="image" class="form-control-file"></div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description</label></div>
-                                        <div class="col-12 col-md-9"><textarea name="description" id="description" rows="9" placeholder="Content..." class="form-control"></textarea></div>
+                                        <div class="col-12 col-md-9"><textarea name="descriptionup" id="description" rows="9" placeholder="Content..." class="form-control"></textarea></div>
                                     </div>
                                     <button type="submit" class="btn btn-primary  pull-right" id="ajaxSubmitupdate">mettre a jour</button>
 
@@ -622,7 +623,7 @@
                     <div class="card">
 
                         <div class="card-body card-block">
-                            <form action="{{ route('recetteslocUpdate') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                            <form action="{{ route('recetteslocUpdate') }}"  id="myModal_update_recette_loc_form" method="POST" enctype="multipart/form-data" class="form-horizontal">
                                 @csrf
                                 <input type="hidden" name="id" id="idlocup">
 
@@ -663,7 +664,7 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="file-input" class=" form-control-label">image </label></div>
-                                    <div class="col-12 col-md-9"><input type="file" id="image" name="image" class="form-control-file"></div>
+                                    <div class="col-12 col-md-9"><input type="file" id="imagelocup" name="image" class="form-control-file"></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description</label></div>

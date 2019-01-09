@@ -48,7 +48,6 @@ Route::post('recette/create', ['as' => 'recetteCreate', 'uses' => 'recetteContro
 Route::post('recette/loc/create', ['as' => 'recettelocCreate', 'uses' => 'recetteController@createloc']);
 Route::post('recette/loc/update', ['as' => 'recetteslocUpdate', 'uses' => 'recetteController@updateloc']);
 
-Route::get('recette/new', ['as' => 'recetteNew', 'uses' => 'recetteController@new']);
 Route::post('recette/update', ['as' => 'recettesUpdate', 'uses' => 'recetteController@update']);
 Route::post('recette/delete', ['as' => 'recetteDelete', 'uses' => 'recetteController@delete']);
 Route::get('recette/mail/{email}', ['as' => 'recetteMail', 'uses' => 'recetteController@mail']);

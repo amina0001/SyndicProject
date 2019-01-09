@@ -91,11 +91,14 @@
 
             var img = button.data('image')
             var modal = $(this)
-            $('.modal-body').append('<img class="myImg" style="width:100%;"  src=" /storage/' + img  + '">');
+            $('.modal-body').empty();
+            $('.modal-body').append('<img class="myImg" style="width:100%;"  src="' + img  + '">');
         });
 
         $("#myModal").on("hidden.bs.modal", function(){
             jQuery('.alert-danger').hide();
+            $('.modal-body').empty();
+
 
 
         });
@@ -145,10 +148,10 @@
 
 
             modal.find('.modal-body #appup').val(app);
-            modal.find('.modal-body #id').val(id);
-            modal.find('.modal-body #user_id').val(user_id);
-            modal.find('.modal-body #image').val(image);
-            modal.find('.modal-body #description').val(description);
+            modal.find('.modal-body #idup').val(id);
+            modal.find('.modal-body #user_idup').val(user_id);
+            modal.find('.modal-body #imageuo').val(image);
+            modal.find('.modal-body #descriptionup').val(description);
             modal.find('.modal-body #priceup').val(price);
             modal.find('.modal-body #dateup').val(date);
 
@@ -178,8 +181,11 @@
 </script>
 <script>
     jQuery(document).ready(function(){
-        jQuery('#ajaxSubmit').click(function(e){
+        jQuery('#ajoutrecette').submit(function(e){
             e.preventDefault();
+
+
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
@@ -189,18 +195,64 @@
             jQuery.ajax({
                 url: "{{ url('/recette/create') }}",
                 method: 'post',
-                data: {
-                    price: jQuery('#price').val(),
-                    app: jQuery('#app').val(),
-                    date: jQuery('#date').val(),
+                data: new FormData(this),
+                contentType: false,
 
-                    _token: '{{csrf_token()}}',
+                processData:false,
 
-                },
+
+
                 success: function(result){
                     if(result.errors)
                     {
                             jQuery('.alert-danger').html('');
+
+                        jQuery.each(result.errors, function(key, value){
+                            jQuery('.alert-danger').show();
+                            jQuery('.alert-danger').append('<li>'+value+'</li>');
+                        });
+                        console.log("n1");
+
+                    }
+                    else
+                    {
+                        jQuery('.alert-danger').hide();
+                        location.reload();
+                        console.log("n2");
+                    }
+                },
+
+
+            });
+        });
+    });
+
+
+
+    jQuery(document).ready(function(){
+        jQuery('#myModal_ajout_plus_form').submit(function(e){
+            console.log("nn");
+
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content'),
+                }
+            });
+            console.log(jQuery('#price').val());
+
+            jQuery.ajax({
+                url: "{{ url('/recette/loc/create') }}",
+                method: 'post',
+                data: new FormData(this),
+                contentType: false,
+
+                processData:false,
+
+                success: function(result){
+                    if(result.errors)
+                    {
+                        jQuery('.alert-danger').html('');
 
                         jQuery.each(result.errors, function(key, value){
                             jQuery('.alert-danger').show();
@@ -219,10 +271,15 @@
                 }});
         });
     });
+
+
+
+
+
 </script>
 <script>
     jQuery(document).ready(function(){
-        jQuery('#ajaxSubmitupdate').click(function(e){
+        jQuery('#myModal_update_recette_form').submit(function(e){
 
             $.ajaxSetup({
                 headers: {
@@ -230,18 +287,14 @@
                     'id':$('input[name=id]').val(),
                 }
             });
-            console.log(jQuery('#price').val());
+            console.log(jQuery('#pricelocup').val());
             jQuery.ajax({
                 url: "{{ url('/recette/update') }}",
                 method: 'post',
-                data: {
-                    price: jQuery('#priceup').val(),
-                    app: jQuery('#appup').val(),
-                    date: jQuery('#dateup').val(),
+                data: new FormData(this),
+                contentType: false,
 
-                    _token: '{{csrf_token()}}',
-
-                },
+                processData:false,
                 success: function(result){
                     if(result.errors)
                     {
@@ -425,54 +478,6 @@
 
 </script>
 <script>
-    jQuery(document).ready(function(){
-        jQuery('#ajoutloc').click(function(e){
-            console.log("nn");
-
-            e.preventDefault();
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content'),
-                }
-            });
-            jQuery.ajax({
-                url: "{{ url('/recette/loc/create') }}",
-                method: 'post',
-                data: {
-                    category: jQuery('#categoryloc').val(),
-                    nom: jQuery('#nomloc').val(),
-                    price: jQuery('#priceloc').val(),
-                    date: jQuery('#dateloc').val(),
-
-                    _token: '{{csrf_token()}}',
-
-                },
-                success: function(result){
-                    if(result.errors)
-                    {
-                        jQuery('.alert-danger').html('');
-
-                        jQuery.each(result.errors, function(key, value){
-                            jQuery('.alert-danger').show();
-                            jQuery('.alert-danger').append('<li>'+value+'</li>');
-                        });
-                        console.log("n1");
-
-                    }
-                    else
-                    {
-                        jQuery('.alert-danger').hide();
-
-                        location.reload();
-                        console.log("n2");
-                    }
-                }});
-        });
-    });
-
-
-
-
 
 
 
@@ -584,6 +589,7 @@
         var price = button.data('price')
         var date = button.data('date')
         var id = button.data('id')
+
         var modal = $(this)
         modal.find('.modal-body #nomlocup').val(nom);
         modal.find('.modal-body #categorylocup').val(category);
@@ -591,9 +597,9 @@
         modal.find('.modal-body #pricelocup').val(price);
         modal.find('.modal-body #datelocup').val(date);
         modal.find('.modal-body #idlocup').val(id);
-    });
+           });
     jQuery(document).ready(function(){
-        jQuery('#updateloc').click(function(event){
+        jQuery('#myModal_update_recette_loc_form').submit(function(event){
             console.log("nn");
 
             event.preventDefault();
@@ -608,15 +614,10 @@
             jQuery.ajax({
                 url: "{{ url('recette/loc/update') }}",
                 method: 'post',
-                data: {
-                    category: jQuery('#categorylocup').val(),
-                    nom: jQuery('#nomlocup').val(),
-                    price: jQuery('#pricelocup').val(),
-                    date:jQuery('#datelocup').val(),
-                    id: jQuery('#idlocup').val(),
-                    _token: '{{csrf_token()}}',
+                data: new FormData(this),
+                contentType: false,
 
-                },
+                processData:false,
                 success: function(result){
                     if(result.errors)
                     {

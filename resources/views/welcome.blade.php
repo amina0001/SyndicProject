@@ -81,7 +81,7 @@
                             <div class="dropdown  ">
 
                                 <button class="dropdown-toggle " data-toggle="dropdown" style="background: transparent;border:none" >
-                                    <img src="/images/amina.jpg" style="width:50px;height: 55px;border-radius: 50%;padding-top: 20% ">
+                                    <img src="{{ Auth::user()->photo }}" style="width:50px;height: 55px;border-radius: 50%;padding-top: 20% ">
                                 </button>
 
 

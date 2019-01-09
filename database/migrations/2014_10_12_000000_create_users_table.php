@@ -18,6 +18,8 @@ class CreateUsersTable extends Migration
             $table->string('app_num')->nullable();
             $table->string('firstname');
             $table->string('lastname');
+            $table->string('photo')->default(env('USERS_STORAGE_PATH').'default.png')->nullable();
+
             $table->string('cin')->unique()->nullable();
             $table->integer('building_id')->unsigned();
             $table->enum('role',['Occupant','Syndic','admin']);

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Recette extends Model
 {
-    
+    use CanUpload;
 
     /**
      * The attributes that are mass assignable. 

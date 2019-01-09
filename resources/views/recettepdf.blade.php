@@ -2,10 +2,10 @@
 <html>
 <head>
     <link rel="stylesheet" href="css/syn/bootstrap.min.css">
-    <title>Hi</title>
+    <title>RECETTE</title>
 </head>
 <body>
-<h2 style="text-align: center">Fiche des Recette</h2>
+<h2 style="text-align: center">Fiche des Recettes</h2>
 
 <h6>Batiment: {{$building->name}}</h6>
 <h6>Numero des apprtements: {{$building->num_app}}</h6>
@@ -34,8 +34,34 @@
     @endforeach
 
 </table>
+@if($recettesloc->isNotEmpty())
+<table class="table table-striped" >
+    <tr >
+        <th >Catégorie</th>
+        <th >Nom</th>
+        <th >Description</th>
+        <th >Prix</th>
+        <th >Date</th>
 
 
+    </tr>
+
+    @foreach($recettesloc as $d)
+        <tr >
+
+            <td>@if($d->category!== null){{ $d->category }}@else -- @endif</td>
+            <td>@if($d->nom!== null){{ $d->nom }}@else -- @endif</td>
+            <td>@if($d->description!== null){{ $d->description }}@else -- @endif</td>
+            <td> @if($d->price!== null){{ $d->price }} DNT @else -- @endif</td>
+            <td>@if($d->date!== null){{ $d->date }}@else -- @endif</td>
+
+        </tr>
+    @endforeach
+
+</table>
+@else
+    --Pad de recettes pour les locaux commercieux.
+@endif
 
 </body>
 </html>

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Recetteloc extends Model
 {
+
+    use CanUpload;
     protected $table = 'recette_locaux';
 
 

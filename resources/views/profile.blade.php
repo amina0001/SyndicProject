@@ -12,15 +12,15 @@
                             <div class="card-header">
                                 <strong>Profile</strong> 
                             </div>
-                             <form action="{{ route('profileUpdate', [Auth::id()]) }}" method="post" class="form-horizontal">
+                             <form action="{{ route('profileUpdate', [Auth::id()]) }}" method="post" class="form-horizontal" enctype="multipart/form-data">
                                    @csrf
                             <div class="card-body card-block">
                              <div class="row"  style="display: flex
 ">
                   
                             <div class="col-md-3">
-                                <img src="/images/amina.jpg" style="border-radius: 50%;height: 50%;width: 70%">
-                                <input type="file" name="file" accept="images/*">
+                                <img src="{{ Auth::user()->photo }}" style="border-radius: 50%;height: 50%;width: 70%">
+                                <input type="file" name="avatar" accept="images/*">
                             </div>
                             <div class="col-lg-9">
                                 

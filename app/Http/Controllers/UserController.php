@@ -94,7 +94,7 @@ class UserController extends Controller
                 'city' => 'required|not_in:0',
                 'street' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255',
-    ]);
+             ]);
          
 
         if ($validator->fails()) {
@@ -126,10 +126,17 @@ class UserController extends Controller
             $building->save();
             $adress->save();
         }
+
+        if($request->file('avatar')) {
+
+            $user->photo =  $user->uploadImage($request->file('avatar'), '/storage/users/avatars/',$user->id);
+
+        }
+
         $user->save();
 
-      
-return back();
+
+        return response()->json(200);
     }
     
     public function updateAvatar(Request $request)
