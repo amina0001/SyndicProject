@@ -22,7 +22,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.14.30/js/bootstrap-datetimepicker.min.js"></script>
 
 
-<script src="js/main_syndic.js"></script>
+<script src="/js/main_syndic.js"></script>
+
 {{--/******************************************depense js***********************************************************/--}}
 <script type="text/javascript">
 
@@ -69,6 +70,16 @@
             modal.find('.modal-body #description').val(description);
             modal.find('.modal-body #pricedup').val(price);
             modal.find('.modal-body #datedup').val(date);
+            modal.find('.modal-body #id').val(id);
+        });
+        $('#myModal_update_user').on('show.bs.modal', function (event) {
+            console.log("update user");
+            var button = $(event.relatedTarget)
+            var app_num = button.data('app_num')
+
+            var id = button.data('id')
+            var modal = $(this)
+            modal.find('.modal-body #app_num').val(app_num);
             modal.find('.modal-body #id').val(id);
         });
         $("#myModal_update_depense").on("hidden.bs.modal", function(){
@@ -334,7 +345,7 @@
 </script>
 <script>
     jQuery(document).ready(function(){
-        jQuery('#submitajoutdepense').click(function(e){
+        jQuery('#myModal_ajout_depense_form').submit(function(e){
             e.preventDefault();
             $.ajaxSetup({
                 headers: {
@@ -346,14 +357,10 @@
             jQuery.ajax({
                 url: "{{ url('/depense/create') }}",
                 method: 'post',
-                data: {
-                    titre: jQuery('#titled').val(),
-                    price: jQuery('#priced').val(),
-                    date: jQuery('#dated').val(),
+                data: new FormData(this),
+                contentType: false,
 
-                    _token: '{{csrf_token()}}',
-
-                },
+                processData:false,
                 success: function(result){
                     if(result.errors)
                     {
@@ -384,7 +391,7 @@
 <script>
 
     jQuery(document).ready(function(){
-        jQuery('#submitajoutdepenseup').click(function(e){
+        jQuery('#myModal_update_depense_form').submit(function(e){
             e.preventDefault();
             $.ajaxSetup({
                 headers: {
@@ -396,15 +403,10 @@
             jQuery.ajax({
                 url: "{{ url('/depense/update') }}",
                 method: 'post',
-                data: {
-                    id: jQuery('#id').val(),
-                    titre: jQuery('#titledup').val(),
-                    price: jQuery('#pricedup').val(),
-                    date: jQuery('#datedup').val(),
+                data: new FormData(this),
+                contentType: false,
 
-                    _token: '{{csrf_token()}}',
-
-                },
+                processData:false,
 
                 success: function(result){
                     if(result.errors)
@@ -652,5 +654,144 @@
         $('[data-tooltip="tooltip"]').tooltip();
     });
 </script>
+
+
+
+<script type="text/javascript">
+
+    jQuery(document).ready(function ($) {
+
+        $('#myModal_delete_occupants').on('show.bs.modal', function (event) {
+
+            var button = $(event.relatedTarget)
+
+            var id = button.data('id')
+            var modal = $(this)
+
+            modal.find('.modal-body #id').val(id);
+        });
+
+    });
+    jQuery(document).ready(function(){
+        jQuery('#myModal_delete_occupants_form').submit(function(e){
+            e.preventDefault();
+
+
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content'),
+                    'id':$('input[name=id]').val(),
+
+                }
+            });
+            jQuery.ajax({
+                url: "{{ url('/admin/occupant/delete') }}",
+                method: 'post',
+                data: new FormData(this),
+                contentType: false,
+
+                processData:false,
+
+
+
+                success: function(result){
+                    if(result.errors)
+                    {
+                        jQuery('.alert-danger').html('');
+
+                        jQuery.each(result.errors, function(key, value){
+                            jQuery('.alert-danger').show();
+                            jQuery('.alert-danger').append('<li>'+value+'</li>');
+                        });
+                        console.log("n1");
+
+                    }
+                    else
+                    {
+                        jQuery('.alert-danger').hide();
+                        location.reload();
+                        console.log("n2");
+                    }
+                },
+
+
+            });
+        });
+    });
+
+</script>
+
+
+
+<script type="text/javascript">
+
+    jQuery(document).ready(function ($) {
+
+        $('#myModal_add_occupants').on('show.bs.modal', function (event) {
+
+            var button = $(event.relatedTarget)
+
+            var building = button.data('building')
+
+            var modal = $(this)
+
+            modal.find('.modal-body #building').val(building);
+        });
+
+    });
+    jQuery(document).ready(function(){
+        jQuery('#myModal_add_occupants_form').submit(function(e){
+            e.preventDefault();
+
+
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content'),
+                    'building':$('input[name=building]').val(),
+
+                }
+            });
+            jQuery.ajax({
+                url: "{{ url('/admin/occupant/add') }}",
+                method: 'post',
+                data: new FormData(this),
+                contentType: false,
+                processData:false,
+
+
+
+
+                success: function(result){
+                    if(result.errors)
+                    {
+                        jQuery('.alert-danger').html('');
+
+                        jQuery.each(result.errors, function(key, value){
+                            jQuery('.alert-danger').show();
+                            jQuery('.alert-danger').append('<li>'+value+'</li>');
+                        });
+                        console.log("n1");
+
+                    }
+                    else
+                    {
+                        jQuery('.alert-danger').hide();
+                        location.reload();
+                        console.log("n2");
+                    }
+                },
+
+
+            });
+        });
+    });
+
+
+</script>
+
+
+
 </body>
 </html>

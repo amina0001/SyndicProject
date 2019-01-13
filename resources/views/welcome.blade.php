@@ -68,10 +68,10 @@
             <!--Logo/-->
             <nav class="collapse navbar-collapse" id="primary-menu">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active"><a href="#home-page">Home</a></li>
+                    <li class="active"><a href="#home-page">Acceuil</a></li>
                     <li><a href="#service-page">Service</a></li>
               
-                    <li><a href="#team-page">Team</a></li>
+                    <li><a href="#team-page">Équipe</a></li>
                     <li><a href="#faq-page">FAQ</a></li>
                    
                     <li><a href="#contact-page">Contact</a></li>
@@ -80,17 +80,17 @@
                     <li>
                             <div class="dropdown  ">
 
-                                <button class="dropdown-toggle " data-toggle="dropdown" style="background: transparent;border:none" >
-                                    <img src="{{ Auth::user()->photo }}" style="width:50px;height: 55px;border-radius: 50%;padding-top: 20% ">
+                                <button class="dropdown-toggle " data-toggle="dropdown" style="background: transparent;border:none;" >
+                                    <img src="{{ Auth::user()->photo }}" style="width:50px;height: 55px;border-radius: 50%; ">
                                 </button>
 
 
 
                                 <ul class="dropdown-menu drop">
 
-                                    <li><a class="nav-link"  href="{{ url('/') }}"><i class="fa fa-home"></i>  welcome</a></li>
+                                    <li><a class="nav-link"  href="{{ url('/') }}"><i class="fa fa-home"></i>  Acceuil</a></li>
                                    <li> <a class="nav-link"  href="{{ route('home') }}"><i class="fa fa-columns"></i>  Home</a></li>
-                                   <li> <a class="nav-link"  href="{{ route('profile', [Auth::id()]) }}"><i class="fa fa-user"></i>  My Profile</a></li>
+                                   <li> <a class="nav-link"  href="{{ route('profile', [Auth::id()]) }}"><i class="fa fa-user"></i> Mon Profile</a></li>
 
                                   <li> <a class="nav-link" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
@@ -108,22 +108,23 @@
                         <li>
                             <div class=" dropdown " style="margin-top: 0%">
                                 <button class="dropdown-toggle " data-toggle="dropdown" style="background: transparent;border:none" >
-                                    <img src="/images/amina.jpg" style="width:50px;height: 55px;border-radius: 50%;padding-top: 20% ">
+                                    <img src="{{ Auth::user()->photo }}" style="width:50px;height: 55px;border-radius: 50%; ">
                                 </button>
 
                                 <ul class="dropdown-menu drop">
-                                    <li><a href="{{ url('/') }}">Acceuil</a></li>
+                                    <li><a href="{{ url('/') }}"><i class="fa fa-home"></i> Acceuil</a></li>
                                     <li><a href="{{ url('/admin/home') }}"><i class="fa fa-columns"></i>  site admin</a></li>
                                     <li><a href="{{ route('profile', [Auth::id()]) }}"><i class="fa fa-user"></i>  Mon Profile</a></li>
 
 
 
                                     <li class="divider"></li>
-                                    <a class="nav-link" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
+
+                                    <li> <a class="nav-link" href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        <i class="fa fa-power-off"></i>  {{ __('Logout') }}
-                                    </a>
+                                            <i class="fa fa-power-off"></i>  {{ __('Logout') }}
+                                        </a></li>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
@@ -494,11 +495,11 @@
                         <form action="{{route('contactus')}}"  method="post" >
                             @csrf
                             <div class="form-double">
-                                <input type="text" id="form-name" name="name" placeholder="Your name" class="form-control" required="required">
-                                <input type="email" id="form-email" name="email" class="form-control" placeholder="E-mail address" required="required">
+                                <input type="text" id="form-name" name="name" placeholder="votre nom" class="form-control" required="required">
+                                <input type="email" id="form-email" name="email" class="form-control" placeholder="Votre adresse électronique" required="required">
                             </div>
-                            <input type="text" id="form-subject" name="form_subject" class="form-control" placeholder="Message topic" required="required">
-                            <textarea  id="form-message" name="user_message" rows="5" class="form-control" placeholder="Your message" required="required"></textarea>
+                            <input type="text" id="form-subject" name="form_subject" class="form-control" placeholder="Sujet du message" required="required">
+                            <textarea  id="form-message" name="user_message" rows="5" class="form-control" placeholder="Votre message" required="required"></textarea>
                             <button type="submit" class="btn btn-primary">Envoyer</button>
                         </form>
                     </div>
@@ -510,7 +511,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12 text-center">
-                        <p>&copy;Copyright 2018 All right resurved.  This template is made with  by SyndicTN</p>
+                        <p>&copy;Copyright 2018 Tous droits réservés pour SyndicTN</p>
                     </div>
                 </div>
             </div>

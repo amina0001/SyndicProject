@@ -18,7 +18,10 @@ Route::post('/contact', ['as' => 'contactus', 'uses' => 'ContactusController@sen
 
 Route::group(['prefix'=>'/admin', 'middleware'=>['auth', 'admin']], function(){
 Route::post('/occupants', ['as' => 'occupants', 'uses' => 'AdminOccupantController@occupants']);
+Route::post('occupant/add', ['as' => 'occupantAdd', 'uses' => 'AdminOccupantController@occupantsAdd']);
+
 Route::post('/gener/occupants', ['as' => 'generOccupant', 'uses' => 'AdminOccupantController@generoccupants']);
+Route::post('/occupant/delete', ['as' => 'userDelete', 'uses' => 'AdminOccupantController@occupantDelete']);
 
 Route::post('/occupants/create', ['as' => 'occupantCreate', 'uses' => 'AdminOccupantController@create']);
 Route::get('/home', 'HomeController@adminHome');
@@ -89,3 +92,5 @@ Route::post('generate-pdf',['as' => 'generatepdf', 'uses' => 'depenseController@
 Route::post('Rgenerate-pdf',['as' => 'Rgeneratepdf', 'uses' => 'recetteController@generatePDF']);
 /***********************users**************************/
 Route::get('occupant', ['as' => 'occupant', 'uses' => 'UserController@occupant']);
+Route::post('occupant/update', ['as' => 'userUpdate', 'uses' => 'AdminOccupantController@occupantUpdate']);
+Route::get('occupant/add', ['as' => 'userAdd', 'uses' => 'AdminOccupantController@occupantAdd']);

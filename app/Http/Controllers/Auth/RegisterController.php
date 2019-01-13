@@ -90,7 +90,7 @@ class RegisterController extends Controller
             'num_locaux' => $data['nb_loc'],
             'adress_id' =>$address->id,
             ]);
-        return User::create([
+        $user= User::create([
             'firstname' => $data['name'],
             'lastname' => $data['lastname'],
             'cin' => $data['cin'],
@@ -100,6 +100,32 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-      
+
+        $building=Building::where('id','=',$user->building_id)
+            ->first();
+        $buser= User::where('users.building_id','=',$user->building_id)
+            ->first();
+
+        if( !empty ( $buser->app_num) )
+            $app_number=$building->num_app-1;
+        else{
+            $app_number=$building->num_app;
+        }
+        while($app_number >0){
+            User::create([
+
+                'app_num' =>  $app_number,
+                'firstname' => "occupant".$app_number,
+                'lastname'=>"occupant".$app_number,
+                'building_id'=>$user->building_id,
+                'role'=> "Occupant",
+                'email'=>"appartement".$app_number."@".$building->name.".com",
+                'password'=>Hash::make($building->name."app".$app_number),
+            ]);
+            $app_number=$app_number-1;
+        }
+            return $user;
+
+
     }
 }

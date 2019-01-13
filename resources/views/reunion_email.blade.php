@@ -184,7 +184,8 @@
                                                     <table border="0" cellpadding="30" cellspacing="0" width="100%">
                                                         <tr>
                                                             <td align="center" valign="top" class="textContent">
-                                                                <h1 style="color:#FFFFFF;line-height:100%;font-family:Helvetica,Arial,sans-serif;font-size:35px;font-weight:normal;margin-bottom:5px;text-align:center;">SyndicTn </h1>
+                                                                <img src="/images/fsmsyndic.png">
+                                                                <h1 style="color:#FFFFFF;line-height:100%;font-family:Helvetica,Arial,sans-serif;font-size:35px;font-weight:normal;margin-bottom:5px;text-align:center;">Bienvenue aux SyndicTn </h1>
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -228,10 +229,10 @@
                                                                         <td valign="top" class="textContent">
 
                                                                             <h3  style="color:#5F5F5F;line-height:125%;font-family:Helvetica,Arial,sans-serif;font-size:20px;font-weight:normal;margin-top:0;margin-bottom:3px;text-align:left;">Suject : {{$subject}}</h3>
-                                                                            <div  style="text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;color:#5F5F5F;line-height:135%;">de : Syndic</div><br>
-                                                                            <div  style="text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;color:#5F5F5F;line-height:135%;">date : {{$date}}</div><br>
+                                                                            <div  style="text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:17px;margin-bottom:0;color:#5F5F5F;line-height:135%;"><u>de</u> : Syndic</div><br>
+                                                                            <div  style="text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:17px;margin-bottom:0;color:#5F5F5F;line-height:135%;"><u>date</u> : {{$date}}</div><br>
 
-                                                                            <div  style="text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:15px;margin-bottom:0;color:#5F5F5F;line-height:135%;">Contenu : <br> {{$description}}</div>
+                                                                            <div  style="text-align:left;font-family:Helvetica,Arial,sans-serif;font-size:17px;margin-bottom:0;color:#5F5F5F;line-height:135%;"><u>Contenu</u> : <br> {{$description}}</div>
 
                                                                         </td>
                                                                     </tr>

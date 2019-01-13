@@ -89,7 +89,7 @@
                                         <td>@if( empty($d->image))
                                                 <p>pas de reçu</p>
                                             @else
-                                                <img id="myImg" src="{{ Storage::url($d->image)}}"  style="width:100%;max-width:100px" data-toggle="modal" data-target="#myModal" data-image="{{ $d->image }}">
+                                                <img id="myImg" src="{{ $d->image}}"  style="width:100%;max-width:100px" data-toggle="modal" data-target="#myModal" data-image="{{ $d->image }}">
                                             @endif</td>
                                         @if(Auth::user()->role == "Syndic")
                                             <td>
@@ -111,7 +111,7 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            {{ $depenses->render()}}
+
                             @else
                                 <div class="alert alert-info" role="alert">
                                     <strong>Desolé.</strong> il y a pas de depenses.
@@ -173,7 +173,7 @@
                     <div class="card">
 
                         <div class="card-body card-block">
-                            <form action="{{ route('depenseCreate') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                            <form action="{{ route('depenseCreate') }}" id="myModal_ajout_depense_form" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 @csrf
 
                                 <div class="row form-group">
@@ -263,7 +263,7 @@
 
                         <div class="card-body card-block">
 
-                            <form action="{{ route('despenseUpdate') }}" method="post" enctype="multipart/form-data" class="form-horizontal" id=" edit-item">
+                            <form action="{{ route('despenseUpdate') }}" id="myModal_update_depense_form" method="post" enctype="multipart/form-data" class="form-horizontal" id=" edit-item">
                                 @csrf
                                 <input type="hidden" name="id" id="id" >
                                 <div class="row form-group">
@@ -288,7 +288,7 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="text-input" class=" form-control-label">montant</label></div>
-                                    <div class="col-12 col-md-9"><input type="number" id="pricedup" name="price" placeholder="Text" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
+                                    <div class="col-12 col-md-9"><input type="number" id="pricedup" name="price" placeholder="Text" class="form-control"></div>
 
                                 </div>
                                 <div class="row form-group">

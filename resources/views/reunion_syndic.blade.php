@@ -53,11 +53,11 @@
                            <table id="dtBasicExample"  class="table table-striped table-bordered" style="width:100%" >
                                     <thead>
                                         <tr>
-                                            <th>category</th>
-                                            <th>syndic or occupant</th>
-                                            <th>date</th>
+                                            <th>Sujet</th>
+                                            <th>Syndic ou occupant</th>
+                                            <th>Date</th>
 
-                                            <th>description</th>
+                                            <th>Description</th>
                                             @if(Auth::user()->role == "Syndic")
                                             <th></th>   
                                             <th></th>
@@ -146,11 +146,10 @@
                                 <form action="{{ route('reunionCreate')}}" method="POST" enctype="multipart/form-data" class="form-horizontal">
                                 @csrf
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Category:</label></div>
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Sujet:</label></div>
                                         <div class="col-md-9">
                                             <select class="form-control" id="categoryr" name="category">
-                                                <option disabled selected>--choisir category de reunion--</option>
-                                                <option  value="securite">securite</option>
+                                                <option disabled selected>--choisir Sujet de reunion--</option>
                                                 <option  value="Securite">Securite</option>
                                                 <option  value="Dépenses ou recettes">Dépenses ou recettes</option>
                                                 <option value="Réclamation">Réclamation</option>
@@ -160,7 +159,6 @@
 
                                               </select>
 
-                                            <small class="form-text text-muted">This is a help text</small>
                                         </div>
                                     </div>
                                  
@@ -232,8 +230,7 @@
                                                 <option value="Prise de conscience">Prise de conscience</option>
                                                 <option value="Autre">Autre</option>
                                               </select>
-
-                                            <small class="form-text text-muted">This is a help text</small></div>
+                                         </div>
                                     </div>
                                  
                                        <div class="row form-group">

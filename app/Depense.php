@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class Depense extends Model
-{
+{   use CanUpload;
  
     /**
      * The attributes that are mass assignable. 

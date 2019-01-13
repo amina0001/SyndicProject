@@ -32,7 +32,7 @@ class AdminOccupantController extends Controller
         $cty= City::where('id',$adress->city)->first();
         $st= state::where('id',$adress->state)->first();
 
-        return view('admin.occupants',compact('occupants','building','adress','cty','st'));
+            return view('admin.occupants',compact('occupants','building','adress','cty','st'));
     }
     public function generoccupants(Request $request)
     {
@@ -46,6 +46,8 @@ class AdminOccupantController extends Controller
         else{
             $app_number=$building->num_app;
         }
+        $name = preg_replace('/\s+/','',$building->name);
+
         while($app_number >0){
            User::create([
 
@@ -54,8 +56,8 @@ class AdminOccupantController extends Controller
                 'lastname'=>"occupant".$app_number,
                 'building_id'=>$request->bid,
                 'role'=> "Occupant",
-                'email'=>"appartement".$app_number."@".$building->name.".com",
-                'password'=>Hash::make($building->name."app".$app_number),
+                'email'=>"appartement".$app_number."@".$name.".com",
+                'password'=>Hash::make($name."app".$app_number),
             ]);
             $app_number=$app_number-1;
         }
@@ -199,6 +201,68 @@ class AdminOccupantController extends Controller
 
         return view('users',compact('users','msg','i','notifications','reunionsnotif'));
 
+
+    }
+
+    public function occupantUpdate(Request $request)
+    {
+        $user = User::where('id','=',$request->id)->first();
+        $user->app_num=$request->app_num;
+        $user->save();
+        return back();
+
+
+    }
+    public function occupantAdd()
+    {   $building=Building::where('id','=',auth::user()->building_id)
+        ->first();
+        $buser= User::where('users.building_id','=',auth::user()->building_id)
+            ->first();
+        $app="nouvaux".rand(1, 1000);
+        $user=User::create([
+
+
+            'firstname' => "occupant"."_nouvaux",
+            'lastname'=>"occupant"."_nouvaux",
+            'building_id'=>auth::user()->building_id,
+            'role'=> "Occupant",
+            'app_num'=>$app,
+            'email'=>"appartement"."_nouvaux".rand(1, 1000)."@".$building->name.".com",
+            'password'=>Hash::make($building->name."app"."_nouvaux"),
+        ]);
+        return back();
+
+
+    }
+    public function occupantDelete(Request $request)
+    {
+        $user =User::findOrFail($request->id);
+        $user->delete();
+        return response()->json(200);
+
+
+    }
+    public function occupantsAdd(Request $request)
+    {
+        $building=Building::where('id','=',$request->building)
+            ->first();
+        $buser= User::where('users.building_id','=',$request->building)
+            ->first();
+
+        $name = preg_replace('/\s+/','',$building->name);
+
+        $user=User::create([
+
+
+            'firstname' => "occupant_"."nv".rand(1, 10000),
+            'lastname'=>"occupant_"."nv".rand(1, 10000),
+            'building_id'=>$request->building,
+            'role'=> "Occupant",
+            'app_num'=>"nv".rand(1, 10000),
+            'email'=>"appartement"."_".rand(1, 1000)."@".$name.".com",
+            'password'=>Hash::make($name."app"."_nv"),
+        ]);
+        return response()->json(200);
 
     }
 }

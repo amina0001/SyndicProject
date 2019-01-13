@@ -15,7 +15,7 @@
                                     <img src="/images/money.png">
                                 </div>
                                 <div class="stat-content" >
-                                    users
+                                    Les utilisateurs
                                 </div>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card" style=" max-height: 400px;overflow-y: scroll;">
-                        <div class="card-header">Buildings with no occupant</div>
+                        <div class="card-header">Bâtiments sans occupant</div>
                         <div class="card-body">
                             @if($buildingempty->isNotEmpty())
                             <table class="table table-bordered">
@@ -127,7 +127,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Modal title</h5>
+        <h5 class="modal-title"></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -135,7 +135,7 @@
                 <form action="{{ route('occupants') }}" method="post" enctype="multipart/form-data" class="form-horizontal" >
 
       <div class="modal-body">
-        <p>which building</p>
+        <p>choisis un bâtiment</p>
              @csrf
 
                 <select class="form-control" name="bid">
@@ -168,7 +168,7 @@
                 <form action="{{ route('generOccupant') }}" method="post" enctype="multipart/form-data" class="form-horizontal" >
 
                     <div class="modal-body">
-                        <p>which building</p>
+                        <p>choisis un bâtiment</p>
                         @csrf
                         @if($buildingempty->isNotEmpty())
                         <select class="form-control" name="bid">
@@ -180,7 +180,7 @@
 
                         </select>
                             @else
-                            <h1>their is no empty building !</h1>
+                            <h1>il n'y a pas de bâtiment vide!</h1>
                         @endif
                     </div>
                     <div class="modal-footer">

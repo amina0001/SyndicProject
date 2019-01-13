@@ -101,7 +101,7 @@
             <ul class="nav navbar-nav">
                 @if(auth::user()->role === "Syndic" || auth::user()->role === "Occupant")
                     <li >
-                        <a href="{{ route('home') }}"><i class="menu-icon fa fa-laptop"></i>Dashboard </a>
+                        <a href="{{ route('home') }}"><i class="menu-icon fa fa-laptop"></i>tableau de bord </a>
                     </li>
                     <li >
                         <a  href="{{ route('depensesSyndic') }}"> <i class="menu-icon fa fa-table"></i>Dépense</a>
@@ -123,13 +123,13 @@
                         @endif
                     @elseif(auth::user()->role = "admin" )
                        <li >
-                           <a href="{{url('/admin/home')}}"><i class="menu-icon fa fa-laptop"></i>home </a>
+                           <a href="{{url('/admin/home')}}"><i class="menu-icon fa fa-laptop"></i>tableau de bord </a>
                        </li>
                        <li >
-                           <a  data-toggle="modal" data-target="#myModal_occupant"><i class="menu-icon fa fa-users"></i>users </a>
+                           <a  data-toggle="modal" data-target="#myModal_occupant"><i class="menu-icon fa fa-users"></i>Les Utilisateurs</a>
                        </li>
                        <li >
-                           <a  href="#"> <i class="menu-icon fa fa-table"></i>gener </a>
+                           <a  href="#"> <i class="menu-icon fa fa-table"></i>Gerer des  occupants </a>
 
                        </li>
                        @endif
@@ -154,7 +154,7 @@
 <div class="top-left">
 <div class="navbar-header" style="width: 50%">
 <a id="menuToggle" class="menutoggle" style="margin-top: 10%;" ><i class="fa fa-bars"></i></a>
-<a href="{{route('home')}}" ><img src="/images/fsmsyndic.png" alt="Logo" style="width: 150px;
+<a href="{{url('/')}}" ><img src="/images/fsmsyndic.png" alt="Logo" style="width: 150px;
 height: 120px;margin-top: -60%;margin-left: 30%">
 </a>
 
@@ -250,17 +250,17 @@ height: 120px;margin-top: -60%;margin-left: 30%">
    </a>
 
    <div class="user-menu dropdown-menu">
-       <a class="nav-link" href="{{ url('/') }}"><i class="fa fa-home"></i>welcome</a>
+       <a class="nav-link" href="{{ url('/') }}"><i class="fa fa-home"></i>Acceuil</a>
        @if(auth::user()->role === "Syndic" || auth::user()->role === "Occupant")
-       <a class="nav-link" href="{{ route('home') }}"><i class="fa fa-columns"></i>Dashboard</a>
+       <a class="nav-link" href="{{ route('home') }}"><i class="fa fa-columns"></i>tableau de bord</a>
        @elseif(auth::user()->role = "admin" )
        <a class="nav-link" href="{{ url('/admin/home') }}"><i class="fa fa-columns"></i>site admin</a>
        @endif
-       <a class="nav-link" href="{{ route('profile', [Auth::id()]) }}"><i class="fa fa-user"></i>My Profile</a>
+       <a class="nav-link" href="{{ route('profile', [Auth::id()]) }}"><i class="fa fa-user"></i>Mon profile</a>
 
        <a href="{{ route('logout') }}" onclick="event.preventDefault();
                                    document.getElementById('logout-form').submit();">
-           <i class="fa fa-power-off"></i> Logout</a>
+           <i class="fa fa-power-off"></i> Déconnecter</a>
        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
            @csrf
        </form>

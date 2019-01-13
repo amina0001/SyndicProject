@@ -38,7 +38,7 @@ class depenseController extends Controller
     public function preview()
     {
         $id=auth::user()->building_id;
-        $depenses = depense::where('building_id',$id)->orderBy('date', 'desc')->paginate(5);
+        $depenses = depense::where('building_id',$id)->orderBy('date', 'desc')->get();
         $des=Null;
         $bid = User::where('building_id',$id)->first();
     
@@ -133,12 +133,12 @@ class depenseController extends Controller
                 'building_id' => $id,
                 'description' => $request->description,
             ]);
-            if ($request->hasFile('image')) {
+            $building=Building::where('id','=',auth::user()->building_id)->first();
 
-                $cover = $request->file('image');
-                $extension = $cover->getClientOriginalExtension();
-                Storage::disk('public')->put($cover->getFilename() . '.' . $extension, File::get($cover));
-                $depense->image = $cover->getFilename() . '.' . $extension;
+            if ($request->file('image')) {
+
+
+                $depense->image =  $depense->uploadImage($request->file('image'), '/storage/building'.$building->name.'/depense/',$depense->id);
 
                 $depense->save();
             };
@@ -177,14 +177,14 @@ class depenseController extends Controller
     	  $depense->date =$request->input('date');
 
     	  $depense->building_id =$b_id;
-          if($request->hasFile('image')){
+        $building=Building::where('id','=',auth::user()->building_id)->first();
+
+        if ($request->file('image')) {
 
 
-        $cover = $request->file('image');
-        $extension = $cover->getClientOriginalExtension();
-         Storage::disk('public')->put($cover->getFilename().'.'.$extension,  File::get($cover));
-         $depense->image = $cover->getFilename().'.'.$extension;
+            $depense->image =  $depense->uploadImage($request->file('image'), '/storage/building'.$building->name.'/depense/',$depense->id);
 
+            $depense->save();
         };
 
         $depense->save();

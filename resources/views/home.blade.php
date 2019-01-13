@@ -28,9 +28,9 @@
                                         <div class="stat-text"><span class="count">{{ $recette->sums }}</span>DNT </div>
                                         <div class="stat-heading">en {{ 
                                             $recette->years }}</div>
-                                        <div class="stat-heading">revenu</div>
+                                        <div class="stat-heading">recette</div>
                                             @else
-                                            <div class="stat-heading">revenu</div>
+                                            <div class="stat-heading">recette</div>
                                             @endif
                                     </div>
                                 </div>

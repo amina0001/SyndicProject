@@ -38,7 +38,7 @@
                     <form method="POST" action="{{ route('login') }}" class="login100-form validate-form" id="login-form">
                         
                          <span class="login100-form-title p-b-43">
-                        Login to continue
+                                Connectez-vous pour continuer
                          </span>
                         <div >
                             <i class="fa fa-long-arrow-left" style="margin-left:70%;"></i>

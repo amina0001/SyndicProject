@@ -173,15 +173,15 @@
                                         <table id="dtBasicExample1"  class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                                             <thead>
                                             <tr>
-                                                <th>category</th>
+                                                <th>Catégorie</th>
 
-                                                <th>nom</th>
+                                                <th>Nom</th>
 
-                                                <th>montant</th>
-                                                <th>date</th>
-                                                <th>devis</th>
+                                                <th>Montant</th>
+                                                <th>Date</th>
+                                                <th>Devis</th>
 
-                                                <th>decription</th>
+                                                <th>Decription</th>
                                                 <th></th>
                                                 @if(Auth::user()->role == "Syndic")
                                                     <th></th>
@@ -332,11 +332,10 @@
                                                     @endforeach
                                               </select>
 
-                                            <small class="form-text text-muted">This is a help text</small></div>
                                     </div>
                                   <div class="row form-group">
-                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">montant</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="price" name="price" placeholder="Text" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
+                                        <div class="col col-md-3"><label for="text-input" class=" form-control-label">Montant</label></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="price" name="price" placeholder="Text" class="form-control"></div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Date</label></div>
@@ -352,7 +351,7 @@
                                     </div>
 
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="file-input" class=" form-control-label">image </label></div>
+                                        <div class="col col-md-3"><label for="file-input" class=" form-control-label">Reçu </label></div>
                                         <div class="col-12 col-md-9"><input type="file" id="image" name="image"  accept="image/*"></div>
                                     </div>
                                     <div class="row form-group">
@@ -397,7 +396,7 @@
                             <form action="{{route('recettelocCreate')  }}" method="POST" id="myModal_ajout_plus_form" enctype="multipart/form-data" class="form-horizontal">
                                 @csrf
                                 <div class="row form-group">
-                                    <div class="col col-md-3"><label for="text-input" class=" form-control-label">Category:</label></div>
+                                    <div class="col col-md-3"><label for="text-input" class=" form-control-label">Catégorie:</label></div>
                                     <div class="col-12 col-md-9">
                                         <select class="form-control" id="categoryloc" name="category">
                                             <option value="0">--Choisir une category--</option>
@@ -411,11 +410,11 @@
                                 </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Nom du loacaux ou du sponsore</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="nomloc" name="nom" placeholder="Text" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="nomloc" name="nom" placeholder="Text" class="form-control"></div>
                                     </div>
                                 <div class="row form-group">
-                                    <div class="col col-md-3"><label for="text-input" class=" form-control-label">montant</label></div>
-                                    <div class="col-12 col-md-9"><input type="text" id="priceloc" name="price" placeholder="Text" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
+                                    <div class="col col-md-3"><label for="text-input" class=" form-control-label">Montant</label></div>
+                                    <div class="col-12 col-md-9"><input type="text" id="priceloc" name="price" placeholder="Text" class="form-control"></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="text-input" class=" form-control-label">Date</label></div>
@@ -431,14 +430,14 @@
                                 </div>
 
                                 <div class="row form-group">
-                                    <div class="col col-md-3"><label for="file-input" class=" form-control-label">image </label></div>
+                                    <div class="col col-md-3"><label for="file-input" class=" form-control-label">Reçu </label></div>
                                     <div class="col-12 col-md-9"><input type="file" id="image" name="image" class="form-control-file"></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description</label></div>
                                     <div class="col-12 col-md-9"><textarea name="description" id="description" rows="9" placeholder="Content..." class="form-control"></textarea></div>
                                 </div>
-                                <button type="submit" id="ajoutloc"  class="btn btn-primary pull-right">ajouter</button>
+                                <button type="submit" id="ajoutloc"  class="btn btn-primary pull-right">Ajouter</button>
 
 
 
@@ -490,11 +489,10 @@
                                                 @endforeach
                                             </select>
 
-                                            <small class="form-text text-muted">This is a help text</small></div>
                                     </div>
                                   <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">montant</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="priceup" name="price" placeholder="Text" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="priceup" name="price" placeholder="Text" class="form-control"></div>
                                     </div>
                                       <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Date</label></div>
@@ -644,11 +642,11 @@
                                 </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Nom du loacaux ou du sponsore</label></div>
-                                        <div class="col-12 col-md-9"><input type="text" id="nomlocup" name="nom" placeholder="Text" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
+                                        <div class="col-12 col-md-9"><input type="text" id="nomlocup" name="nom" placeholder="Text" class="form-control"></div>
                                     </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="text-input" class=" form-control-label">montant</label></div>
-                                    <div class="col-12 col-md-9"><input type="text" id="pricelocup" name="price" placeholder="Text" class="form-control"><small class="form-text text-muted">This is a help text</small></div>
+                                    <div class="col-12 col-md-9"><input type="text" id="pricelocup" name="price" placeholder="Text" class="form-control"></div>
                                 </div>
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="text-input" class=" form-control-label">Date</label></div>
@@ -671,7 +669,6 @@
                                     <div class="col-12 col-md-9"><textarea name="description" id="descriptionlocup" rows="9" placeholder="Content..." class="form-control"></textarea></div>
                                 </div>
                                 <button type="submit" id="updateloc" class="btn btn-primary  pull-right" >mettre a jour</button>
-
 
 
                             </form>
