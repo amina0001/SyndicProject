@@ -8,6 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
+    <link rel="shortcut icon" href="images/icon.png">
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -17,8 +18,9 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <!--===============================================================================================-->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
 
-<!--===============================================================================================-->
+    <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="css/util.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
@@ -41,10 +43,10 @@
                                 Connectez-vous pour continuer
                          </span>
                         <div >
-                            <i class="fa fa-long-arrow-left" style="margin-left:70%;"></i>
 
-                            <a  id="button1" href="{{ url('/') }}#home-page" class="pull-right" style="color: #0b0b0b">Acceuil</a>
 
+                            <a  id="button1" href="{{ url('/') }}#home-page" class="pull-right" style="color: #0b0b0b"><i class="fa fa-long-arrow-left" ></i> <i class="fa fa-home" ></i> Acceuil</a>
+                            <br>
                         </div>
                         @if ($errors->any())
 

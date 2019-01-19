@@ -2,7 +2,9 @@
 <html>
 <head>
     <link rel="stylesheet" href="css/syn/bootstrap.min.css">
-    <title>Hi</title>
+    <link rel="shortcut icon" href="/images/icon.png">
+
+    <title>Depenses</title>
 </head>
 <body>
 <h2 style="text-align: center">Fiche des depenses</h2>
@@ -21,11 +23,9 @@
 
 
     </tr>
-
+    @if($depenses->isNotEmpty())
     @foreach($depenses as $d)
-    <tr >
-
-
+    <tr>
         <td>@if($d->titre!== null){{ $d->titre }} @else -- @endif</td>
          <td>@if($d->description!== null){{ $d->description }}@else -- @endif</td>
         <td> @if($d->price!== null){{ $d->price }} DNT @else -- @endif</td>
@@ -33,6 +33,7 @@
 
     </tr>
     @endforeach
+        @endif
 
 </table>
 

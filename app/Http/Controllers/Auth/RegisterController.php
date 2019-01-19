@@ -52,19 +52,41 @@ class RegisterController extends Controller
     {
         $validator = Validator::make($data, [
             'name' => 'required|string|max:255',
-            'lastname' => 'string|max:255',     
+            'lastname' => 'required|string|max:255',
             'building_name' => 'required|string|max:255',
-            'nb_loc' => 'required',
-            'nb_app' => 'required',
+            'nb_loc' => 'required|max:10',
+            'nb_app' => 'required|max:70',
             'cin'=>'required|min:8|max:8',
             'state' =>  'required|not_in:0',
             'city' => 'required|not_in:0',
             'street' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+        ],[
+            'name.required'=>'champs nom obligatoire',
+            'lastname.required'=>'champs prenom obligatoire',
+            'building_name.required'=>'champs nom de batiment obligatoire',
+            'nb_loc.required'=>'champs Nombre des  locaux commercials à l\'extérieur obligatoire',
+            'nb_loc.max'=>'champs au max 10',
+            'nb_app.required'=>'champs nombre des appartements obligatoire',
+            'nb_app.max'=>'champs au max 70 appartements',
+            'state.required'=>'champs gouvernat obligatoire',
+            'city.required'=>'champs ville obligatoire',
+            'email.required'=>'champs email obligatoire',
+            'email.email'=>'champs doit être un email',
+            'cin.required'=>'champs cin obligatoire',
+            'cin.min'=>'champs cin au min 8 caracteres',
+            'cin.max'=>'champs cin au max 8 caracteres' ,
+
+            'password.required'=>'champs password obligatoire',
+            'password.min'=>'le champ password doit avoir au minimum 6 caractère',
+            'password.confirmed'=>'La confirmation du mot de passe ne correspond pas.',
+
+
         ]);
         if($validator->fails()) {
-            dd($validator->errors());
+
+            return $validator;
         }
             else {
                 return $validator;

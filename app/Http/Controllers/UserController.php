@@ -88,7 +88,6 @@ class UserController extends Controller
                 'building_name' => 'required|string|max:255',
                 'num_locaux' => 'required',
                 'num_app' => 'required',
-                'app_num'=>'required',
                 'cin'=>'required|min:8|max:8',
                 'state' =>  'required|not_in:0',
                 'city' => 'required|not_in:0',
@@ -136,7 +135,7 @@ class UserController extends Controller
         $user->save();
 
 
-        return response()->json(200);
+        return back();
     }
     
     public function updateAvatar(Request $request)

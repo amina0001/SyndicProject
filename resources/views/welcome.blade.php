@@ -38,6 +38,54 @@
         .drop  li a:hover {
              border-top: none!important;
         }
+        #logo{
+            margin-top: -15%!important;width: 70%
+        }
+        @media only screen and (max-width: 800px) and (min-width: 505px)  {
+            #logo{
+
+                margin-top:0%!important;
+                width: 100%;
+            }
+            .navbar-header{
+                width:100px;
+
+            }
+        }
+        @media only screen and (max-width: 500px) {
+            #logo{
+                margin-top: -5%!important;
+                width: 30%;
+            }
+            .mainmenu-area{
+                width: 90%;
+            }
+            .imgauth{
+                margin-left: 40%;
+                margin-top: -5%!important;
+            }
+        }
+        .loader {
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 70px;
+            height: 70px;
+            -webkit-animation: spin 2s linear infinite; /* Safari */
+            animation: spin 2s linear infinite;
+
+        }
+
+        /* Safari */
+        @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 
@@ -62,7 +110,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a href="#" >
-                    <img src="images/fsmsyndicwelc.png" style="margin-top: -15%!important;width: 70%">
+                    <img id="logo" src="images/fsmsyndicwelc.png" style="">
                 </a>
             </div>
             <!--Logo/-->
@@ -78,7 +126,7 @@
                     @if(Auth::check() )
                     @if( Auth::user()->role == "Syndic" || Auth::user()->role == "Occupant" )
                     <li>
-                            <div class="dropdown  ">
+                            <div class="dropdown  imgauth">
 
                                 <button class="dropdown-toggle " data-toggle="dropdown" style="background: transparent;border:none;" >
                                     <img src="{{ Auth::user()->photo }}" style="width:50px;height: 55px;border-radius: 50%; ">
@@ -95,7 +143,7 @@
                                   <li> <a class="nav-link" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                    <i class="fa fa-power-off"></i>  {{ __('Logout') }}
+                                    <i class="fa fa-power-off"></i>  {{ __('Déconnecter') }}
                                      </a></li>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -103,6 +151,7 @@
                                 </form>
                             </ul>
                         </div>
+
                     </li>
                     @elseif( Auth::user()->role == "admin" )
                         <li>
@@ -291,7 +340,7 @@
                                     </div>
                                         <div class="col-md-6">
                                         <div class="caption-photo one" data-animation="animated fadeInRight">
-                                            <img src="images/depense.png" alt="">
+                                            <img src="images/msg.png" alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -491,8 +540,13 @@
                             </div>
                         </address>
                     </div>
-                    <div class="col-xs-12 col-md-8">
-                        <form action="{{route('contactus')}}"  method="post" >
+                    <div class="col-xs-12 col-md-8 ">
+                        <div class="row">
+                        <div  id="loading" class="col-md-3"></div>
+                        <div  id="headup" class="col-md-9"><p id="displayResult"></p>
+                        </div>
+                        </div>
+                        <form action="{{route('contactus')}}"  id="sub-form" method="post" >
                             @csrf
                             <div class="form-double">
                                 <input type="text" id="form-name" name="name" placeholder="votre nom" class="form-control" required="required">
@@ -500,7 +554,7 @@
                             </div>
                             <input type="text" id="form-subject" name="form_subject" class="form-control" placeholder="Sujet du message" required="required">
                             <textarea  id="form-message" name="user_message" rows="5" class="form-control" placeholder="Votre message" required="required"></textarea>
-                            <button type="submit" class="btn btn-primary">Envoyer</button>
+                            <button type="submit"  class="btn btn-primary  ">Envoyer</button>
                         </form>
                     </div>
                 </div>

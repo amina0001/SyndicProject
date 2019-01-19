@@ -9,7 +9,7 @@
     -o-background-size: cover;
     -moz-background-size: cover;
     -webkit-background-size: cover;
-    background-size: cover; " >
+    background-size: cover;height:550px; " >
             
             <!-- Widgets  -->
             <div class="row">
@@ -24,13 +24,26 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="text-left dib">
-                                        @if($recette !== null)
-                                        <div class="stat-text"><span class="count">{{ $recette->sums }}</span>DNT </div>
-                                        <div class="stat-heading">en {{ 
+
+                                        @if($recette !== null || $recetteloc !== null)
+                                            @if($recette !== null)
+                                                <div class="stat-text"><span class="count">{{ $recette->sums }}</span>DNT </div>
+                                                <div class="stat-heading">en {{
                                             $recette->years }}</div>
-                                        <div class="stat-heading">recette</div>
+                                            @elseif($recetteloc !== null)
+                                                <div class="stat-text"><span class="count">{{ $recetteloc->sums }}</span>DNT </div>
+                                                <div class="stat-heading">en {{
+                                            $recetteloc->years }}</div>
                                             @else
-                                            <div class="stat-heading">recette</div>
+                                                <div class="stat-text"><span class="count">{{ $recette->sums + $recetteloc->sums }}</span>DNT </div>
+                                                <div class="stat-heading">en {{
+                                            $recette->years }}</div>
+                                            @endif
+
+                                        <div class="stat-heading">Recettes</div>
+
+                                            @else
+                                            <div class="stat-heading">Recettes</div>
                                             @endif
                                     </div>
                                 </div>
@@ -81,7 +94,7 @@
                                          <div class="stat-text"><span class="count">{{ $reunion->sums }}</span>  en {{ 
                                             $reunion->years }}</div>
                                         @endif
-                                        <div class="stat-heading">gerer les reunion </div>
+                                        <div class="stat-heading">gerer les reunions </div>
                                       <!-- Modal -->
 
                                     </div>
@@ -133,15 +146,16 @@
                 <div class="col-lg-6">
                     <div class="card" style=" max-height: 400px;overflow-y: scroll;">
                         <div class="card-body">
-                            
+                            <h3>Liste des achats à faire</h3>
+                            <hr>
                            <div id="myDIV" class="header">
                                      
                                       <form action="{{ route('choresCreate') }}" method="POST">
                                         @csrf
                                       <input type="text" class="form-control" name="chore" id="myInput" placeholder="achat à faire" style="">
-                                      <button type="submit" class=" btn-primary" style="padding:13px"  >Ajouter</button>
+                                      <button type="submit" class=" btn-primary" style="padding:12px"  >Ajouter</button>
                                       </form>
-                                    </div>                             <hr>
+                                    </div>
                             <div class="card-content">
                                
 
@@ -151,7 +165,8 @@
                                       <li > {{ $c->chore }} <button data-toggle="modal" data-target="#myModal_delete" data-id="{{ $c->id }}" class="btn-default pull-right" style=""><img src="images/delete.png"></button> </li>
                                       @endforeach
                                          @else
-                                         <h3>--Pas d'achat a faire</h3>
+                                         <br>
+                                         <h5>--Pas d'achat a faire</h5>
                                     @endif
                                     </ul>
 <!-- /.todo-list -->
@@ -165,7 +180,7 @@
             <div class="col-lg-6">
                 <div class="col-md-12 col-lg-12">
                     <div class="card">
-                        <div class="card-body" style="overflow-y: scroll;max-height: 400px;">  
+                        <div class="card-body" style="overflow-y: scroll;max-height: 400px;height: 250px">
                             <!-- <h4 class="box-title">Chandler</h4> -->
                             <h3>Historique des réunions</h3>
                             <hr>
@@ -182,7 +197,7 @@
                               @endforeach
 
                                 @else
-                                <h3>-- Pas de réunion</h3>
+                                <h5>-- Pas de réunion</h5>
                               @endif
 
                             </div>
@@ -208,7 +223,7 @@
             <div class="footer-inner bg-white">
                 <div class="row">
                     <div class="col-sm-6">
-                        Copyright &copy; 
+                        Copyright &copy;  SyndicTN
                     </div>
                     
                 </div>

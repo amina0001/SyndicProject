@@ -9,6 +9,8 @@ use App\Reunion;
 use App\Chore;
 use App\Message;
 use App\Recette;
+use App\Recetteloc;
+
 use App\Depense;
 use App\notification;
 use App\Notificationmsg;
@@ -106,10 +108,19 @@ class HomeController extends Controller
             DB::raw('sum(price) as sums'), 
             DB::raw("DATE_FORMAT(recettes.created_at,'%Y') as years")
           )
-          ->join('users', 'users.id', '=', 'recettes.user_id')
-           ->where('users.building_id','=',auth::user()->building_id)
+
+           ->where('user_id','=',auth::user()->id)
           ->groupBy('years')
           ->first();
+        $recetteloc = Recetteloc::select(
+            DB::raw('sum(price) as sums'),
+            DB::raw("DATE_FORMAT(recette_locaux.created_at,'%Y') as years")
+        )
+            ->where('building_id','=',auth::user()->building_id)
+            ->groupBy('years')
+            ->first();
+
+
 
        $depense = Depense::select(
         DB::raw('sum(price) as sums'), 
@@ -128,7 +139,7 @@ class HomeController extends Controller
       ->groupBy('years')
       ->first();
      /*     dd($recette);*/
-        return view("home",compact('chores','reunionsnotif','notifications','i','msg','recette','reunion','depense'));
+        return view("home",compact('chores','reunionsnotif','recetteloc','notifications','i','msg','recette','reunion','depense'));
     }
      public function choreCreate(Request $request)
     {

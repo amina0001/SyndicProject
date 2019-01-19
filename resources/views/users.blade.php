@@ -114,10 +114,7 @@
         <div class="footer-inner bg-white">
             <div class="row">
                 <div class="col-sm-6">
-                    Copyright &copy;
-                </div>
-                <div class="col-sm-6 text-right">
-                    Designed by <a href="#">SyndicTn</a>
+                    Copyright &copy; SyndicTn
                 </div>
             </div>
         </div>

@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Storage;
 use App\Reunion;
 use App\notification;
-
+use App\Building;
 use DB;
 use App\User;
 use Mail;
@@ -101,7 +101,14 @@ class ReunionController extends Controller
                 'user_id' => auth::user()->id,
                 'description' => $request->description,
             ]);
+            $building=Building::where('id','=',auth::user()->building_id)->first();
 
+            if($request->hasFile('file')){
+
+                $building=Building::where('id','=',auth::user()->building_id)->first();
+                $reunion->file =  $reunion->uploadFile($request->file('file'),$reunion->id,'/storage/building'.$building->name.'/reunion/');
+                $reunion->save();
+            }
             $users = User::where('building_id', auth::user()->building_id)->get();
             foreach ($users as $user) {
                 notification::create([
@@ -139,6 +146,13 @@ class ReunionController extends Controller
             $reunion->category = $request->category;
             $reunion->date = $request->date;
             $reunion->description = $request->description;
+            $building=Building::where('id','=',auth::user()->building_id)->first();
+            if($request->hasFile('file')){
+
+                $building=Building::where('id','=',auth::user()->building_id)->first();
+                $reunion->file =  $reunion->uploadFile($request->file('file'),$reunion->id,'/storage/building'.$building->name.'/reunion/');
+
+            }
             $reunion->save();
             return back();
         }
@@ -172,5 +186,18 @@ class ReunionController extends Controller
 
         }
         return back()->with('success','sucesss');
+    }
+
+    public function generatePDF($id)
+    {
+        $reunion = Reunion::findOrFail($id);
+        return Storage::disk('public')->download(str_replace('/storage/', '',$reunion->file));
+
+    }
+    public function delete(Request $request)
+    {
+        $reunion =Reunion::findOrFail($request->id);
+        $reunion->delete();
+        return back();
     }
 }

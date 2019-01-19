@@ -31,7 +31,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <link rel="stylesheet" href="/css/style.css">
-   
+
 <!--===============================================================================================-->    
     <link rel="stylesheet" href="/css/chat.css">
 
@@ -194,6 +194,46 @@
         width: 100%;
     }
 }
+.logo{
+    width: 170px;
+    height: 120px;
+    margin-top: -60%;
+    margin-left: 1%
+}
+.navbar-header{
+    width: 50%;
+}
+.menutoggle{
+    margin-top: 10%;margin-left: 120%!important;
+}
+.chat-content{
+    height: 350px;
+
+}
+.messenger-box{
+    height: 430px;
+}
+@media only screen and (max-width: 500px) {
+    .logo{
+        margin-left: 7%!important;
+        margin-top: -45%;
+        width: 50%;
+    }
+
+    .navbar-header{
+        width: 100%;
+        margin-top: 5%;
+
+    }
+    .top-left{
+        height: 10%;
+    }
+    .menutoggle{
+        margin-top: 3%;
+        margin-left: 150%;
+    }
+}
+
 </style>
 </head>
 <body style=" background-color: #f8fafc;">
@@ -211,10 +251,10 @@
             <div class="footer-inner bg-white">
                 <div class="row">
                     <div class="col-sm-6">
-                        Copyright &copy;
+
                     </div>
                     <div class="col-sm-6 text-right">
-                        Designed by <a href="https://colorlib.com">SyndicTn</a>
+                        <a >  Copyright &copy; SyndicTn</a>
                     </div>
                 </div>
             </div>
@@ -223,27 +263,28 @@
     </div>
     <!--===============================================================================================-->
         <script src="/js/jquery-2.1.4.min.js"></script>
-
-
-     <script src="/js/bootstrap.min.js"></script>
-
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/plugins.js"></script>
-       
-
-	
-
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/popper.min.js"></script>
+         <script src="/js/plugins.js"></script>
 <!--===============================================================================================-->
    <script src="{{ asset('js/app.js') }}" defer></script>
 
 <!--===============================================================================================-->
 
-    
+
     <script src="/js/main_syndic.js"></script>
 	<script src="/js/main.js"></script>
 
 
-     
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/plugins.js"></script>
+
+
+
+
+
+
 
   
     

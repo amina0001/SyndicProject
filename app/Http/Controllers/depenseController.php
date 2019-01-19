@@ -214,16 +214,16 @@ class depenseController extends Controller
     { $now = Carbon::now();
         $monthStart = $now->month;
        $year=$now->year;
-       if(strlen($request->month)===2){
+       if(strlen($request->month)===2 || strlen($request->month)===1){
            $depenses = Depense::where('building_id','=',auth::user()->building_id)
                ->whereMonth('date', '=', (int)$request->month)
                ->whereYear('date', '=', $year)
                ->get();
+
        }
        elseif(strlen($request->month)===4){
            $depenses = Depense::where('building_id','=',auth::user()->building_id)
                ->whereYear('date', '=', (int)$request->month)
-
                ->get();
 
        }

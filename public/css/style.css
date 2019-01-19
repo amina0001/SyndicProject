@@ -1376,7 +1376,8 @@ header .form-inline {
 .content {
   float: left;
   padding: 1.875em;
-  width: 100%; }
+  width: 100%;
+  }
 
 .card {
   margin-bottom: 1.875em;
@@ -2620,9 +2621,10 @@ footer.site-footer {
       right: 0;
       padding: 0 30px;
       z-index: 999;
-      border-bottom: 1px solid #dcdcdc; }
+      border-bottom: 1px solid #dcdcdc;
+    }
     .right-panel header.header .top-right {
-      padding: 0 30px; }
+   }
 
   .small-device .right-panel {
     margin-left: 0; }

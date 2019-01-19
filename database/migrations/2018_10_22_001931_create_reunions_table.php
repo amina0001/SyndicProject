@@ -19,7 +19,7 @@ class CreateReunionsTable extends Migration
             $table->date('date');
             $table->enum('approved',['En cours','Apprové','Non apprové'])->default('En cours');;
             $table->string('category');
-            
+            $table->string('file')->nullable();
             $table->string('description');
             $table->timestamps();
         });

@@ -2,6 +2,8 @@
 <html>
 <head>
     <link rel="stylesheet" href="css/syn/bootstrap.min.css">
+    <link rel="shortcut icon" href="/images/icon.png">
+
     <title>RECETTE</title>
 </head>
 <body>
@@ -12,6 +14,8 @@
 <h6>Rue: {{$adress->street}}</h6>
 <h6>Ville: {{$cty->name}}</h6>
 <h6>Gouvernorat: {{$st->name}}</h6>
+<br>
+<h2>les recettes des apparetement payé :</h2>
 <table class="table table-striped" >
     <tr >
         <th >Appartement</th>
@@ -21,6 +25,7 @@
 
 
     </tr>
+    @if($recettes->isNotEmpty())
 
     @foreach($recettes as $d)
         <tr >
@@ -32,8 +37,13 @@
 
         </tr>
     @endforeach
+        @endif
 
 </table>
+<hr>
+<br>
+<h2>les recettes des locaux commercial ou sponsore  payé :
+</h2>
 @if($recettesloc->isNotEmpty())
 <table class="table table-striped" >
     <tr >

@@ -18,11 +18,11 @@
                              <div class="row"  style="display: flex
 ">
                   
-                            <div class="col-md-3">
-                                <img src="{{ Auth::user()->photo }}" style="border-radius: 50%;height: 50%;width: 70%">
-                                <input type="file" name="avatar" accept="images/*">
+                            <div class="col-sm-3">
+                                <img src="{{ Auth::user()->photo }}"  id="proto" style="border-radius: 50%;height: 50%;width: 70%">
+                                <input type="file"  id="imgInp" name="avatar" accept="images/*">
                             </div>
-                            <div class="col-lg-9">
+                            <div class="col-md-9">
                                 
                                     <div class="row ">
                                     <div class="col-md-6">
@@ -82,7 +82,7 @@
 
                                     <div class="col-lg-12">
                                     <div class="row form-group">
-                                        <div class="col-md-2"><label class=" form-control-label">Building name</label></div>
+                                        <div class="col-md-2"><label class=" form-control-label">Nom du bâtiment</label></div>
                                         <div class="col-md-9"><input  {{$readonly}} type="text" class="form-control" name="building_name" value="{{$building->name}}">
                                             @if ($errors->has('building_name'))
                                                 <small class="form-text" style="color:red">{{ $errors->first('building_name') }}</small>
@@ -95,8 +95,8 @@
                                     <div class="row ">
                                         <div class="col-md-6">
                                             <div class="row form-group">
-                                                <div class="col-md-3"><label class=" form-control-label">Nb app</label></div>
-                                                <div class="col-md-9"><input {{$readonly}} type="text"  class="form-control" name="num_app" value="{{$building->num_app}}">
+                                                <div class="col-md-4"><label class=" form-control-label">Nombre des appartements</label></div>
+                                                <div class="col-md-8"><input {{$readonly}} type="text"  class="form-control" name="num_app" value="{{$building->num_app}}">
                                                     @if ($errors->has('num_app'))
 
                                                         <small class="form-text" style="color:red">{{ $errors->first('num_app') }}</small>
@@ -108,8 +108,8 @@
 
                                         <div class="col-md-6">
                                             <div class="row form-group">
-                                                <div class="col-md-3"><label  class=" form-control-label">nb loc</label></div>
-                                                <div class="col-md-9"><input {{$readonly}} type="text" class="form-control" name="num_locaux" value="{{$building->num_locaux}}">
+                                                <div class="col-md-4"><label  class=" form-control-label">Nombre des locaux commerciaux</label></div>
+                                                <div class="col-md-8"><input {{$readonly}} type="text" class="form-control" name="num_locaux" value="{{$building->num_locaux}}">
                                                     @if ($errors->has('num_locaux'))
                                                         <small class="form-text" style="color:red">{{ $errors->first('num_locaux') }}</small>
 
@@ -124,8 +124,8 @@
                                     <div class="row ">
                                 <div class="col-md-6">
                                      <div class="row form-group">
-                                        <div class="col-md-3"><label  class=" form-control-label">Street</label></div>
-                                        <div class="col-md-9"><input {{$readonly}} type="text"  class="form-control" name="street" value="{{$adress->street}}">
+                                        <div class="col-md-4"><label  class=" form-control-label">Rue:</label></div>
+                                        <div class="col-md-8"><input {{$readonly}} type="text"  class="form-control" name="street" value="{{$adress->street}}">
 
                                             @if ($errors->has('street'))
                                                 <small class="form-text" style="color:red">{{ $errors->first('street') }}</small>
@@ -137,12 +137,9 @@
 
                                     <div class="col-md-6">
                                         <div class="row form-group">
-                                            <div class="col-md-3"><label  class=" form-control-label">appartement</label></div>
-                                            <div class="col-md-9"><input  type="text" class="form-control" name="app_num" value="{{$user->app_num}}">
-                                                @if ($errors->has('app_num'))
-                                                    <small class="form-text" style="color:red">{{ $errors->first('app_num') }}</small>
+                                            <div class="col-md-4"><label  class=" form-control-label">appartement</label></div>
+                                            <div class="col-md-8"><input  type="text" class="form-control" name="app_num" value="{{$user->app_num}}">
 
-                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -157,7 +154,7 @@
                               <div class="row ">
                                     <div class="col-md-6">
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="hf-password" class=" form-control-label">state</label></div>
+                                        <div class="col col-md-3"><label for="hf-password" class=" form-control-label">Gouvernerat</label></div>
                                         <div class="col-12 col-md-9">
                                             <select id="state" {{$readonly}}  class="form-control {{ $errors->has('state') ? ' is-invalid' : '' }} dynamic " name="state"  value="{{ old('state') }}" required autofocus  >
 
@@ -180,7 +177,7 @@
 
                                 <div class="col-md-6">
                                      <div class="row form-group">
-                                        <div class="col col-md-3"><label for="hf-password" class=" form-control-label">city</label>
+                                        <div class="col col-md-3"><label for="hf-password" class=" form-control-label">Ville</label>
                                         </div>
                                         <div class="col-12 col-md-9">
 
@@ -363,7 +360,21 @@ $('select[name="state"]').on('change', function(){
              }});
      });
  });
+ function readURL(input) {
+     if (input.files && input.files[0]) {
+         var reader = new FileReader();
 
+         reader.onload = function (e) {
+             $('#proto').attr('src', e.target.result);
+         }
+
+         reader.readAsDataURL(input.files[0]);
+     }
+ }
+
+ $("#imgInp").change(function(){
+     readURL(this);
+ });
 </script>
 
 

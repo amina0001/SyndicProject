@@ -88,6 +88,38 @@
             border-width: 0 0 1px 0;
             border-radius: 20px;
         }
+        .logo{
+            width: 150px;
+            height: 120px;
+            margin-top: -60%;
+            margin-left: 10%
+        }
+        .navbar-header{
+            width: 50%;
+        }
+        .menutoggle{
+            margin-top: 10%;margin-left: 60%;
+        }
+        @media only screen and (max-width: 500px) {
+            .logo{
+                margin-left: 7%!important;
+                margin-top: -45%;
+                width: 50%;
+            }
+
+            .navbar-header{
+                width: 100%;
+                margin-top: 5%;
+
+            }
+            .top-left{
+                height: 10%;
+            }
+            .menutoggle{
+                margin-top: 3%;
+                margin-left: 150%;
+            }
+        }
 
     </style>
 </head>
@@ -152,10 +184,9 @@
 <!-- Header-->
 <header id="header" class="header">
 <div class="top-left">
-<div class="navbar-header" style="width: 50%">
-<a id="menuToggle" class="menutoggle" style="margin-top: 10%;" ><i class="fa fa-bars"></i></a>
-<a href="{{url('/')}}" ><img src="/images/fsmsyndic.png" alt="Logo" style="width: 150px;
-height: 120px;margin-top: -60%;margin-left: 30%">
+<div class="navbar-header" style="">
+<a id="menuToggle" class="menutoggle" style="" ><i class="fa fa-bars"></i></a>
+<a href="{{url('/')}}" ><img class="logo" src="/images/fsmsyndic.png" alt="Logo" style="">
 </a>
 
 

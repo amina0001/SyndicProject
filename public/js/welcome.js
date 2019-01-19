@@ -200,4 +200,15 @@
     $(window).on("load", function () {
         $('.preloader').fadeOut(500);
     });
+
+
+    $('#sub-form').submit(function() {
+        var pro = '';
+        $('#loading').addClass('loader');
+        $('#headup').addClass('alert  alert-info');
+        pro ='veuillez patienter jusqu\'à ce que l\'action se poursuive et la page rafraîchie';
+        $('#displayResult').append(pro);
+
+    });
+
 })(jQuery);

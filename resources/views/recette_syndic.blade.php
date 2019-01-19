@@ -18,7 +18,7 @@
                         <div class="page-header float-right">
                             <div class="page-title">
                                 <ol class="breadcrumb text-right">
-                                    <li><a href="#">Dashboard</a></li>
+                                    <li><a href="#">Tableau de bord</a></li>
                                     <li><a href="#">Recette</a></li>
                                     <li class="active">liste des Recettes</li>
                                 </ol>
@@ -37,7 +37,7 @@
                         <div class="card">
                             <div class="card-header">
 
-                                <strong class="card-title">Revenu</strong>
+                                <strong class="card-title">Recette</strong>
                                 @if(Auth::user()->role == "Syndic")
                                  <button  class="btn btn-success" style="float: right" data-toggle="modal" id="open" data-target="#myModal_ajout" ><i class="fa fa-plus-square"></i> Ajouter un recette d'une appartement </button>
                                     <button  class="btn btn-primary" style="float: right;margin-right:1%" data-toggle="modal" id="open" data-target="#myModal_ajout_plus" ><i class="fa fa-plus-square"></i> Ajouter un recette plus </button>
@@ -54,11 +54,11 @@
                                     <thead>
                                         <tr>
                                             <th>Appartement</th>
-
-                                            <th>description</th>
+                                            <th>montant</th>
                                             <th>date</th>
                                             <th>devis</th>
-                                            <th>montant</th>
+                                            <th>description</th>
+
                                             <th></th>
                                             @if(Auth::user()->role == "Syndic")
                                             <th></th>
@@ -77,30 +77,30 @@
                                                 @else
                                                     {{ $r->app }}
                                                 @endif</td>
-
-                                            <td>@if( empty( $r->description ))
+                                            <td>@if( empty( $r->price ))
                                                     <p>--</p>
                                                 @else
-                                                   {{ $r->description }}
+                                                    {{ $r->price }}
                                                 @endif</td>
+
                                             <td>@if( empty( $r->date ))
                                                     <p>--</p>
                                                 @else
                                                    {{ $r->date }}
                                                 @endif</td>
+                                            <td>@if( empty( $r->description ))
+                                                    <p>--</p>
+                                                @else
+                                                    {{ $r->description }}
+                                                @endif</td>
                                             <td>
-
                                                 @if($r->image == null)
                                                 <p>pas de recu</p>
                                                 @else
                                                 <img id="myImg" src="{{ $r->image}}"  style="width:100%;max-width:100px" data-toggle="modal" data-image="{{$r->image}}" data-target="#myModal" data-image="{{ $r->image }}">
                                                 @endif
                                             </td>
-                                            <td>@if( empty( $r->price ))
-                                                    <p>--</p>
-                                                @else
-                                                   {{ $r->price }}
-                                                @endif</td>
+
                                     <td>
 
                                       <img  src="images/success.png"> Payé
@@ -136,7 +136,7 @@
                                                 <tr>
 
                                                     <th  class="th-sm">Apprtement</th>
-                                                    <th  class="th-sm">Month/year</th>
+                                                    <th  class="th-sm">Mois/Année</th>
                                                     <th  ></th>
                                                     <th></th>
 
@@ -151,7 +151,7 @@
                                                         <td>{{$s['months']}}-{{$s['years']}}</td>
                                                         <td>
 
-                                                            <img  src="images/waitting.png"> Waitting
+                                                            <img  src="images/waitting.png"> en attente
                                                         </td>
                                                         <td>
 
@@ -166,7 +166,7 @@
                                         @endif
 
                                     </div>
-                                    @if($recettes->isNotEmpty())
+                                    @if($recettesloc->isNotEmpty())
                                         <hr class="style-seven">
                                         <h3 >les recettes des locaux commercial ou sponsore non payé : </h3>
                                     <br>
@@ -274,19 +274,113 @@
             <div class="footer-inner bg-white">
                 <div class="row">
                     <div class="col-sm-6">
-                        Copyright &copy;
+                        Copyright &copy; SyndicTn
                     </div>
-                    <div class="col-sm-6 text-right">
-                        Designed by <a href="#">SyndicTn</a>
-                    </div>
+
                 </div>
             </div>
         </footer>
 
     </div><!-- /#right-panel -->
 
+<div class="modal fade" id="myModal_fiche" role="dialog">
+    <div class="modal-dialog" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">générer une  fiche des recettes</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <br>
+            @if($recettes->isNotEmpty())
+
+                <form action="{{ route('Rgeneratepdf') }}" method="post" class="form-horizontal" >
+                    @csrf
+                    <div class="modal-body">
+                        <select class="form-control" name="month">
+                            <option value="{{$month}}">ce mois</option>
+                            <option value="{{$year}}">cette année</option>
+                            @foreach($dmonths->flatten() as $d)
+                                <option value="{{$d->month}}">Le mois {{$d->month}} de l'année {{$d->year}}</option>
+                            @endforeach
+
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">gener</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                    </div>
+                </form>
+            @else
+                <div class="alert alert-info" role="alert">
+                    Aucun recettes.
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            @endif
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal_delete_recette_loc" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{route('deleteloc')}}" method="post" enctype="multipart/form-data" class="form-horizontal" >
+
+                <div class="modal-body">
+                    <p>voulez vous supprimer cette recette?</p>
+                    @csrf
+                    <input type="hidden" name="id" id="id" value="">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Supprimer</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 
+<div class="modal fade" id="myModal_delete_recette" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{route('recettesDelete')}}" method="post" enctype="multipart/form-data" class="form-horizontal" >
+
+                <div class="modal-body">
+                    <p>voulez vous supprimer cette recette?</p>
+                    @csrf
+                    <input type="hidden" name="id" id="id" value="">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Supprimer</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -331,7 +425,7 @@
                                                 <option  value="{{$b->id}}">appartement {{$b->app_num}} </option>
                                                     @endforeach
                                               </select>
-
+                                        </div>
                                     </div>
                                   <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Montant</label></div>
@@ -490,6 +584,7 @@
                                             </select>
 
                                     </div>
+                                   </div>
                                   <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">montant</label></div>
                                         <div class="col-12 col-md-9"><input type="text" id="priceup" name="price" placeholder="Text" class="form-control"></div>
@@ -533,76 +628,6 @@
   </div>
 
 
-  <div class="modal fade" id="myModal_delete_recette" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-                <form  method="post" enctype="multipart/form-data" class="form-horizontal" >
-
-      <div class="modal-body">
-        <p>voulez vous supprimer cette recette?</p>
-             @csrf
-               <input type="hidden" name="id" id="id" value="">
-
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Delete</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-      </div>
-      </form>
-  </div>
-</div>
-</div>
-
-
-   <div class="modal fade" id="myModal_fiche" role="dialog">
-       <div class="modal-dialog" role="document">
-           <div class="modal-content">
-               <div class="modal-header">
-                   <h5 class="modal-title">générer une  fiche des recettes</h5>
-                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                       <span aria-hidden="true">&times;</span>
-                   </button>
-               </div>
-                <br>
-
-               <form action="{{ route('Rgeneratepdf') }}" method="post" class="form-horizontal" >
-                   @csrf
-                   <div class="modal-body">
-                       <select class="form-control" name="month">
-                           <option value="{{$month}}">ce mois</option>
-                           <option value="{{$year}}">cette année</option>
-                           @foreach($dmonths->flatten() as $d)
-                               <option value="{{$d->month}}">Le mois {{$d->month}} de l'année {{$d->year}}</option>
-                           @endforeach
-
-                       </select>
-                   </div>
-                   <div class="modal-footer">
-                       <button type="submit" class="btn btn-primary">gener</button>
-                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
-                   </div>
-               </form>
-           </div>
-       </div>
-   </div>
-   </div>
-
-
-
-
-
-
-
-
-
 
 
 
@@ -627,12 +652,12 @@
 
 
                                 <div class="row form-group">
-                                    <div class="col col-md-3"><label for="text-input" class=" form-control-label">Appartement:</label></div>
+                                    <div class="col col-md-3"><label for="text-input" class=" form-control-label">Category</label></div>
                                     <div class="col-12 col-md-9">
                                         <select class="form-control" id="categorylocup" name="category">
                                             <option value="0">--Choisir une category--</option>
                                             <option value="Publicité">Publicité</option>
-                                            <option value="Publicité">Locaux commercial</option>
+                                            <option value="Locaux commercial">Locaux commercial</option>
                                             <option value="Autre">Autre</option>
 
                                         </select>

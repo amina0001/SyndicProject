@@ -133,11 +133,9 @@
         <div class="footer-inner bg-white">
             <div class="row">
                 <div class="col-sm-6">
-                    Copyright &copy;
+                    Copyright &copy; SyndicTn
                 </div>
-                <div class="col-sm-6 text-right">
-                    Designed by <a href="#">SyndicTn</a>
-                </div>
+
             </div>
         </div>
     </footer>
@@ -344,10 +342,10 @@
                 </button>
             </div>
             <br>
-
+            @if($depenses->isNotEmpty())
             <form action="{{ route('generatepdf') }}" method="post" class="form-horizontal" >
                 @csrf
-                <div class="modal-body">
+                 <div class="modal-body">
                     <select class="form-control" name="month">
                         <option value="{{$month}}">Ce mois</option>
                         <option value="{{$year}}">Cette année</option>
@@ -363,6 +361,16 @@
 
                 </div>
             </form>
+                @else
+                <div class="alert alert-info" role="alert">
+                    Aucun depenes.
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+                @endif
         </div>
     </div>
 </div>

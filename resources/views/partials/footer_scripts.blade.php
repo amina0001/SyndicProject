@@ -158,7 +158,7 @@
             var modal = $(this)
 
 
-            modal.find('.modal-body #appup').val(app);
+            modal.find('.modal-body #appup').val(user_id);
             modal.find('.modal-body #idup').val(id);
             modal.find('.modal-body #user_idup').val(user_id);
             modal.find('.modal-body #imageuo').val(image);
@@ -176,6 +176,16 @@
 
         });
         $('#myModal_delete_recette').on('show.bs.modal', function (event) {
+
+            var button = $(event.relatedTarget)
+
+            var id = button.data('id')
+            var modal = $(this)
+
+            modal.find('.modal-body #id').val(id);
+
+        });
+        $('#myModal_delete_recette_loc').on('show.bs.modal', function (event) {
 
             var button = $(event.relatedTarget)
 
@@ -440,7 +450,7 @@
     jQuery(document).ready(function ($) {
         console.log("hhh");
 
-        $('#myModal_update_reunion').on('show.bs.modal', function (event) {
+        $('#submitupdatereunion').on('show.bs.modal', function (event) {
             console.log("hhh");
             var button = $(event.relatedTarget)
             console.log( button.data('id'));
@@ -485,7 +495,7 @@
 
 
     jQuery(document).ready(function(){
-        jQuery('#submitajoutreunion').click(function(e){
+        jQuery('#submitajoutreunion').submit(function(e){
             console.log("nn");
 
             e.preventDefault();
@@ -497,14 +507,9 @@
             jQuery.ajax({
                 url: "{{ url('/reunion/create') }}",
                 method: 'post',
-                data: {
-                    category: jQuery('#categoryr').val(),
-                    description: jQuery('#descriptionr').val(),
-                    date: jQuery('#dater').val(),
-
-                    _token: '{{csrf_token()}}',
-
-                },
+                data: new FormData(this),
+                contentType: false,
+                processData:false,
                 success: function(result){
                     if(result.errors)
                     {
@@ -529,7 +534,7 @@
     });
 
     jQuery(document).ready(function(){
-        jQuery('#submitupdatereunion').click(function(e){
+        jQuery('#submitupdatereunion').submit(function(e){
             console.log("nn");
 
             e.preventDefault();
@@ -543,14 +548,9 @@
             jQuery.ajax({
                 url: "{{ url('/reunion/update') }}",
                 method: 'post',
-                data: {
-                    category: jQuery('#categoryrnup').val(),
-                    description: jQuery('#descriptionrnup').val(),
-                    date: jQuery('#daternup').val(),
-                    id: jQuery('#id').val(),
-                    _token: '{{csrf_token()}}',
-
-                },
+                data: new FormData(this),
+                contentType: false,
+                processData:false,
                 success: function(result){
                     if(result.errors)
                     {
@@ -644,9 +644,75 @@
     });
 
     $(document).ready(function () {
-        $('#dtBasicExample').DataTable();
-        $('#dtBasicExample1').DataTable();
-        $('#dtBasicExample2').DataTable();
+        $('#dtBasicExample').DataTable({
+            language : {
+                processing:     "Traitement en cours...",
+                search:         "Rechercher&nbsp;:",
+                lengthMenu:    "Afficher _MENU_ &eacute;l&eacute;ments",
+                info:           "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                infoEmpty:      "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+                infoFiltered:   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                infoPostFix:    "",
+                loadingRecords: "Chargement en cours...",
+                zeroRecords:    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                emptyTable:     "Aucune donnée disponible dans le tableau",
+                paginate: {
+                    first:      "Premier",
+                    previous:   "Pr&eacute;c&eacute;dent",
+                    next:       "Suivant",
+                    last:       "Dernier"
+                },
+                aria: {
+                    sortAscending:  ": activer pour trier la colonne par ordre croissant",
+                    sortDescending: ": activer pour trier la colonne par ordre décroissant"
+                }
+            }});
+        $('#dtBasicExample1').DataTable({
+            language : {
+                processing:     "Traitement en cours...",
+                search:         "Rechercher&nbsp;:",
+                lengthMenu:    "Afficher _MENU_ &eacute;l&eacute;ments",
+                info:           "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                infoEmpty:      "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+                infoFiltered:   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                infoPostFix:    "",
+                loadingRecords: "Chargement en cours...",
+                zeroRecords:    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                emptyTable:     "Aucune donnée disponible dans le tableau",
+                paginate: {
+                    first:      "Premier",
+                    previous:   "Pr&eacute;c&eacute;dent",
+                    next:       "Suivant",
+                    last:       "Dernier"
+                },
+                aria: {
+                    sortAscending:  ": activer pour trier la colonne par ordre croissant",
+                    sortDescending: ": activer pour trier la colonne par ordre décroissant"
+                }
+            }});
+        $('#dtBasicExample2').DataTable({
+            language : {
+                processing:     "Traitement en cours...",
+                search:         "Rechercher&nbsp;:",
+                lengthMenu:    "Afficher _MENU_ &eacute;l&eacute;ments",
+                info:           "Affichage de l'&eacute;lement _START_ &agrave; _END_ sur _TOTAL_ &eacute;l&eacute;ments",
+                infoEmpty:      "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+                infoFiltered:   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+                infoPostFix:    "",
+                loadingRecords: "Chargement en cours...",
+                zeroRecords:    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+                emptyTable:     "Aucune donnée disponible dans le tableau",
+                paginate: {
+                    first:      "Premier",
+                    previous:   "Pr&eacute;c&eacute;dent",
+                    next:       "Suivant",
+                    last:       "Dernier"
+                },
+                aria: {
+                    sortAscending:  ": activer pour trier la colonne par ordre croissant",
+                    sortDescending: ": activer pour trier la colonne par ordre décroissant"
+                }
+            }});
 
 
     });
@@ -790,8 +856,6 @@
 
 
 </script>
-
-
 
 </body>
 </html>

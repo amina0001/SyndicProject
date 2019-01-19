@@ -27,5 +27,14 @@ trait CanUpload
         Storage::disk('public')->putFileAs($path, $file, $filename);
         return '/storage'.$path.$filename;
     }
-
+    public function uploadFile(UploadedFile $file, string $fileName, string $path)
+    {
+        $path = str_replace('/storage', '', $path);#remove '/storage' from the path or it will create it under storage/app/public
+        if(!is_dir($path)) {
+            Storage::disk('public')->makeDirectory($path);
+        }
+        $fileName = $fileName.'.'.$file->getClientOriginalExtension();
+        Storage::disk('public')->putFileAs($path, $file, $fileName);
+        return '/storage'.$path.$fileName;
+    }
 }

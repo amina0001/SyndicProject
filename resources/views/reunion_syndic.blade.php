@@ -56,7 +56,7 @@
                                             <th>Sujet</th>
                                             <th>Syndic ou occupant</th>
                                             <th>Date</th>
-
+                                            <th>Fichier ou image</th>
                                             <th>Description</th>
                                             @if(Auth::user()->role == "Syndic")
                                             <th></th>   
@@ -77,14 +77,14 @@
                                                 @endif
                                                 </td>
                                             <td>{{ $r->date }}</td>
-
+                                            <td>@if($r->file)<a href="{{route('download',$r->id)}}">Telecharger...</a>@else --- @endif</td>
                                             <td>{{ $r->description }}</td>
                                             @if(Auth::user()->role == "Syndic")
                                            
-                                            <td><button class="btn btn-primary" data-toggle="modal" data-target="#myModal_update_reunion" data-id="{{ $r->id }}" data-user_id="{{ $r->user_id }}" data-category="{{$r->category  }}"
+                                            <td><button class="btn btn-primary" data-toggle="modal" data-target="#submitupdatereunion" data-id="{{ $r->id }}" data-user_id="{{ $r->user_id }}" data-category="{{$r->category}}" data-description="{{$r->description}}"
                                                 data-role="{{$r->role}}" data-date="{{ $r->date }}" data-approved="{{  $r->approved  }}" data-description="{{ $r->description }}" data-tooltip="tooltip" title="modifier!"><i class="fa fa-edit"></i></button></td>
-                                              <td><button class="btn btn-danger" data-tooltip="tooltip" title="supprimer!"><i class="fa fa-trash"></i></button></td>
-                                                <td><button type="submit" class="btn btn-success" onclick="window.location='{{ route("reunionMail", $r->id) }}'" data-tooltip="tooltip" title="envoyer email"><i class="fa fa-envelope"></i></button></td>
+                                              <td><button class="btn btn-danger" data-toggle="modal" data-target="#myModal_delete_reunion" data-id="{{ $r->id }}"  data-tooltip="tooltip" title="supprimer!"><i class="fa fa-trash"></i></button></td>
+                                                <td><button type="submit" class="btn btn-success" id="mailreunion" onclick="window.location='{{ route("reunionMail", $r->id) }}'" data-tooltip="tooltip" title="envoyer email"><i class="fa fa-envelope"></i></button></td>
                                                 @endif
                                         </tr>
                                    
@@ -113,10 +113,7 @@
             <div class="footer-inner bg-white">
                 <div class="row">
                     <div class="col-sm-6">
-                        Copyright &copy; 
-                    </div>
-                    <div class="col-sm-6 text-right">
-                        Designed by <a href="#">SyndicTn</a>
+                        Copyright &copy; SyndicTn
                     </div>
                 </div>
             </div>
@@ -143,7 +140,7 @@
                         <div class="card">
                             
                             <div class="card-body card-block">
-                                <form action="{{ route('reunionCreate')}}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                                <form action="{{ route('reunionCreate')}}" id="submitajoutreunion" method="POST" enctype="multipart/form-data" class="form-horizontal">
                                 @csrf
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="text-input" class=" form-control-label">Sujet:</label></div>
@@ -176,12 +173,16 @@
                                     </div>
                                     </div>
 
-                                  
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="file-input" class=" form-control-label">File input</label></div>
+                                        <div class="col-12 col-md-9"><input type="file" id="filer" name="file" class="form-control-file" ></div>
+
+                                    </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description</label></div>
                                         <div class="col-12 col-md-9"><textarea name="description" id="descriptionr" rows="9" placeholder="Content..." class="form-control"></textarea></div>
                                     </div>
-                                    <button type="submit" id="submitajoutreunion" class="btn btn-primary pull-right">Ajouter une reunion</button>
+                                    <button type="submit" id="" class="btn btn-primary pull-right">Ajouter une reunion</button>
                                 
                                
                                   
@@ -200,7 +201,7 @@
   </div>
 
 
-    <div class="modal fade" id="myModal_update_reunion" role="dialog">
+    <div class="modal fade" id="submitupdatereunion" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -223,7 +224,7 @@
                                         <div class="col-md-9">
                                             <select class="form-control" id="categoryrnup" name="category">
                                                 <option disabled selected>--choisir category de reunion--</option>
-                                                <option  value="securite">securite</option>
+                                                <option  value="Securite">securite</option>
                                                 <option  value="Dépenses ou recettes">Dépenses ou recettes</option>
                                                 <option value="Réclamation">Réclamation</option>
                                                 <option value="Événement">Événement</option>
@@ -245,12 +246,16 @@
                                    
                                     </div>
                                     </div>
-                                  
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="file-input" class=" form-control-label">File input</label></div>
+                                        <div class="col-12 col-md-9"><input type="file" id="filerup" name="file" class="form-control-file" ></div>
+
+                                    </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3"><label for="textarea-input" class=" form-control-label">Description</label></div>
                                         <div class="col-md-9"><textarea name="description" id="descriptionrnup" rows="9" placeholder="Content..." class="form-control"></textarea></div>
                                     </div>
-                                    <button type="submit" id="submitupdatereunion" class="btn btn-primary pull-right">Mettre a jour la reunion</button>
+                                    <button type="submit"  class="btn btn-primary pull-right">Mettre a jour la reunion</button>
                                 
                                
                                   
@@ -268,6 +273,40 @@
       </div>
     </div>
   </div>
+
+<div class="modal fade" id="myModal_delete_reunion" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{route('deletereunion')}}" method="post" enctype="multipart/form-data" class="form-horizontal" >
+
+                <div class="modal-body">
+                    <p>voulez vous supprimer cette recette?</p>
+                    @csrf
+                    <input type="hidden" name="id" id="id" value="">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Supprimer</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function(){
+$("#mailreunion").click(function(){
+alert("veuillez patienter jusqu'à l'actualisation de la page pour que le courrier  soit envoyé");
+});
+});
+</script>
 <!-- Right Panel -->
 @include('partials.footer_scripts')
 @yield('content')

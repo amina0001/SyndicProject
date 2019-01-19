@@ -7,10 +7,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Syndic') }}</title>
+    <link rel="shortcut icon" href="/images/icon.png">
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -38,13 +38,13 @@
 					
                     <form method="POST" action="{{ route('register') }}" class="login100-form validate-form" id="login-form">
                         <span class="login100-form-title p-b-43">
-                        Register to continue
-                         </span>
+                           Inscrivez-vous pour continuer
+                        </span>
                             <div >
                                <p class="pull-right" style="color: #0b0b0b">
                                    <i class="fa fa-long-arrow-left" ></i>
                                    <a href="{{ url('/') }}#home-page" >Acceuil</a>
-                                --Or--
+                                --Ou--
 
                             <a  href="{{ route('login') }}"  >Retour pour connecter</a>
                                </p>
@@ -56,9 +56,9 @@
                            
                     
                     <div class="wrap-input100 ">
-                        <input id="name" type="text" class=" input100{{ $errors->has('name') ? ' is-invalid' : '' }}   " name="name" value="{{ old('name') }}">
+                        <input id="name" type="text" class=" input100 {{ $errors->has('name') ? ' is-invalid' : '' }}   " name="name" value="{{ old('name') }}">
                         <span class="focus-input100"></span>
-                        <span class="label-input100">name</span>
+                        <span class="label-input100" style="color:steelblue">Nom*</span>
 
                     </div>
                         @if ($errors->has('name'))
@@ -71,7 +71,7 @@
                 <div class="wrap-input100 " >
                     <input id="lastname" type="text" class=" input100  {{ $errors->has('lastname') ? ' is-invalid' : '' }}  " name="lastname" value="{{ old('lastname') }}">
                     <span class="focus-input100"></span>
-                    <span class="label-input100">lastname</span>
+                    <span class="label-input100" style="color:steelblue">Prenom*</span>
 
                 </div>
                         @if ($errors->has('lastname'))
@@ -85,7 +85,7 @@
                     <input id="cin" type="text" class="input100 {{ $errors->has('cin') ? ' is-invalid' : '' }}" name="cin" value="{{ old('cin') }}">
 
                     <span class="focus-input100"></span>
-                    <span class="label-input100">cin</span>
+                    <span class="label-input100" style="color:steelblue">Cin*</span>
 
                 </div>
                         @if ($errors->has('cin'))
@@ -98,25 +98,38 @@
                         <div class="wrap-input100 ">
                             <input id="nb_app" type="text" class="input100 {{ $errors->has('nb_app') ? ' is-invalid' : '' }}" name="nb_app" value="{{ old('nb_app') }}">
                             <span class="focus-input100"></span>
-                            <span class="label-input100">Nombre des appartements</span>
+                            <span class="label-input100" style="color:steelblue">Nombre des appartements*</span>
 
                         </div>
+                        @if ($errors->has('nb_app'))
+
+                            <div class="alert alert-warning" role="alert">
+                                <strong>{{ $errors->first('nb_app') }}</strong>
+                            </div>
+                        @endif
                         <div class="wrap-input100 ">
                             <input id="nb_loc" type="text" class="input100 {{ $errors->has('nb_loc') ? ' is-invalid' : '' }}" name="nb_loc" value="{{ old('nb_loc') }}">
                             <span class="focus-input100"></span>
-                            <span class="label-input100">Nombre des  locaux commercials</span>
+                            <span class="label-input100" style="color:steelblue">Nombre des  locaux commercials à l'extérieur*</span>
 
                         </div>
+                        @if ($errors->has('nb_loc'))
+
+                            <div class="alert alert-warning" role="alert">
+                                <strong>{{ $errors->first('nb_loc') }}</strong>
+                            </div>
+                        @endif
+
                         <div class="wrap-input100 ">
                             <input id="app_num" type="text" class="input100 {{ $errors->has('app_num') ? ' is-invalid' : '' }}" name="app_num" value="{{ old('app_num') }}">
                             <span class="focus-input100"></span>
-                            <span class="label-input100">numero de votre appartement </span>
+                            <span class="label-input100">Numero de votre appartement </span>
 
                         </div>
                 <div class="wrap-input100">
                     <input id="building_name" type="text" class="input100 {{ $errors->has('building_name') ? ' is-invalid' : '' }} " name="building_name" value="{{ old('building_name') }}">
                     <span class="focus-input100"></span>
-                    <span class="label-input100">Building name</span>
+                    <span class="label-input100" style="color:steelblue">Nom du bâtiment*</span>
 
                 </div>
                         @if ($errors->has('building_name'))
@@ -128,14 +141,14 @@
                         @endif
                 <div class="wrap-input100">
                     <select id="state"  class="input100 {{ $errors->has('state') ? ' is-invalid' : '' }} dynamic " name="state"  value="{{ old('state') }}" required autofocus style="border:none">
-                        <option value="0">--state--</option>
+                        <option value="0">--Gouvernat--</option>
                                    @foreach($states as $state)
                                    <option value="{{$state->id}}">{{ $state->name }}</option>
                                    @endforeach
                                    
                     </select>
                     <span class="focus-input100"></span>
-                    <span class="label-input100">state</span>
+                    <span class="label-input100"  style="color:steelblue">Gouvernat*</span>
 
                 </div>
                         @if ($errors->has('state'))
@@ -150,7 +163,7 @@
                     <option value="0">--city--</option>
                     </select>
                     <span class="focus-input100"></span>
-                    <span class="label-input100">city</span>
+                    <span class="label-input100"  style="color:steelblue">Ville*</span>
 
                 </div>
                         @if ($errors->has('city'))
@@ -160,9 +173,9 @@
                             </div>
                         @endif
             <div class="wrap-input100">
-                <input id="street" type="text" class=" input100{{ $errors->has('street') ? ' is-invalid' : '' }}   " name="street" value="{{ old('street') }}">
+                <input id="street" type="text" class=" input100 {{ $errors->has('street') ? ' is-invalid' : '' }}   " name="street" value="{{ old('street') }}">
                 <span class="focus-input100"></span>
-                <span class="label-input100">street</span>
+                <span class="label-input100" style="color:steelblue">Rue*</span>
 
             </div>
                         @if ($errors->has('street'))
@@ -174,7 +187,7 @@
             <div class="wrap-input100">
                 <input id="email" type="email" class="input100 {{ $errors->has('email') ? ' is-invalid' : '' }}   " name="email" value="{{ old('email') }}">
                 <span class="focus-input100"></span>
-                <span class="label-input100">email</span>
+                <span class="label-input100" style="color:steelblue">E-mail*</span>
 
             </div>
                         @if ($errors->has('email'))
@@ -184,9 +197,9 @@
                             </div>
                         @endif
         <div class="wrap-input100">
-            <input id="password" type="password" class="input100{{ $errors->has('password') ? ' is-invalid' : '' }}   " name="password">
+            <input id="password" type="password" class="input100 {{ $errors->has('password') ? ' is-invalid' : '' }}   " name="password">
             <span class="focus-input100"></span>
-            <span class="label-input100">password</span>
+            <span class="label-input100" style="color:steelblue">Mot de passe*</span>
 
         </div>
                         @if ($errors->has('password'))
@@ -196,9 +209,9 @@
                             </div>
                         @endif
                     <div class="wrap-input100">
-                        <input id="password-confirm" type="password" class=" input100{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}   " name="password_confirmation" >
+                        <input id="password-confirm" type="password" class=" input100 {{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}   " name="password_confirmation" >
                         <span class="focus-input100"></span>
-                        <span class="label-input100">password confirmation</span>
+                            <span class="label-input100" style="color:steelblue">Confirmation mot de passe*</span>
 
                     </div>
 
@@ -212,9 +225,7 @@
                     </button>
                
             </div>
-                <div class="container-login100-form-btn">
-                            <a  class="login100-form-btn" href="{{ route('login') }}" style="margin-top:5%;background:rgb(1, 80, 1);text-decoration: none">login</a>
-                    </div>
+
                     </form>
 
 
@@ -284,20 +295,25 @@ $('select[name="state"]').on('change', function(){
     <script>
 
         $(document).ready(function () {
-            "use strict";
 
 
             /*==================================================================
             [ Focus Contact2 ]*/
             $('.input100').each(function(){
                 $(this).on('blur', function(){
-                    if($(this).val().trim() != "") {
+                    if($(this).length && $(this).val().length) {
                         $(this).addClass('has-val');
                     }
                     else {
                         $(this).removeClass('has-val');
                     }
-                })
+                });
+                if($(this).length && $(this).val().length) {
+                    $(this).addClass('has-val');
+                }
+                else {
+                    $(this).removeClass('has-val');
+                }
             })
 
 

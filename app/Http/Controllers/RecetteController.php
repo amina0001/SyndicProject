@@ -261,9 +261,8 @@ class RecetteController extends Controller
 
             if ($findRM === null) {
                 /*            dd($findRM);*/
-
                 $app = $request->app;
-                $users = User::where('app_num', $app)->first();
+                $users = User::where('id', $app)->first();
 
                 $id = $users->id;
 
@@ -359,6 +358,16 @@ class RecetteController extends Controller
     public function delete(Request $request)
     {
         $recette =Recette::findOrFail($request->id);
+        $recettemonth =RecetteMonth::where('recette_id','=',$request->id);
+
+        $recette->delete();
+        $recettemonth->delete();
+
+        return back();
+    }
+    public function deleteloc(Request $request)
+    {
+        $recette =Recetteloc::findOrFail($request->id);
         $recette->delete();
         return back();
     }
@@ -373,9 +382,8 @@ class RecetteController extends Controller
                 ->whereMonth('date', '=', (int)$request->month)
                 ->whereYear('date', '=', $year)
                 ->get();
-            $recettesloc=DB::table('users')
-                ->join('recette_locaux', 'recette_locaux.building_id', '=', 'users.building_id')
-                ->where('users.building_id','=',auth::user()->building_id)
+            $recettesloc=DB::table('recette_locaux')
+                ->where('building_id','=',auth::user()->building_id)
                 ->whereMonth('date', '=', (int)$request->month)
                 ->whereYear('date', '=', $year)
                 ->get();
@@ -388,10 +396,9 @@ class RecetteController extends Controller
                 ->where('users.building_id','=',auth::user()->building_id)
                 ->whereYear('date', '=', (int)$request->month)
                 ->get();
-            $recettesloc=DB::table('users')
-                ->join('recette_locaux', 'recette_locaux.building_id', '=', 'users.building_id')
-                ->where('users.building_id','=',auth::user()->building_id)
-                ->whereYear('date', '=', (int)$request->month)
+            $recettesloc=DB::table('recette_locaux')
+                ->where('building_id','=',auth::user()->building_id)
+                ->whereYear('recette_locaux.date', '=', (int)$request->month)
                 ->get();
         }
         $building=Building::where('id','=',auth::user()->building_id)
