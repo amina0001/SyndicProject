@@ -204,7 +204,7 @@
     width: 50%;
 }
 .menutoggle{
-    margin-top: 10%;margin-left: 120%!important;
+    margin-top: 10%;margin-left: -5%!important;
 }
 .chat-content{
     height: 350px;
@@ -213,25 +213,30 @@
 .messenger-box{
     height: 430px;
 }
-@media only screen and (max-width: 500px) {
-    .logo{
+#logo{
+    width: 150px;
+    height: 120px;
+    margin-top: -30%;
+    margin-left: 30%
+}
+@media only screen and (max-width: 770px) {
+    #logo{
         margin-left: 7%!important;
-        margin-top: -45%;
+        margin-top: -15%;
         width: 50%;
     }
 
     .navbar-header{
         width: 100%;
-        margin-top: 5%;
+        margin-top: 1%;
 
     }
-    .top-left{
-        height: 10%;
-    }
+
     .menutoggle{
         margin-top: 3%;
-        margin-left: 150%;
+        margin-left: 200%;
     }
+
 }
 
 </style>

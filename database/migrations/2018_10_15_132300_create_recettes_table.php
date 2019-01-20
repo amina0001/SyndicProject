@@ -15,7 +15,7 @@ class CreateRecettesTable extends Migration
     {
         Schema::create('recettes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned()->nullable();
+            $table->float('user_id')->unsigned()->nullable();
             $table->string('description')->nullable();
             $table->integer('price')->nullable();
             $table->date('date')->nullable();

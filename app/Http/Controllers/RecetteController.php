@@ -245,7 +245,7 @@ class RecetteController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'app' =>  'required|not_in:0',
-            'price' => 'required|integer',
+            'price' => 'required|float',
             'date' => 'required|Date',
 
         ]);
@@ -310,7 +310,7 @@ class RecetteController extends Controller
         $validator = Validator::make($request->all(), [
             'category' =>  'required|not_in:0',
             'nom' =>  'required|string|max:50',
-            'price' => 'required|integer',
+            'price' => 'required|float',
             'date' => 'required|Date',
 
         ]);

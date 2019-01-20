@@ -180,7 +180,7 @@
             <div class="col-lg-6">
                 <div class="col-md-12 col-lg-12">
                     <div class="card">
-                        <div class="card-body" style="overflow-y: scroll;max-height: 400px;height: 250px">
+                        <div class="card-body" style="overflow-y: scroll;max-height: 350px;height: 300px">
                             <!-- <h4 class="box-title">Chandler</h4> -->
                             <h3>Historique des réunions</h3>
                             <hr>

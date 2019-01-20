@@ -19,7 +19,7 @@ class CreateRecetteLocauxTable extends Migration
             $table->String('nom');
             $table->integer('building_id');
             $table->string('description')->nullable();
-            $table->integer('price')->nullable();
+            $table->float('price')->nullable();
             $table->date('date')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();

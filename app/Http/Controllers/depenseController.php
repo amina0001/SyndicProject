@@ -117,7 +117,7 @@ class depenseController extends Controller
     {    $validators = Validator::make($request->all(), [
         'titre' => 'required',
         'date' => 'required|Date',
-        'price' => 'required',
+        'price' => 'required|float',
 
         ]);
         if ($validators->fails())
@@ -157,7 +157,7 @@ class depenseController extends Controller
          $validator = Validator::make($request->all(), [
              'id'=>'required',
             'titre'=>'required',
-            'price' => 'required',
+            'price' => 'required|float',
             'date'=>'required',
 
           

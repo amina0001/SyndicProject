@@ -3,9 +3,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="author" content="John Doe">
-    <meta name="description" content="">
-    <meta name="keywords" content="HTML,CSS,XML,JavaScript">
+    <meta name="author" content="SyndicTN tunisie">
+        <meta name="description" content="gestion immobilière tunisie">
+    <meta name="keywords" content="syndicTN syndictn syndicTn syndic immobilière batiment gestion gestionnaire immobilière Syndic tunisie appartements">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Title -->
@@ -58,11 +58,14 @@
                 width: 30%;
             }
             .mainmenu-area{
-                width: 90%;
+                width: 100%;
             }
             .imgauth{
                 margin-left: 40%;
                 margin-top: -5%!important;
+            }
+            .navbar-nav .open .dropdown-menu > li > a{
+                color: white!important;
             }
         }
         .loader {
@@ -119,6 +122,7 @@
                     <li class="active"><a href="#home-page">Acceuil</a></li>
                     <li><a href="#service-page">Service</a></li>
               
+                    <li><a href="#vue_globale">nos page</a></li>
                     <li><a href="#team-page">Équipe</a></li>
                     <li><a href="#faq-page">FAQ</a></li>
                    
@@ -264,7 +268,7 @@
     </section>
     <!--Feature-area/-->
 
-    <section class="angle-bg sky-bg section-padding">
+    <section class="angle-bg sky-bg section-padding" id="vue_globale">
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">

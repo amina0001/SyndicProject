@@ -18,7 +18,7 @@ class CreateDepensesTable extends Migration
             $table->integer('building_id')->unsigned();
             $table->string('titre');  
             $table->text('description')->nullable();
-            $table->integer('price')->nullable();
+            $table->float('price')->nullable();
             $table->date('date')->nullable();
             $table->string('image')->nullable();            
             $table->timestamps();
